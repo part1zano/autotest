@@ -44,8 +44,12 @@ if not functions.login(driver, login, passwd):
 	driver.close()
 	sys.exit(1)
 
+log.write('info', 'login ok')
+
 link_arr = driver.current_url.split('/')
 userid = link_arr[3]
+
+log.write('debug', 'login as userid '+userid)
 
 for link, sublinks in links.iteritems():
 	if (link == 'profile') or (link == 'our_proposers'):
@@ -86,8 +90,9 @@ for link, sublinks in links.iteritems():
 		if link == 'deposit': # FIXME :: dog-nail
 			layername = re.sub('-', '_', layername)
 		if link == 'chat': # TODO :: chat dummy
-			log.write('warning', 'chat not tested yet')
-			continue
+#			log.write('warning', 'chat not tested yet')
+#			continue
+			layername = 'dialog_list'
 
 		try:
 			layer = driver.find_element_by_id(layername)

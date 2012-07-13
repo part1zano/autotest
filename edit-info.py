@@ -30,7 +30,7 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 try:
-		driver.find_element_by_partial_link_text(u'Редактировать').click()
+	driver.find_element_by_partial_link_text(u'Редактировать').click()
 except NoSuchElementException:
 	log.write('error', 'no edit button, wrong link text or wrong page')
 	driver.close()

@@ -70,7 +70,6 @@ if action == 'changepwd':
 
 			passwd_obj = string.rstrip(passwd_obj)
 			objname, value = temp.split('~!~')
-			value,subject = value.split('#')
 			
 			if functions.edit_control(driver, objname, value, 'text'):
 				log.write('debug', 'edited element '+objname+' successfully')

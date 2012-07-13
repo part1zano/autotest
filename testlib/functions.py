@@ -157,12 +157,6 @@ def get_value(driver, control):
 		log.write('debug', 'its a label or so, and its value is: '+ctl.text)
 		return ctl.text
 
-def check_link_by_text(driver, link_dest, link_text, link_id=None):
-	pass
-
-def check_link_by_id(driver, link_dest, link_id, link_text=None):
-	pass
-
 def logout(driver):
 	try:
 		logout = driver.find_element_by_partial_link_text(u'Выйти')
