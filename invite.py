@@ -30,7 +30,7 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-links = {u'рекоммендации' : 'our_proposers', u'' : 'invite'}
+links = {u'рекомендации' : 'our_proposers', u'Пригла' : 'invite'}
 
 for link_text, url in links.iteritems():
 	if not functions.find_link_and_click(driver, link_text, url):
@@ -46,7 +46,7 @@ for line in objlist:
 
 	line = line.rstrip()
 
-	objname, value = split(line, '~!~')
+	objname, value = line.split('~!~')
 
 	if not functions.edit_control(driver, objname, value, 'text'):
 		log.write('error', 'failed editing '+objname+', see above')

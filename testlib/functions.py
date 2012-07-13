@@ -187,7 +187,7 @@ def find_link_and_click(driver, link_text, url):
 		return False
 
 	try:
-		WebDriverWait(driver, 10).untli(lambda driver : url in driver.current_url)
+		WebDriverWait(driver, 10).until(lambda driver : url in driver.current_url)
 	except TimeoutException:
 		log.write('timeout waiting for shit to load or not going to url containing '+url)
 		return False
