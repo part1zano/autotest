@@ -55,7 +55,7 @@ def login(driver, loginstr, passwordstr, other=False):
 
 	for cookie in driver.get_cookies():
 		if bool(u'sessionid' in string.lower(cookie['name'])) != bool(other):
-			log.write('info', 'Cookies ok')
+			log.write('debug', 'Cookies ok')
 			return True
 	log.write('error', 'Cookies not ok')
 	return False
