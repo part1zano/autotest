@@ -47,9 +47,12 @@ for obj in objlist:
 	obj = obj.rstrip()
 	objName, value = obj.split('~!~')
 	if 'estYear' in objName:
-		new_value = value
-	else:
-		new_value = functions.get_value(driver, objName)+value
+		if not functions.clear_element(driver, objName):
+			log.write('error', 'clearing estYear failed: see above')
+			driver.close()
+			sys.exit(1)
+		
+	new_value = functions.get_value(driver, objName)+value
 	val_list.append(objName+'~!~'+new_value)
 	if functions.edit_control(driver, objName, value, 'text'):
 		log.write('debug', 'element '+objName+' edited successfully')

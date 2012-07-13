@@ -71,9 +71,7 @@ def edit_control(driver, control, value, ctl_type):
 	log.write('debug', 'old value for '+control+' is: '+old_value)
 	if u'text' in ctl_type:
 		log.write('debug', 'the element is a textarea or so')
-		if 'estYear' in control:
-			ctl.clear()
-			old_value = ''
+		
 		ctl.send_keys(value)
 		log.write('debug', 'sent info into it')
 		if string.lower(ctl.get_attribute('value')) == string.lower(old_value+value):
