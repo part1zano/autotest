@@ -73,6 +73,7 @@ def edit_control(driver, control, value, ctl_type):
 		log.write('debug', 'the element is a textarea or so')
 		if 'estYear' in control:
 			ctl.clear()
+			old_value = ''
 		ctl.send_keys(value)
 		log.write('debug', 'sent info into it')
 		if string.lower(ctl.get_attribute('value')) == string.lower(old_value+value):
@@ -189,8 +190,19 @@ def find_link_and_click(driver, link_text, url):
 	try:
 		WebDriverWait(driver, 10).until(lambda driver : url in driver.current_url)
 	except TimeoutException:
-		log.write('timeout waiting for shit to load or not going to url containing '+url)
+		log.write('error', 'timeout waiting for shit to load or not going to url containing '+url)
 		return False
 
 	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
+	return True
+
+def clear_element(driver, control):
+	try:
+		ctl = driver.find_element_by_id(control)
+		log.write('debug', control+' element found for clearing')
+	except NoSuchElementException:
+		log.write('error', control+' not found')
+		return False
+
+	ctl.clear()
 	return True

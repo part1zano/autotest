@@ -11,7 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 passwd_objlists = []
 
 for passwd_file in ['change-passwd-pos.conf', 'change-passwd-neg-1wrong.conf', 'change-passwd-neg-nomatch.conf']:
-	passwd_objfile = codecs.open('./objlists/edit-passwd/text/'+passwd_file, encoding='utf-8')
+	passwd_objfile = codecs.open('./objlists/change-passwd/text/'+passwd_file, encoding='utf-8')
 	passwd_objlists.append(passwd_objfile.read())
 	passwd_objfile.close()
 
@@ -63,24 +63,25 @@ if action == 'changepwd':
 	objlist_index = 0
 
 	for passwd_objects in passwd_objlists:
+		passwd_objects = passwd_objects.rstrip()
 		passwd_objlist = passwd_objects.split("\n")
 		for passwd_obj in passwd_objlist:
 			if re.match('^#', passwd_obj):
 				continue
 
 			passwd_obj = string.rstrip(passwd_obj)
-			objname, value = temp.split('~!~')
+			objname, value = passwd_obj.split('~!~')
 			
 			if functions.edit_control(driver, objname, value, 'text'):
 				log.write('debug', 'edited element '+objname+' successfully')
-			else
+			else:
 				log.write('error', 'failed editing '+objname+', see above')
 				driver.close()
 				sys.exit(1)
 		
 		try:
 			driver.find_element_by_partial_link_text(u'Сохранить').click()
-			log.write('submit clicked')
+			log.write('debug', 'submit clicked')
 		except NoSuchElementException:
 			log.write('error', 'no submit button or wrong link text')
 			driver.close()

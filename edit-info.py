@@ -46,7 +46,11 @@ for obj in objlist:
 
 	obj = obj.rstrip()
 	objName, value = obj.split('~!~')
-	val_list.append(objName+'~!~'+functions.get_value(driver,objName)+value)
+	if 'estYear' in objName:
+		new_value = value
+	else:
+		new_value = functions.get_value(driver, objName)+value
+	val_list.append(objName+'~!~'+new_value)
 	if functions.edit_control(driver, objName, value, 'text'):
 		log.write('debug', 'element '+objName+' edited successfully')
 	else:
