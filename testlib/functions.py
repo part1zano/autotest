@@ -178,4 +178,19 @@ def logout(driver):
 			return False
 	return True
 
+def find_link_and_click(driver, link_text, url):
+	try:
+		driver.find_element_by_partial_link_text(link_text).click()
+		log.write('debug', link_text+' clicked')
+	except NoSuchElementException:
+		log.write('error', 'no '+link_text+' link or wrong link text')
+		return False
 
+	try:
+		WebDriverWait(driver, 10).untli(lambda driver : url in driver.current_url)
+	except TimeoutException:
+		log.write('timeout waiting for shit to load or not going to url containing '+url)
+		return False
+
+	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
+	return True
