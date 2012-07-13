@@ -32,21 +32,12 @@ else:
 
 log.write('info', 'logged in, logging out')
 
-try:
-	driver.find_element_by_partial_link_text(u'Выйти').click()
-	log.write('debug', 'found logout link and clicked it')
-except NoSuchElementException:
-	log.write('error', 'logout link not found')
+if not functions.logout(driver):
+	log.write('error', 'logout failed: see above')
 	driver.close()
 	sys.exit(1)
-
-
-try:
-	WebDriverWait(driver,10).until(lambda driver : u'profile' not in driver.current_url)
-except TimeoutException:
-	log.write('debug', 'timeout waiting for shit to load')
-	driver.close()
-	sys.exit(1)
-
+	
 log.write('info', 'logged out ok')
+log.write('info', 'test PASSED')
+driver.close()
 sys.exit(0)
