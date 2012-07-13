@@ -204,3 +204,15 @@ def clear_element(driver, control):
 
 	ctl.clear()
 	return True
+
+def click_submit(driver, link_text): # TODO :: needed or not?
+	try:
+		driver.find_element_by_partial_link_text(link_text).click()
+		log.write('debug', link_text+' submit clicked')
+	except NoSuchElementException:
+		log.write('error', 'no submit button or wrong link text')
+		return False
+	return True
+
+def init_driver(): # TODO :: over xvfb
+	return webdriver.Firefox()
