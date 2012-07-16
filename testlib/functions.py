@@ -144,10 +144,12 @@ def check_value(driver, control, value):
 def check_div(driver, div_id):
 	try:
 		div = driver.find_element_by_id(div_id)
+		log.write('debug', 'found div id='+div_id)
+		log.write('debug', 'its content follows: '+div.text)
 	except NoSuchElementException:
 		log.write('error', 'no such div id='+div_id)
 		return False
-	log.write('debug', 'found div id='+div_id)
+
 	return True
 
 def get_value(driver, control):
