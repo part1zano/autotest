@@ -141,6 +141,15 @@ def check_value(driver, control, value):
 	log.write('error', 'while it should be: '+string.lower(value))
 	return False
 
+def check_div(driver, div_id):
+	try:
+		div = driver.find_element_by_id(div_id)
+	except NoSuchElementException:
+		log.write('error', 'no such div id='+div_id)
+		return False
+	log.write('debug', 'found div id='+div_id)
+	return True
+
 def get_value(driver, control):
 	try:
 		ctl = driver.find_element_by_id(control)
