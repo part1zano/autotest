@@ -30,7 +30,7 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-if not funcitons.find_link_and_click(driver, u'Обратная связь', 'feedback'):
+if not functions.find_link_and_click(driver, u'Обратная связь', 'feedback'):
 	log.write('error', 'no feedback link or wrong link/url text')
 	driver.close()
 	sys.exit(1)
@@ -44,7 +44,7 @@ if not functions.edit_control(driver, 'feedback-message', 'This is just a test m
 
 log.write('debug', 'edited message text')
 
-if login not in functions.get_value('feedback-email'):
+if login not in functions.get_value(driver, 'feedback-email'):
 	log.write('error', 'email not stated in email field')
 	driver.close()
 	sys.exit(1)
@@ -60,14 +60,13 @@ log.write('debug', 'submit clicked')
 
 for text in ['OK', u'ОК']:
 	try:
-		driver.find_element_by_parital_link_text(text).click()
+		driver.find_element_by_partial_link_text(text).click()
 		log.write('debug', 'ok on informer clicked')
 		log.write('info', 'test PASSED')
 		driver.close()
 		sys.exit(0)
 	except NoSuchElementException:
 		log.write('warning', 'no '+text+' button')
-		fail = fail + 1
 
 log.write('error', 'no ok button on informer or no informer')
 driver.close()
