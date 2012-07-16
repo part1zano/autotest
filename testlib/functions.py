@@ -182,10 +182,6 @@ def logout(driver):
 	except TimeoutException:
 		log.write('error', 'timeout waiting for shit to load')
 		return False
-	for cookie in driver.get_cookies():
-		if u'sessionid' in string.lower(cookie['name']):
-			log.write('error', 'sessionid cookie still here!')
-			return False
 	return True
 
 def find_link_and_click(driver, link_text, url):
