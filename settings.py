@@ -48,6 +48,7 @@ except TimeoutException:
 
 log.write('debug', 'in settings, what to do?')
 action = 'changepwd'
+action = 'click'
 #############################################
 ### BEGIN CHANGE PASSWD
 #############################################
@@ -127,8 +128,32 @@ if action == 'changepwd':
 #############################################
 ### END CHANGE PASSWD
 #############################################
+elif (action == 'click'):
+	links = {
+			u'Основные настройки' : 'settings', 
+			u'Дополнительные настройки' : 'additional-settings', 
+			u'Пароль' : 'change-password'
+			}
+
+	for linktext, url in links.iteritems():
+		if not functions.find_link_and_click(driver, linktext, url):
+			log.write('error', 'error visiting '+url+', see above')
+			driver.close()
+			sys.exit(1)
+
+		log.write('debug', 'visited '+url+' by clicking '+linktext)
+
+		divname = url
+		if 'additional' in divname:
+			divname = re.sub('-', '_', divname)
+
+		if not functions.check_div(driver, divname):
+			log.write('error', 'div id='+divname+' not found, see above')
+			driver.close()
+			sys.exit(1)
 else:
 	pass
+
 
 log.write('info', 'test PASSED')
 driver.close()
