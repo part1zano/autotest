@@ -66,7 +66,10 @@ for link, sublinks in links.iteritems():
 		sys.exit(1)
 
 	for sublink, subtext in links[link].iteritems():
-		if not functions.find_link_and_click(driver, subtext, sublink):
+		try:
+			driver.find_element_by_partial_link_text(subtext).click()
+			log.write('debug', 'went to '+sublink+' by '+subtext)
+		except NoSuchElementException:
 			log.write('error', 'no such link or wrong link text')
 			driver.close()
 			sys.exit(1)
@@ -91,7 +94,11 @@ for link, sublinks in links.iteritems():
 #			continue
 			layername = 'dialog_list'
 
-		if not functions.check_div(driver, layername):
+		try:
+			layer = driver.find_element_by_id(layername)
+			log.write('info', 'found div with required id='+layername)
+			log.write('debug', 'its content follows: '+layer.text)
+		except NoSuchElementException:
 			log.write('error', 'no such div id='+layername)
 			driver.close()
 			sys.exit(1)
