@@ -39,9 +39,9 @@ except NoSuchElementException:
 	sys.exit(1)
 
 search.send_keys(u'™')
-search.commit()
+search.submit()
 try:
-	WebDriverWait(driver, 10).until(lambda driver : '™' in driver.current_url)
+	WebDriverWait(driver, 10).until(lambda driver : u'™' in driver.current_url)
 except TimeoutException:
 	log.write('error', 'timeout waiting for shit to load')
 	driver.close()
