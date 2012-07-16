@@ -47,8 +47,12 @@ except TimeoutException:
 	sys.exit(1)
 
 log.write('debug', 'in settings, what to do?')
-action = 'changepwd'
-action = 'click'
+if len(sys.argv) < 2:
+	action = 'click'
+else:
+	action = sys.argv[1]
+#action = 'changepwd'
+#action = 'click'
 #############################################
 ### BEGIN CHANGE PASSWD
 #############################################
