@@ -66,19 +66,8 @@ for link, sublinks in links.iteritems():
 		sys.exit(1)
 
 	for sublink, subtext in links[link].iteritems():
-		try:
-			driver.find_element_by_partial_link_text(subtext).click()
-			log.write('debug', 'went to '+sublink+' by '+subtext)
-		except NoSuchElementException:
-			log.write('error', 'no such link or wrong link text')
-			driver.close()
-			sys.exit(1)
-
-		try:
-			WebDriverWait(driver, 10).until(lambda driver : sublink in driver.current_url)
-			log.write('debug', 'got to sublink '+sublink)
-		except TimeoutException:
-			log.write('error', 'timeout waiting for shit to load trying to get to sublink '+sublink)
+		if not functions.find_link_and_click(driver, subtext, sublink):
+			log.write('error', 'some shit happened while checking '+sublink+', see above')
 			driver.close()
 			sys.exit(1)
 
@@ -94,14 +83,11 @@ for link, sublinks in links.iteritems():
 #			continue
 			layername = 'dialog_list'
 
-		try:
-			layer = driver.find_element_by_id(layername)
-			log.write('info', 'found div with required id='+layername)
-			log.write('debug', 'its content follows: '+layer.text)
-		except NoSuchElementException:
-			log.write('error', 'no such div id='+layername)
+		if not functions.check_div(driver, layername):
+			log.write('error', 'layer '+layername+' error, see above')
 			driver.close()
 			sys.exit(1)
+
 
 
 log.write('info', 'test PASSED')
