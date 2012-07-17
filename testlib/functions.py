@@ -221,5 +221,3 @@ def click_submit(driver, link_text): # TODO :: needed or not?
 		return False
 	return True
 
-def init_driver(): # TODO :: over xvfb
-	return webdriver.Firefox()
