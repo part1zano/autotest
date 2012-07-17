@@ -10,6 +10,8 @@ if len(sys.argv) < 2:
 else:
 	scripts_to_run = ['./'+sys.argv[index] for index in range(1, len(sys.argv))]
 
+fails = 0
+
 for script in scripts_to_run:
 	print '='*20
 	print 'RUN TEST: '+script
@@ -18,7 +20,11 @@ for script in scripts_to_run:
 		result = 'PASSED'
 	else:
 		result = 'FAILED'
+		fails = fails+1
 
 	print '='*20
 	print 'RESULT: ', script, result
 	print '='*20
+
+if fails > 0:
+	sys.exit(1)
