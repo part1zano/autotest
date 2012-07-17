@@ -1,0 +1,47 @@
+AUTOTESTS
+---------
+
+### main.py
+Script that runs some automatic tests (maybe all of them). Is really simple.
+
+### test-bug-208.py
+Reproduces bug #208 
+
+### test-contacts.py
+Edit contacts form
+
+### test-edit-info.py
+Edit info form
+
+### test-feedback.py
+Feedback form
+
+### test-invite.py
+Invite another company form
+
+### test-login.py
+Login
+
+### test-logout.py
+Logout
+
+### test-profile-links.py
+Clicks all of the links in a company's profile
+
+### tests.conf
+Config for teh tests
+
+### test-settings.py
+Clicks all the links in a user's settings and maybe modifies some of the settings
+
+### objlists/
+Files with lists of objects with values to edit
+
+### testlib/
+#### functions.py
+All needed functions: login/logout/find link and click it/etc
+#### logger.py
+A simple and nice logger w/levels. Was way, way too lazy to read about Python's logger
+
+### javascript.py, sample-autotest.py
+First steps in Selenium autotests
