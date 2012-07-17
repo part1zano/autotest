@@ -75,13 +75,15 @@ for val in val_list:
 
 	val = val.rstrip()
 	objName, value = val.split('~!~')
-
-	if functions.check_value(driver, objName, value):
-		log.write('debug', 'element '+objName+' has the required value')
-	else:
-		log.write('warning', 'wrong text of '+objName+', see above')
-		driver.close()
-		sys.exit(1)
+	try:
+		if functions.check_value(driver, objName, value):
+			log.write('debug', 'element '+objName+' has the required value')
+		else:
+			log.write('warning', 'wrong text of '+objName+', see above')
+			driver.close()
+			sys.exit(1)
+	except selenium.common.exceptions.StaleElementReferenceException:
+		log.write('error', objName+' somewhy uncheckable')
 
 log.write('info', 'finished ok')
 log.write('info', 'test PASSED')
