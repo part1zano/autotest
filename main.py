@@ -13,6 +13,9 @@ else:
 fails = 0
 
 for script in scripts_to_run:
+	if 'bug-208' in script: # buggy bug 208 reproduction
+		continue
+
 	print '='*20
 	print 'RUN TEST: '+script
 	print '='*20
