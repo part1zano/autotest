@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os,sys
+import os,sys,time
 
 scripts_to_run = []
 
@@ -28,6 +28,8 @@ for script in scripts_to_run:
 	print '='*20
 	print 'RESULT: ', script, result
 	print '='*20
+
+	time.sleep(2)
 
 if fails > 0:
 	sys.exit(1)
