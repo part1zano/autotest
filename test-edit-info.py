@@ -5,7 +5,7 @@ from testlib import logger,functions
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
+from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException, StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 
 log = logger.Log('tests.conf')
@@ -82,7 +82,7 @@ for val in val_list:
 			log.write('warning', 'wrong text of '+objName+', see above')
 			driver.close()
 			sys.exit(1)
-	except selenium.common.exceptions.StaleElementReferenceException:
+	except StaleElementReferenceException:
 		log.write('error', objName+' somewhy uncheckable')
 
 log.write('info', 'finished ok')
