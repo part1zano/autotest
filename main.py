@@ -10,8 +10,14 @@ else:
 	scripts_to_run = ['./'+sys.argv[index] for index in range(1, len(sys.argv))]
 
 for script in scripts_to_run:
+	print '='*20
+	print 'RUN TEST: '+script
+	print '='*20
 	if os.system('python '+script) == 0:
-		print script, 'PASSED'
+		result = 'PASSED'
 	else:
-		print script, 'FAILED'
+		result = 'FAILED'
 
+	print '='*20
+	print 'RESULT: ', script, result
+	print '='*20
