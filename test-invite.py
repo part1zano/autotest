@@ -3,7 +3,7 @@
 
 from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re
+import string,sys,ConfigParser,codecs,re,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -59,6 +59,10 @@ except NoSuchElementException:
 	log.write('error', 'no submit button or wrong link text')
 	driver.close()
 	sys.exit(1)
+
+log.write('debug', 'found and clicked submit-invite btn, sleeping for 2s')
+time.sleep(2)
+log.write('debug', 'woke up, continuing')
 
 for ok in [u'ОК', 'OK']:
 	try:
