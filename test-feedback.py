@@ -37,6 +37,11 @@ if not functions.find_link_and_click(driver, u'Обратная связь', 'fe
 
 log.write('debug', 'got to feedback page')
 
+if not functions.check_div(driver, 'feedback'):
+	log.write('error', 'no feedback div')
+	driver.close()
+	sys.exit(1)
+
 if not functions.edit_control(driver, 'feedback-message', 'This is just a test msg', 'text'):
 	log.write('error', 'failed to edit text area')
 	driver.close()
