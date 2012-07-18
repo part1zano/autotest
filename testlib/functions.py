@@ -68,7 +68,7 @@ def edit_control(driver, control, value, ctl_type):
 		log.write('error', 'no such element: ' + control)
 		return False
 	old_value = ctl.get_attribute('value')
-#	log.write('debug', 'old value for '+control+' is: '+old_value)
+	log.write('debug', 'old value for '+control+' is: '+old_value)
 	log.write('debug', 'old value for '+control+' is')
 	if u'text' in ctl_type:
 		log.write('debug', 'the element is a textarea or so')
@@ -79,8 +79,8 @@ def edit_control(driver, control, value, ctl_type):
 			log.write('debug', 'values match, its ok')
 		else:
 			log.write('error', 'values dont match before submit: NOK')
-#			log.write('error', 'new value SHOULD BE '+old_value+value)
-#			log.write('error', 'new value = '+ctl.get_attribute('value'))
+			log.write('error', 'new value SHOULD BE '+old_value+value)
+			log.write('error', 'new value = '+ctl.get_attribute('value'))
 			return False
 	elif u'popup' in ctl_type:
 		log.write('debug', 'the element is a drop-down menu or so')
@@ -91,9 +91,9 @@ def edit_control(driver, control, value, ctl_type):
 			log.write('error', 'no options in element ' + control)
 			return False
 		for option in all_options:
-#			log.write('debug', 'found option' + option + ' in control ' + control)
+			log.write('debug', 'found option' + option + ' in control ' + control)
 			if value in option.get_attribute('value'):
-#				log.write('debug', 'clicked requested option ' + value)
+				log.write('debug', 'clicked requested option ' + value)
 				option.click()
 	else:
 		log.write('error', 'unknown element type')
@@ -132,21 +132,21 @@ def check_value(driver, control, value):
 		log.write('error', 'no such control in presend window')
 		return False
 
-#	log.write('debug', control+' value is: '+label.text)
+	log.write('debug', control+' value is: '+label.text)
 	if string.lower(value) == string.lower(label.text):
 		log.write('info', 'element '+control+' value is ok')
-#		log.write('debug', 'it is '+value)
+		log.write('debug', 'it is '+value)
 		return True
 	log.write('error', 'element '+control+' value NOK')
-#	log.write('error', 'it is '+string.lower(label.text))
-#	log.write('error', 'while it should be: '+string.lower(value))
+	log.write('error', 'it is '+string.lower(label.text))
+	log.write('error', 'while it should be: '+string.lower(value))
 	return False
 
 def check_div(driver, div_id):
 	try:
 		div = driver.find_element_by_id(div_id)
 		log.write('debug', 'found div id='+div_id)
-#		log.write('debug', 'its content follows: '+div.text)
+		log.write('debug', 'its content follows: '+div.text)
 	except NoSuchElementException:
 		log.write('error', 'no such div id='+div_id)
 		return False
@@ -162,10 +162,10 @@ def get_value(driver, control):
 		return None
 
 	if ctl.get_attribute('value') != None:
-#		log.write('debug', 'its an edit or so, and its value is: '+ctl.get_attribute('value'))
+		log.write('debug', 'its an edit or so, and its value is: '+ctl.get_attribute('value'))
 		return ctl.get_attribute('value')
 	else:
-#		log.write('debug', 'its a label or so, and its value is: '+ctl.text)
+		log.write('debug', 'its a label or so, and its value is: '+ctl.text)
 		return ctl.text
 
 def logout(driver):
@@ -188,10 +188,10 @@ def logout(driver):
 def find_link_and_click(driver, link_text, url):
 	try:
 		driver.find_element_by_partial_link_text(link_text).click()
-#		log.write('debug', link_text+' clicked')
+		log.write('debug', link_text+' clicked')
 		log.write('debug', url+' clicked')
 	except NoSuchElementException:
-		#		log.write('error', 'no '+link_text+' link or wrong link text')
+		log.write('error', 'no '+link_text+' link or wrong link text')
 		log.write('error', 'no link for '+url+'s link_text')
 		return False
 
@@ -201,7 +201,7 @@ def find_link_and_click(driver, link_text, url):
 		log.write('error', 'timeout waiting for shit to load or not going to url containing '+url)
 		return False
 
-#	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
+	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
 	log.write('debug', 'finally got to '+url)
 	log.write('debug', 'sleep for 2s after getting here')
 	time.sleep(2)
@@ -222,7 +222,7 @@ def clear_element(driver, control):
 def click_submit(driver, link_text): # TODO :: needed or not?
 	try:
 		driver.find_element_by_partial_link_text(link_text).click()
-#		log.write('debug', link_text+' submit clicked')
+		log.write('debug', link_text+' submit clicked')
 		log.write('debug', 'submit clicked')
 	except NoSuchElementException:
 		log.write('error', 'no submit button or wrong link text')
