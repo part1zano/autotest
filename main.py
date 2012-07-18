@@ -5,6 +5,7 @@ import os,sys,time
 
 scripts_to_run = []
 
+
 search_string = 'find . -maxdepth 1 -type f -name "test-*.py" '
 for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py']:
 	search_string = search_string + ' -and -not -name "'+script+'"'
