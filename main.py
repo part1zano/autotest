@@ -3,12 +3,6 @@
 
 import os,sys,time
 
-#for param_name, param in os.environ.iteritems():
-#	print "%s -> %s" % (param_name, param)
-
-for line in os.popen('locale').readlines():
-	print line
-
 scripts_to_run = []
 
 if len(sys.argv) < 2:
