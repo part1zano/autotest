@@ -25,6 +25,9 @@ class Log:
 		if level == 'stfu':
 			return 2
 		if find_num(levels, level) >= find_num(levels, self.level):
-			print level.upper() + ' ' + string 
+			try:
+				print level.upper() + ' ' + string 
+			except UnicodeEncodeError:
+				print level.upper() + ' ' + 'some shit with unicode, bro'
 
 log = Log('tests.conf')
