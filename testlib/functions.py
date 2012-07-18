@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import log
-import string
+import string,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -203,6 +203,9 @@ def find_link_and_click(driver, link_text, url):
 
 #	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
 	log.write('debug', 'finally got to '+url)
+	log.write('debug', 'sleep for 2s after getting here')
+	time.sleep(2)
+	log.write('debug', 'waking up, returning True')
 	return True
 
 def clear_element(driver, control):
