@@ -67,7 +67,9 @@ for ok in [u'ОК', 'OK']:
 		driver.close()
 		sys.exit(0)
 	except NoSuchElementException:
-		log.write('debug', 'button '+ok+' not found')
+		log.write('warning', 'button '+ok+' not found')
+
+log.write('error', 'possibly no ok button at all')
 log.write('info', 'test FAILED')
 driver.close()
 sys.exit(1)
