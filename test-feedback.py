@@ -35,10 +35,6 @@ if not functions.find_link_and_click(driver, u'Обратная связь', 'fe
 	driver.close()
 	sys.exit(1)
 
-log.write('debug', 'got to feedback page, sleeping for 2 seconds')
-time.sleep(2)
-log.write('debug', '@ feedback page: waking up and checking for feedback div')
-
 if not functions.check_div(driver, 'feedback'):
 	log.write('error', 'no feedback div')
 	driver.close()
