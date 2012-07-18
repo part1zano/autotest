@@ -145,6 +145,7 @@ elif (action == 'click'):
 			driver.close()
 			sys.exit(1)
 
+		log.write('info', 'visited '+url)
 		log.write('debug', 'visited '+url+' by clicking '+linktext)
 
 		divname = url
@@ -155,6 +156,8 @@ elif (action == 'click'):
 			log.write('error', 'div id='+divname+' not found, see above')
 			driver.close()
 			sys.exit(1)
+
+		log.write('info', 'found div id='+divname)
 else:
 	pass
 
