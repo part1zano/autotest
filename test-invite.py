@@ -38,7 +38,7 @@ for link_text, url in links.iteritems():
 		driver.close()
 		sys.exit(1)
 
-log.write('debug', 'finally in invites')
+log.write('info', 'finally in invites')
 
 for line in objlist:
 	if re.match('^#', line):
@@ -53,6 +53,8 @@ for line in objlist:
 		driver.close()
 		sys.exit(1)
 
+	log.write('info', 'edited '+objname)
+
 try:
 	driver.find_element_by_partial_link_text(u'Пригласить').click()
 except NoSuchElementException:
@@ -63,10 +65,11 @@ except NoSuchElementException:
 log.write('debug', 'found and clicked submit-invite btn, sleeping for 2s')
 time.sleep(2)
 log.write('debug', 'woke up, continuing')
-
+log.write('info', 'clicked submit')
 for ok in [u'ОК', 'OK']:
 	try:
 		driver.find_element_by_partial_link_text(ok).click()
+		log.write('info', 'clicked ok on informer')
 		log.write('info', 'test PASSED')
 		driver.close()
 		sys.exit(0)
