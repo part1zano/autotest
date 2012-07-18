@@ -6,7 +6,7 @@ import os,sys,time
 scripts_to_run = []
 
 if len(sys.argv) < 2:
-	scripts_to_run = [script.rstrip() for script in os.popen('find . -maxdepth 1 -type f -name "test-*.py"').readlines()]
+	scripts_to_run = [script.rstrip() for script in os.popen('find . -maxdepth 1 -type f -name "test-*.py" -and -not -name "test-feedback.py"').readlines()]
 else:
 	scripts_to_run = ['./'+sys.argv[index] for index in range(1, len(sys.argv))]
 
