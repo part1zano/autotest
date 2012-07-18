@@ -59,7 +59,7 @@ for line in objlist:
 		log.write('error', 'edit of '+objname+' failed: see above')
 		driver.close()
 		sys.exit(1)
-
+	log.write('info', 'element '+objname+'successfully edited')
 	try:
 		driver.find_element_by_partial_link_text(u'Сохранить').click()
 		log.write('debug', 'submit clicked')
@@ -70,7 +70,7 @@ for line in objlist:
 
 	try:
 		contacts_layer = driver.find_element_by_id('contacts')
-		log.write('debug', 'contacts layer found')
+		log.write('info', 'contacts layer found')
 	except NoSuchElementException:
 		log.write('error', 'no contacts layer or wrong id')
 		driver.close()
