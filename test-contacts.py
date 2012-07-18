@@ -54,7 +54,7 @@ for line in objlist:
 		log.write('error', 'failed clearing element '+objname+', see above')
 		driver.close()
 		sys.exit(1)
-
+	log.write('debug', 'cleared elem '+objname)
 	if not functions.edit_control(driver, objname, value, 'text'):
 		log.write('error', 'edit of '+objname+' failed: see above')
 		driver.close()
