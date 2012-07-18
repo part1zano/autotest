@@ -3,7 +3,7 @@
 
 from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re
+import string,sys,ConfigParser,codecs,re,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -35,7 +35,9 @@ if not functions.find_link_and_click(driver, u'Обратная связь', 'fe
 	driver.close()
 	sys.exit(1)
 
-log.write('debug', 'got to feedback page')
+log.write('debug', 'got to feedback page, sleeping for 2 seconds')
+time.sleep(2)
+log.write('debug', '@ feedback page: waking up and checking for feedback div')
 
 if not functions.check_div(driver, 'feedback'):
 	log.write('error', 'no feedback div')
