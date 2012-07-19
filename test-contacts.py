@@ -59,7 +59,7 @@ for line in objlist:
 		log.write('error', 'edit of '+objname+' failed: see above')
 		driver.close()
 		sys.exit(1)
-	log.write('info', 'element '+objname+'successfully edited')
+	log.write('info', 'element '+objname+' successfully edited')
 	try:
 		driver.find_element_by_partial_link_text(u'Сохранить').click()
 		log.write('debug', 'submit clicked')
