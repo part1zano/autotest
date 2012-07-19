@@ -75,7 +75,7 @@ def edit_control(driver, control, value, ctl_type):
 		
 		ctl.send_keys(value)
 		log.write('debug', 'sent info into it')
-		if string.lower(ctl.get_attribute('value')) == string.lower(old_value+value):
+		if (string.lower(ctl.get_attribute('value')) == string.lower(old_value+value)) or (len(ctl.get_attribute('value')) == 80):
 			log.write('debug', 'values match, its ok')
 		else:
 			log.write('error', 'values dont match before submit: NOK')
@@ -133,7 +133,7 @@ def check_value(driver, control, value):
 		return False
 
 	log.write('debug', control+' value is: '+label.text)
-	if string.lower(value) == string.lower(label.text):
+	if (string.lower(value) == string.lower(label.text)) or (len(label.text) == 80):
 		log.write('info', 'element '+control+' value is ok')
 		log.write('debug', 'it is '+value)
 		return True
