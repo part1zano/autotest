@@ -53,7 +53,10 @@ for obj in objlist:
 			sys.exit(1)
 		
 	new_value = functions.get_value(driver, objName)+value
-	val_list.append(objName+'~!~'+new_value)
+	if 'bank_account' in objName:
+		val_list.append(re.sub('bank_account', 'essentialElements', objName)+'~!~'+new_value)
+	else:
+		val_list.append(objName+'~!~'+new_value)
 	if functions.edit_control(driver, objName, value, 'text'):
 		log.write('debug', 'element '+objName+' edited successfully')
 	else:
@@ -83,7 +86,7 @@ for val in val_list:
 		if functions.check_value(driver, objName, value):
 			log.write('debug', 'element '+objName+' has the required value')
 		else:
-			log.write('warning', 'wrong text of '+objName+', see above')
+			log.write('error', 'wrong text of '+objName+', see above')
 			driver.close()
 			sys.exit(1)
 	except StaleElementReferenceException:
