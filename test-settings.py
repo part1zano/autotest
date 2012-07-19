@@ -31,18 +31,8 @@ if not functions.login(driver, login, passwd):
 	driver.close()
 	sys.exit(1)
 
-try:
-	driver.find_element_by_partial_link_text(u'Настройки').click()
-	log.write('debug', 'settings link clicked')
-except NoSuchElementException:
-	log.write('error', 'no settigns link or wrong link text')
-	driver.close()
-	sys.exit(1)
-
-try:
-	WebDriverWait(driver, 10).until(lambda driver : u'settings' in driver.current_url)
-except TimeoutException:
-	log.write('error', 'timeout waiting for shit to load')
+if not functions.find_link_and_click(driver, u'Настройки', 'settings'):
+	log.write('error', 'failed to visit settings, see above')
 	driver.close()
 	sys.exit(1)
 
