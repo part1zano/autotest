@@ -5,10 +5,12 @@ import os,sys,time
 
 scripts_to_run = []
 
+all_ = True
 
 search_string = 'find . -maxdepth 1 -type f -name "test-*.py" '
-for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py']:
-	search_string = search_string + ' -and -not -name "'+script+'"'
+if not all_:
+	for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py']:
+		search_string = search_string + ' -and -not -name "'+script+'"'
 
 if len(sys.argv) < 2:
 	scripts_to_run = [script.rstrip() for script in os.popen(search_string).readlines()]
