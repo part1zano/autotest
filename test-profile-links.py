@@ -70,7 +70,7 @@ for link, sublinks in links.iteritems():
 			log.write('error', 'some shit happened while checking '+sublink+', see above')
 			driver.close()
 			sys.exit(1)
-		log.write('went to '+sublink)
+		log.write('info', 'went to '+sublink)
 		layername_arr = sublink.split('/')
 		if len(layername_arr) > 1:
 			del layername_arr[0]
