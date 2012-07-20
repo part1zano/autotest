@@ -35,6 +35,7 @@ links = {u'рекомендации' : 'our_proposers', u'Пригла' : 'invit
 for link_text, url in links.iteritems():
 	if not functions.find_link_and_click(driver, link_text, url):
 		log.write('error', 'not going to '+link_text+' and url '+url+', see above')
+		log.write('error', 'not going to '+url+', see above')
 		driver.close()
 		sys.exit(1)
 
