@@ -11,7 +11,7 @@ def find_num(array, argument):
 	
 	return None
 
-levels = ['debug', 'info', 'warning', 'error', 'stfu']
+levels = [u'debug', u'verbose', u'info', u'warning', u'error', u'stfu']
 
 class Log:
 	def __init__(self, conf):
