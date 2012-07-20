@@ -83,11 +83,11 @@ for link, sublinks in links.iteritems():
 		
 		if link == 'deposit': # FIXME :: dog-nail
 			layername = re.sub('-', '_', layername)
-		elif link == 'chat': # TODO :: chat dummy
+		elif link == 'chat': # FIXME :: dog-nail
 #			log.write('warning', 'chat not tested yet')
 #			continue
 			layername = 'dialog_list'
-		elif link == 'contractors':
+		elif link == 'contractors': # FIXME :: dog-nail
 			layername = re.sub('contractors', 'partners', layername)
 			layername = layername+'list'
 
