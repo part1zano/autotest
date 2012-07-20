@@ -21,6 +21,11 @@ links = {
 			'profile' : u'Наша компания', 
 			'contacts' : u'Контакты'
 			},
+		'contractors' : {
+			'contractors' : u'Наши контрагенты',
+			'incoming' : u'Входящие заявки',
+			'outgoing' : u'Исходящие заявки'
+			},
 		'deposit' : {
 			'deposit' : u'Депозит', 
 			'deposit/topping-up' : u'Пополнить счет', 
@@ -52,7 +57,7 @@ userid = link_arr[3]
 log.write('debug', 'login as userid '+userid)
 
 for link, sublinks in links.iteritems():
-	if (link == 'profile') or (link == 'our_proposers'):
+	if (link == 'profile') or (link == 'our_proposers') or (link == 'contractors'):
 		driver.get(server+'/'+userid+'/'+link)
 	else:
 		driver.get(server+'/'+link)
@@ -78,10 +83,13 @@ for link, sublinks in links.iteritems():
 		
 		if link == 'deposit': # FIXME :: dog-nail
 			layername = re.sub('-', '_', layername)
-		if link == 'chat': # TODO :: chat dummy
+		elif link == 'chat': # TODO :: chat dummy
 #			log.write('warning', 'chat not tested yet')
 #			continue
 			layername = 'dialog_list'
+		elif link == 'contractors':
+			layername = re.sub('contractors', 'partners', layername)
+			layername = layername+'list'
 
 		if not functions.check_div(driver, layername):
 			log.write('error', 'layer '+layername+' error, see above')
