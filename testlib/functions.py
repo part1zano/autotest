@@ -52,6 +52,15 @@ def login(driver, loginstr, passwordstr, other=False):
 	except TimeoutException:
 		log.write('error', 'timeout waiting for shit to load')
 		return False
+	
+	log.write('debug', 'sleeping for 2s waiting for shit to load')
+	time.sleep(2)
+	log.write('debug', 'woke up, will now check divs')
+
+	if not check_page(driver):
+		log.write('error', 'some divs missing, see above')
+		return False
+	log.write('debug', 'divs ok')
 
 	for cookie in driver.get_cookies():
 		if bool(u'sessionid' in string.lower(cookie['name'])) != bool(other):
@@ -206,7 +215,7 @@ def find_link_and_click(driver, link_text, url):
 	log.write('debug', 'sleep for 2s after getting here')
 	time.sleep(2)
 	log.write('debug', 'waking up, returning True')
-	return True
+	return check_page(driver)
 
 def clear_element(driver, control):
 	try:
@@ -229,3 +238,27 @@ def click_submit(driver, link_text): # TODO :: needed or not?
 		return False
 	return True
 
+def get_browser(browser):
+	if browser == 'firefox':
+		return webdriver.Firefox()
+	elif browser == 'chrome':
+		return webdriver.Chrome()
+	else:
+		return None
+
+def check_page(driver):
+	divs = ['content', 'left-sidebar', 'tabs_container']
+	if 'chat' in driver.current_url:
+		divs.append('employee-header')
+	else:
+		divs.append('company-header')
+
+	for divname in divs:
+		try:
+			div = driver.find_element_by_id(divname)
+		except NoSuchElementException:
+			log.write('error', 'no '+divname+' div')
+			return False
+		log.write('debug', 'found '+divname)
+
+	return True
