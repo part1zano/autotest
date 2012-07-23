@@ -247,7 +247,12 @@ def get_browser(browser):
 		return None
 
 def check_page(driver):
-	divs = ['content', 'left-sidebar', 'tabs_container']
+	divs = ['left-sidebar', 'tabs_container']
+	if 'feedback' in driver.current_url:
+		divs.append('feedback')
+	else:
+		divs.append('content')
+
 	if 'chat' in driver.current_url:
 		divs.append('employee-header')
 	else:
