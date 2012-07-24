@@ -117,7 +117,7 @@ if action == 'changepwd':
 		else:
 			pass
 		
-		objlist_index = objlist_index + 1
+		objlist_index += 1
 
 #############################################
 ### END CHANGE PASSWD
