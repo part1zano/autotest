@@ -8,10 +8,6 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
 
-objfile = codecs.open('objlists/edit-contacts/text/objlist-edit-contacts.conf', encoding='utf-8')
-objlist = objfile.readlines()
-objfile.close()
-
 log = logger.Log('tests.conf')
 
 cnf = ConfigParser.ConfigParser()
@@ -49,12 +45,13 @@ except TimeoutException:
 
 log.write('debug', 'got to search results')
 
-links = {u'™' : 'profile', u'Написать сообщение' : 'dialog'}
+links = {u'Test' : 'profile', u'Написать сообщение' : 'dialog'}
+#links = {u'Написать сообщение' : 'dialog', u'TestLab' : 'profile'}
 
 for link, url in links.iteritems():
 	log.write('debug', 'link: '+link+'; url: '+url)
 	if not functions.find_link_and_click(driver, link, url):
-		log.write('error', 'no link')
+		log.write('error', 'no link, see above')
 		driver.close()
 		sys.exit(1)
 
