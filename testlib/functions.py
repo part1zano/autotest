@@ -267,3 +267,65 @@ def check_page(driver):
 		log.write('debug', 'found '+divname)
 
 	return True
+
+def recommend_by_title(driver, title_fragment, new):
+	"""
+	goes to company profile assuming that it might be in search results
+	"""
+	if new:
+		give = u'Дать рекомендацию'
+	else:
+		give = u'Отозвать рекомендацию'
+	
+	try:
+		search = driver.find_element_by_name('q')
+	except NoSuchElementException:
+		log.write('error', 'no search form')
+		return False
+
+	search.send_keys(title_fragment)
+	search.submit()
+
+	try:
+		WebDriverWait(driver, 10).until(lambda driver : 'q' in driver.current_url)
+	except TimeoutException:
+		log.write('error', 'timeout waiting for search results to load')
+		return False
+
+	if not find_link_and_click(driver, title_fragment, 'profile'):
+		log.write('error', 'no link or no such company')
+		return False
+
+	log.write('debug', 'in company profile, trying to recommend')
+
+	try:
+		driver.find_element_by_partial_link_text(give).click()
+	except NoSuchElementException:
+		log.write('error', 'no recommend link or wrong recommendation direction')
+		return False
+
+	# FIXME :: an ugly dog-nail
+	
+	for i in range(0, 2):
+		driver.back()
+		log.write('debug', 'back: '+str(i))
+	
+	log.write('debug', 'sleeping for 2s')
+	time.sleep(2)
+	log.write('debug', 'now might be in profile')
+
+	links = {u'рекомендации' : 'our_proposers', u'рекомендуем' : 'we_recommend'}
+
+	for text, url in links.items():
+		if not find_link_and_click(driver, text, url):
+			log.write('error', 'not going to '+url+', see above')
+			return False
+
+	log.write('debug', 'finally checking if that company is in recommendations')
+	
+	if (title_fragment in driver.find_element_by_id('we_recommend').text) != new:
+		log.write('error', 'wrong recommendation data')
+		return False
+
+	return True
+
