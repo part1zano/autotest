@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions
+from testlib import logger,functions,mydata
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
@@ -123,6 +123,7 @@ if action == 'changepwd':
 ### END CHANGE PASSWD
 #############################################
 elif (action == 'click'):
+	links = mydata.ordered_dict()
 	links = {
 			u'Основные настройки' : 'settings', 
 			u'Дополнительные настройки' : 'additional-settings', 

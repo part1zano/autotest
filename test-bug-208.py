@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions
+from testlib import logger,functions,mydata
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
@@ -45,8 +45,8 @@ except TimeoutException:
 
 log.write('debug', 'got to search results')
 
-links = {u'Test' : 'profile', u'Написать сообщение' : 'dialog'}
-#links = {u'Написать сообщение' : 'dialog', u'TestLab' : 'profile'}
+links = mydata.ordered_dict()
+links = {u'™' : 'profile', u'Написать сообщение' : 'dialog'}
 
 for link, url in links.iteritems():
 	log.write('debug', 'link: '+link+'; url: '+url)

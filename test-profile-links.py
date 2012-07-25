@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions
+from testlib import logger,functions,mydata
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
@@ -16,6 +16,7 @@ server = cnf.get('net-creds', 'server')
 login = cnf.get('net-creds', 'login')
 passwd = cnf.get('net-creds', 'passwd')
 
+links = mydata.ordered_dict()
 links = {
 		'profile' : {
 			'profile' : u'Наша компания', 

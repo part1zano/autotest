@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions
+from testlib import logger,functions,mydata
 
 import string,sys,ConfigParser,codecs,re,time
 from selenium import webdriver
@@ -30,7 +30,8 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-links = {u'рекомендации' : 'our_proposers', u'Пригла' : 'invite'}
+links = mydata.ordered_dict()
+links = {u'рекомендации' : 'our_proposers', u'Пригласить' : 'invite'}
 
 for link_text, url in links.iteritems():
 	if not functions.find_link_and_click(driver, link_text, url):
