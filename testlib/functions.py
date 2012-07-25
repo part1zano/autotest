@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import log
-from mydata import ordered_dict
-import string,time
+import string,time,stabledict
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -358,8 +357,8 @@ def recommend_by_title(driver, title_fragment, new):
 
 	log.write('debug', 'in self.profile, tryin to go to recommendations')
 	
-	links = ordered_dict({u'Наши рекомендации' : 'our_proposers', u'Мы рекомендуем' : 'we_recommend'})
-	for text, url in links.ordered_items():
+	links = stabledict.StableDict(((u'Наши рекомендации', 'our_proposers'), (u'Мы рекомендуем', 'we_recommend')))
+	for text, url in links.items():
 		if not find_link_and_click(driver, text, url):
 			log.write('error', 'no such link: '+url)
 			return False
