@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions,mydata
+from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re,time
+import string,sys,ConfigParser,codecs,re,time,stabledict
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -30,10 +30,9 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-links = mydata.ordered_dict()
-links = {u'рекомендации' : 'our_proposers', u'Пригласить' : 'invite'}
+links = stabledict.StableDict(((u'рекомендации', 'our_proposers'), (u'Пригла', 'invite')))
 
-for link_text, url in links.iteritems():
+for link_text, url in links.items():
 	if not functions.find_link_and_click(driver, link_text, url):
 		log.write('error', 'not going to '+link_text+' and url '+url+', see above')
 		log.write('error', 'not going to '+url+', see above')

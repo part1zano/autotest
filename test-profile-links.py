@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions,mydata
+from testlib import logger,functions
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
@@ -16,7 +16,6 @@ server = cnf.get('net-creds', 'server')
 login = cnf.get('net-creds', 'login')
 passwd = cnf.get('net-creds', 'passwd')
 
-links = mydata.ordered_dict()
 links = {
 		'profile' : {
 			'profile' : u'Наша компания', 
@@ -57,7 +56,7 @@ userid = link_arr[3]
 
 log.write('debug', 'login as userid '+userid)
 
-for link, sublinks in links.iteritems():
+for link, sublinks in links.items():
 	if (link == 'profile') or (link == 'our_proposers') or (link == 'contractors'):
 		driver.get(server+'/'+userid+'/'+link)
 	else:

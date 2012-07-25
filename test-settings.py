@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions,mydata
+from testlib import logger,functions
 
 import string,sys,ConfigParser,codecs,re
 from selenium import webdriver
@@ -123,14 +123,13 @@ if action == 'changepwd':
 ### END CHANGE PASSWD
 #############################################
 elif (action == 'click'):
-	links = mydata.ordered_dict()
 	links = {
 			u'Основные настройки' : 'settings', 
 			u'Дополнительные настройки' : 'additional-settings', 
 			u'Пароль' : 'change-password'
 			}
 
-	for linktext, url in links.iteritems():
+	for linktext, url in links.items():
 		if not functions.find_link_and_click(driver, linktext, url):
 			log.write('error', 'error visiting '+url+', see above')
 			driver.close()

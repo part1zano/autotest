@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import logger,functions,mydata
+from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re
+import string,sys,ConfigParser,codecs,re,stabledict
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -45,10 +45,9 @@ except TimeoutException:
 
 log.write('debug', 'got to search results')
 
-links = mydata.ordered_dict()
-links = {u'™' : 'profile', u'Написать сообщение' : 'dialog'}
+links = stabledict.StableDict(((u'™', 'profile'), (u'Написать сообщение', 'dialog')))
 
-for link, url in links.iteritems():
+for link, url in links.items():
 	log.write('debug', 'link: '+link+'; url: '+url)
 	if not functions.find_link_and_click(driver, link, url):
 		log.write('error', 'no link, see above')

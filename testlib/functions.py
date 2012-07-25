@@ -269,28 +269,58 @@ def check_page(driver):
 
 	return True
 
-def recommend_by_title(driver, title_fragment, new):
-	"""
-	goes to company profile assuming that it might be in search results
-	"""
-	if new:
-		give = u'Дать рекомендацию'
-	else:
-		give = u'Отозвать рекомендацию'
-	
+def find_stuff(driver, stuff):
 	try:
 		search = driver.find_element_by_name('q')
 	except NoSuchElementException:
 		log.write('error', 'no search form')
 		return False
-
-	search.send_keys(title_fragment)
+	search.clear()
+	search.send_keys(stuff)
 	search.submit()
-
+	
 	try:
 		WebDriverWait(driver, 10).until(lambda driver : 'q' in driver.current_url)
 	except TimeoutException:
 		log.write('error', 'timeout waiting for search results to load')
+		return False
+
+	log.write('debug', 'at the search results page, sleeping for 2s')
+	time.sleep(2)
+	log.write('debug', 'woke up, returning true')
+	return True
+
+def get_our_info(driver, field_name):
+	""" 
+	assuming we're in our profile
+	"""
+	if field_name == 'id':
+		return driver.current_url.split('/')[3]
+	elif field_name == 'url':
+		return driver.current_url
+	try:
+		value = driver.find_element_by_id(field_name).text
+	except NoSuchElementException:
+		log.write('error', 'no such field')
+		return None
+
+	return value		
+
+def recommend_by_title(driver, title_fragment, new):
+	"""
+	goes to company profile assuming that it might be in search results
+	"""
+
+	our_bname = get_our_info(driver, 'brandName')
+	our_url = get_our_info(driver, 'url')
+
+	if new:
+		give = u'Дать рекомендацию'
+	else:
+		give = u'Отозвать рекомендацию'
+	
+	if not find_stuff(driver, title_fragment):
+		log.write('error', 'some shit with search, see above')
 		return False
 
 	if not find_link_and_click(driver, title_fragment, 'profile'):
@@ -305,26 +335,43 @@ def recommend_by_title(driver, title_fragment, new):
 		log.write('error', 'no recommend link or wrong recommendation direction')
 		return False
 
-	# FIXME :: an ugly dog-nail
+	if not find_link_and_click(driver, u'Рекомендации', 'our_proposers'):
+		log.write('error', 'not going to our-proposers, see above')
+		return False
+
+	log.write('debug', 'checking if we are in list of proposers')
 	
-	for i in range(0, 2):
-		driver.back()
-		log.write('debug', 'back: '+str(i))
+	try:
+		div = driver.find_element_by_id('our_proposers')
+	except NoSuchElementException:
+		log.write('error', 'no recommendations div')
+		return False
+
+	if (our_bname in div.text) != new:
+		log.write('error', 'wrong recommendation data')
+		return False
 	
-	log.write('debug', 'sleeping for 2s')
+	driver.get(our_url)
+	log.write('debug', 'got to profile, sleeping for 2s')
 	time.sleep(2)
-	log.write('debug', 'now might be in profile')
-	links = ordered_dict()
-	links = {u'Наши рекомендации' : 'our_proposers', u'Мы рекомендуем' : 'we_recommend'}
+	log.write('debug', 'woke up, whatcha next?')
 
-	for text, url in links.items():
-		if not find_link_and_click(driver, text, url):
-			log.write('error', 'not going to '+url+', see above')
-			return False
-
-	log.write('debug', 'finally checking if that company is in recommendations')
+	log.write('debug', 'in self.profile, tryin to go to recommendations')
 	
-	if (title_fragment in driver.find_element_by_id('we_recommend').text) != new:
+	links = ordered_dict({u'Наши рекомендации' : 'our_proposers', u'Мы рекомендуем' : 'we_recommend'})
+	for text, url in links.ordered_items():
+		if not find_link_and_click(driver, text, url):
+			log.write('error', 'no such link: '+url)
+			return False
+		log.write('debug', 'got to '+url)
+
+	try:
+		div = driver.find_element_by_id('we_recommend')
+	except NoSuchElementException:
+		log.write('error', 'no recommendations div')
+		return False
+
+	if (title_fragment in div.text) != new:
 		log.write('error', 'wrong recommendation data')
 		return False
 

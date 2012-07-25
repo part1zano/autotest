@@ -12,6 +12,8 @@ if not all_:
 	for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py']:
 		search_string += ' -and -not -name "'+script+'"'
 
+search_string += ' 2>/dev/null'
+
 if len(sys.argv) < 2:
 	scripts_to_run = [script.rstrip() for script in os.popen(search_string).readlines()]
 	#	scripts_to_run = [script.rstrip() for script in os.popen('find . -maxdepth 1 -type f -name "test-*.py" -and -not -name "test-feedback.py" -and -not -name "test-settings.py" -and -not -name "test-contacts.py"').readlines()]
