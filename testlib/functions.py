@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import log
+from mydict import ordered_dict
 import string,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
@@ -313,8 +314,8 @@ def recommend_by_title(driver, title_fragment, new):
 	log.write('debug', 'sleeping for 2s')
 	time.sleep(2)
 	log.write('debug', 'now might be in profile')
-
-	links = {u'рекомендации' : 'our_proposers', u'рекомендуем' : 'we_recommend'}
+	links = ordered_dict()
+	links = {u'Наши рекомендации' : 'our_proposers', u'Мы рекомендуем' : 'we_recommend'}
 
 	for text, url in links.items():
 		if not find_link_and_click(driver, text, url):
