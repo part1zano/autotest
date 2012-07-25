@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import log
-from mydict import ordered_dict
+from mydata import ordered_dict
 import string,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
