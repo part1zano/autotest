@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 passwd_objlists = []
 
-for passwd_file in ['change-passwd-pos.conf', 'change-passwd-neg-1wrong.conf', 'change-passwd-neg-nomatch.conf']:
+for passwd_file in ['change-passwd-pos.conf', 'change-passwd-neg-1wrong.conf', 'change-passwd-neg-nomatch.conf', 'change-passwd-afterall.conf']:
 	passwd_objfile = codecs.open('./objlists/change-passwd/text/'+passwd_file, encoding='utf-8')
 	passwd_objlists.append(passwd_objfile.read())
 	passwd_objfile.close()
@@ -31,6 +31,8 @@ if not functions.login(driver, login, passwd):
 	log.write('error', 'failed to login: see above')
 	driver.close()
 	sys.exit(1)
+
+log.write('info', 'login ok')
 
 if not functions.find_link_and_click(driver, u'Настройки', 'settings'):
 	log.write('error', 'failed to visit settings, see above')
@@ -91,7 +93,7 @@ if action == 'changepwd':
 			driver.close()
 			sys.exit(1)
 		
-		if objlist_index == 0:
+		if (objlist_index == 0) or (objlist_index == 3):
 			if u'успешно' in msg.text:
 				log.write('info', 'case '+str(objlist_index)+' message ok')
 				log.write('debug', 'it is: '+msg.text)
