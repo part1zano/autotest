@@ -3,7 +3,7 @@
 
 from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re,time,stabledict
+import string,sys,ConfigParser,codecs,re,time,stabledict,datetime
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -55,6 +55,8 @@ for line in objlist:
 		sys.exit(1)
 
 	log.write('info', 'edited '+objname)
+	if 'email' in objname: # FIXME :: dog-nail for further use
+		email = value
 
 try:
 	driver.find_element_by_partial_link_text(u'Пригласить').click()
@@ -69,16 +71,37 @@ log.write('debug', 'woke up, continuing')
 log.write('info', 'clicked submit')
 for ok in [u'ОК', 'OK']:
 	try:
-		driver.find_element_by_partial_link_text(ok).click()
-		log.write('info', 'clicked ok on informer')
-		log.write('info', 'test PASSED')
-		driver.close()
-		sys.exit(0)
+		ok_btn = driver.find_element_by_partial_link_text(ok)
 	except NoSuchElementException:
 		log.write('warning', 'button '+ok+' not found')
 
-log.write('error', 'possibly no ok button at all')
-log.write('info', 'test FAILED')
+try:
+	ok_btn.click()
+except NameError:
+	log.write('error', 'possibly no ok button at all')
+	driver.close()
+	sys.exit(1)
+
+log.write('info', 'clicked ok on informer')
+
+try:
+	div = driver.find_element_by_id('invites')
+except NoSuchElementException:
+	log.write('error', 'no invites div, thats really strange')
+	driver.close()
+	sys.exit(1)
+
+matchstring = email+' - '+datetime.date.today().strftime('%d.%m.%Y')
+
+#if not re.match(matchstring, div.text):
+if not (matchstring in div.text):
+	log.write('error', 'email and inv date didnt appear')
+	log.write('error', 'div text follows: '+div.text)
+	log.write('error', 'matchstring is: '+matchstring)
+	driver.close()
+	sys.exit(1)
+
+log.write('info', 'test PASSED')
 driver.close()
-sys.exit(1)
+sys.exit(0)
 
