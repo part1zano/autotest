@@ -94,7 +94,6 @@ except NoSuchElementException:
 
 matchstring = email+' - '+datetime.date.today().strftime('%d.%m.%Y')
 
-#if not re.match(matchstring, div.text):
 if not (matchstring in div.text):
 	log.write('error', 'email and inv date didnt appear')
 	log.write('error', 'div text follows: '+div.text)
