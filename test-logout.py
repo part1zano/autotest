@@ -13,10 +13,11 @@ cnf.read('tests.conf')
 hostname = cnf.get('net-creds', 'server')
 username = cnf.get('net-creds', 'login')
 password = cnf.get('net-creds', 'passwd')
+browser = cnf.get('browser', 'browser')
 
 log = logger.Log('tests.conf')
 
-driver = webdriver.Firefox()
+driver = functions.get_browser(browser)
 driver.get(hostname)
 
 if u'profile' in driver.current_url:

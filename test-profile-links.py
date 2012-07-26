@@ -15,6 +15,7 @@ cnf.read('tests.conf')
 server = cnf.get('net-creds', 'server')
 login = cnf.get('net-creds', 'login')
 passwd = cnf.get('net-creds', 'passwd')
+browser = cnf.get('browser', 'browser')
 
 links = {
 		'profile' : {
@@ -41,7 +42,7 @@ links = {
 			}
 		}
 
-driver = webdriver.Firefox()
+driver = functions.get_browser(browser)
 driver.get(server)
 
 if not functions.login(driver, login, passwd):

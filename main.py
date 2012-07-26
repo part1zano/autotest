@@ -9,7 +9,7 @@ all_ = False
 
 search_string = 'find . -maxdepth 1 -type f -name "test-*.py" '
 if not all_:
-	for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py']:
+	for script in ['test-feedback.py', 'test-settings.py', 'test-contacts.py', 'test-contragent.py']:
 		search_string += ' -and -not -name "'+script+'"'
 
 search_string += ' 2>/dev/null'
