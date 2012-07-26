@@ -3,7 +3,7 @@
 
 from testlib import logger,functions
 
-import string,sys,ConfigParser,codecs,re
+import string,sys,ConfigParser,codecs,re,time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -67,7 +67,7 @@ if action == 'changepwd':
 			if re.match('^#', passwd_obj):
 				continue
 
-			passwd_obj = string.rstrip(passwd_obj)
+			passwd_obj = passwd_obj.rstrip()
 			objname, value = passwd_obj.split('~!~')
 			
 			if functions.edit_control(driver, objname, value, 'text'):
@@ -84,6 +84,10 @@ if action == 'changepwd':
 			log.write('error', 'no submit button or wrong link text')
 			driver.close()
 			sys.exit(1)
+		
+		log.write('debug', 'sleeping for 2s to wait for shit to load')
+		time.sleep(2)
+		log.write('debug', 'woke up, will now chek da shit')
 
 		try:
 			msg = driver.find_element_by_id('informer-text')
@@ -121,6 +125,7 @@ if action == 'changepwd':
 			pass
 		
 		objlist_index += 1
+		driver.get(driver.current_url)
 
 #############################################
 ### END CHANGE PASSWD
