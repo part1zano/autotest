@@ -10,7 +10,7 @@ Reproduces bug #208
 ### test-contacts.py
 Edit contacts form
 
-### test-edit-info.py
+### test-edit-profile.py
 Edit info form
 
 ### test-feedback.py
@@ -27,6 +27,9 @@ Logout
 
 ### test-profile-links.py
 Clicks all of the links in a company's profile
+
+### test-recommend.py
+Recommends a company, checks whether info updated, unrecommends, checks again
 
 ### tests.conf
 Config for teh tests
