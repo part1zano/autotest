@@ -259,10 +259,8 @@ def check_page(driver):
 			divs.append('company-header')
 
 	for divname in divs:
-		try:
-			div = driver.find_element_by_id(divname)
-		except NoSuchElementException:
-			log.write('error', 'no '+divname+' div')
+		if not check_div(driver, divname):
+			log.write('error', 'no such div: '+divname)
 			return False
 		log.write('debug', 'found '+divname)
 
