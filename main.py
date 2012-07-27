@@ -5,7 +5,7 @@ import os,sys,time
 
 scripts_to_run = []
 
-all_ = True
+all_ = False
 
 search_string = 'find . -maxdepth 1 -type f -name "test-*.py" '
 if not all_:
