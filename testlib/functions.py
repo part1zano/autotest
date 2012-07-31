@@ -374,13 +374,3 @@ def recommend_by_title(driver, title_fragment, new):
 
 	return True
 
-def click_dict(driver, dict_):
-	for text, url in dict_.items():
-		log.write('debug', 'trying to visit '+url+' by clicking on '+text)
-		if not find_link_and_click(driver, text, url):
-			log.write('error', 'not going to '+url+', see above')
-			return False
-	
-	return True
-
-
