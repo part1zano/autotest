@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
+<tsung loglevel='debug' version='1.0'>
+	<clients>
+     <client host="localhost" use_controller_vm="true" maxusers="7000"/>
+	</clients>
+
+	<servers>
+		<server host='rekvizitka.ru' port='80' type='tcp'></server>
+	</servers>
+
+<load>
+ <arrivalphase phase="1" duration="5" unit="minute">
+    <users arrivalrate="10" unit="second"/>
+ </arrivalphase>
+ <arrivalphase phase="2" duration="10" unit="minute">
+    <users arrivalrate="25" unit="second"/>
+ </arrivalphase>
+</load>
+
+<sessions>
+
+<session name='record' probability='100'  type='ts_http'>
+
+<thinktime random='true' value='5'/>
+
+<request><http url='http://rekvizitka.ru/' version='1.1' if_modified_since='Tue, 31 Jul 2012 13:06:24 GMT' method='GET'></http></request>
+<request><http url='/dmedia/css/base.css?v=3' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+<request><http url='/dmedia/js/base.js?v=3' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+
+<thinktime random='true' value='3'/>
+
+<request><http url='http://rekvizitka.ru/' version='1.1'  contents='username=shaelf%40gmail.com&amp;password=qwerty&amp;login=login' content_type='application/x-www-form-urlencoded' method='POST'></http></request>
+<request><http url='/' version='1.1' method='GET'></http></request>
+<request><http url='/2PK2/' version='1.1' method='GET'></http></request>
+<request><http url='/2PK2/profile/' version='1.1' method='GET'></http></request>
+<request><http url='/dmedia/css/base.css?v=10003' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+<request><http url='/dmedia/js/base.js?v=10003' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+
+<thinktime random='true' value='2'/>
+
+<request><http url='http://rekvizitka.ru/logout/' version='1.1' method='GET'></http></request>
+<request><http url='/' version='1.1' method='GET'></http></request>
+<request><http url='/dmedia/css/base.css?v=3' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+<request><http url='/dmedia/js/base.js?v=3' version='1.1' if_modified_since='Fri, 20 Jul 2012 13:50:56 GMT' method='GET'></http></request>
+
+<thinktime random='true' value='3'/>
+
+</session>
+
+</sessions>
+</tsung>
