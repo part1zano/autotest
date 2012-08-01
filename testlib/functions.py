@@ -251,9 +251,16 @@ def get_ff_proxy(proxy_host, proxy_port):
 
 	return webdriver.Firefox(firefox_profile = fp)
 
-def get_browser(browser):
+def get_browser(browser, proxy_host=None, proxy_port=None):
+	"""
+	doesn't work with chrome
+	"""
+	if proxy_port is None:
+		proxy_port = 8090
 	if browser == 'firefox':
-		return webdriver.Firefox()
+		if proxy_host is None:
+			return webdriver.Firefox()
+		return get_ff_proxy(proxy_host, proxy_port)
 	elif browser == 'chrome':
 		return webdriver.Chrome()
 	else:
