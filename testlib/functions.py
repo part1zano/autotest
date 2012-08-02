@@ -358,7 +358,7 @@ def recommend_by_title(driver, title_fragment, new):
 
 	log.write('debug', 'checking if we are in list of proposers')
 	
-	if not functions.check_div(driver, 'our_proposers'):
+	if not check_div(driver, 'our_proposers'):
 		log.write('error', 'no recommendations div')
 		return False
 
