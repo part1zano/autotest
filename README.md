@@ -8,7 +8,7 @@ Script that runs some automatic tests (maybe all of them). Is really simple.
 Reproduces bug #208 
 
 ### test-contacts.py
-Edit contacts form
+Edit contacts form. Edits a single element every time.
 
 ### test-changepwd.py
 Change password: four cases:
@@ -18,7 +18,7 @@ Change password: four cases:
 * **Additional**: change password back to original for tests
 
 ### test-edit-profile.py
-Edit info form
+Edit info form. Edits all the elements in a single pass, checks 'em all.
 
 ### test-feedback.py
 Feedback form
@@ -30,10 +30,10 @@ Invite another company form
 Login
 
 ### test-logout.py
-Logout
+Login & Logout
 
 ### test-profile-links.py
-Clicks all of the links in a company's profile
+Clicks all of the links in a company's profile. Updated once dev is updated
 
 ### test-recommend.py
 Recommends a company, checks whether info updated, unrecommends, checks again
@@ -53,7 +53,7 @@ All needed functions: login/logout/find link and click it/etc
 #### logger.py
 A simple and nice logger w/levels. Was way, way too lazy to read about Python's logger
 
-### javascript.py, sample-autotest.py
+### <s>javascript.py</s>, sample-autotest.py
 First steps in Selenium autotests
 
 ### jmeter/, tsung/
