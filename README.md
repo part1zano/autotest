@@ -10,6 +10,13 @@ Reproduces bug #208
 ### test-contacts.py
 Edit contacts form
 
+### test-changepwd.py
+Change password: four cases:
+* **Positive**: all fields correct;
+* **Negative**: original password incorrect;
+* **Negative**: original password correct, new passwords don't match;
+* **Additional**: change password back to original for tests
+
 ### test-edit-profile.py
 Edit info form
 
