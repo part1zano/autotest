@@ -34,8 +34,8 @@ Recommends a company, checks whether info updated, unrecommends, checks again
 ### tests.conf
 Config for teh tests
 
-### test-settings.py
-Clicks all the links in a user's settings and maybe modifies some of the settings
+### test-settings-links.py
+Clicks all the links in a user's settings. No modifications; one modification form == one test
 
 ### objlists/
 Files with lists of objects with values to edit
