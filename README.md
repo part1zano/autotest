@@ -48,3 +48,6 @@ A simple and nice logger w/levels. Was way, way too lazy to read about Python's 
 
 ### javascript.py, sample-autotest.py
 First steps in Selenium autotests
+
+### jmeter/, tsung/
+Load test utils: a test plan for jmeter and a xml config for tsung.
