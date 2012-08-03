@@ -53,7 +53,7 @@ All needed functions: login/logout/find link and click it/etc
 #### logger.py
 A simple and nice logger w/levels. Was way, way too lazy to read about Python's logger
 
-### <s>javascript.py</s>, sample-autotest.py
+### sample-autotest.py
 First steps in Selenium autotests
 
 ### jmeter/, tsung/
