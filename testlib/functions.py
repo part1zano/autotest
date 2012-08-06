@@ -385,7 +385,8 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'no recommendations div in their profile')
 		return False
 
-	if (our_bname in div.text) != new:
+#	if (our_bname in div.text) != new:
+	if (new == recommend) != (our_bname in div.text):
 		log.write('error', 'wrong recommendation data in their profile')
 		return False
 	
@@ -409,7 +410,8 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'no recommendations div in our profile')
 		return False
 
-	if (title_fragment in div.text) != new:
+#	if (title_fragment in div.text) != new:
+	if (new == recommend) != (title_fragment in div.text):
 		log.write('error', 'wrong recommendation data in our profile')
 		return False
 

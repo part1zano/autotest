@@ -27,11 +27,12 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 for cond in [True, False]:
-	driver.get(server)
-	if not functions.recommend_by_title(driver, 'Kaya', cond):
-		log.write('error', 'failed recommending company, see above')
-		driver.close()
-		sys.exit(1)
+	for reCond in [False, True]:
+		driver.get(server)
+		if not functions.recommend_by_title(driver, 'Kaya', cond, reCond):
+			log.write('error', 'failed recommending company, see above')
+			driver.close()
+			sys.exit(1)
 
 
 log.write('info', 'test PASSED')
