@@ -368,6 +368,7 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	try:
 		for btn in driver.find_elements_by_partial_link_text(recommend_btn):
 			btn.click()
+			log.write('debug', recommend_btn+' clicked')
 	except NoSuchElementException:
 		log.write('error', 'no btn')
 		return False
@@ -381,15 +382,15 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	try:
 		div = driver.find_element_by_id('our_proposers')
 	except NoSuchElementException:
-		log.write('error', 'no recommendations div')
+		log.write('error', 'no recommendations div in their profile')
 		return False
 
 	if (our_bname in div.text) != new:
-		log.write('error', 'wrong recommendation data')
+		log.write('error', 'wrong recommendation data in their profile')
 		return False
 	
 	driver.get(our_url)
-	log.write('debug', 'got to profile, sleeping for 2s')
+	log.write('debug', 'got our to profile, sleeping for 2s')
 	time.sleep(2)
 	log.write('debug', 'woke up, whatcha next?')
 
@@ -405,11 +406,11 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	try:
 		div = driver.find_element_by_id('we_recommend')
 	except NoSuchElementException:
-		log.write('error', 'no recommendations div')
+		log.write('error', 'no recommendations div in our profile')
 		return False
 
 	if (title_fragment in div.text) != new:
-		log.write('error', 'wrong recommendation data')
+		log.write('error', 'wrong recommendation data in our profile')
 		return False
 
 	return True
