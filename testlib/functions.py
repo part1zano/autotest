@@ -137,7 +137,7 @@ def check_value(driver, control, value):
 	try:
 		label = driver.find_element_by_id(control)
 		log.write('debug', 'found label for '+control)
-	except NoSuchEleementException:
+	except NoSuchElementException:
 		log.write('error', 'no such control in presend window')
 		return False
 
