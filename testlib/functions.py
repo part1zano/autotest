@@ -323,7 +323,7 @@ def get_our_info(driver, field_name):
 
 	return value		
 
-def recommend_by_title(driver, title_fragment, new):
+def recommend_by_title(driver, title_fragment, new, recommend=True):
 	"""
 	goes to company profile assuming that it might be in search results
 	"""
@@ -332,8 +332,16 @@ def recommend_by_title(driver, title_fragment, new):
 	our_url = get_our_info(driver, 'url')
 
 	if new:
+		if recommend:
+			recommend_btn = u'Дать рекомендацию'
+		else:
+			recommend_btn = u'Отмена'	
 		give = u'Дать рекомендацию'
 	else:
+		if recommend:
+			recommend_btn = u'Да'
+		else:
+			recommend_btn = u'Нет'
 		give = u'Отозвать рекомендацию'
 	
 	if not find_stuff(driver, title_fragment):
@@ -350,6 +358,18 @@ def recommend_by_title(driver, title_fragment, new):
 		driver.find_element_by_partial_link_text(give).click()
 	except NoSuchElementException:
 		log.write('error', 'no recommend link or wrong recommendation direction')
+		return False
+	# clicked link in profile, a window appears
+	log.write('debug', 'clicked '+give)
+	log.write('debug', 'waiting for window, sleep for 2s')
+	time.sleep(2)
+	log.write('debug', 'woke up, wheres my win?')
+
+	try:
+		for btn in driver.find_elements_by_partial_link_text(recommend_btn):
+			btn.click()
+	except NoSuchElementException:
+		log.write('error', 'no btn')
 		return False
 
 	if not find_link_and_click(driver, u'Рекомендации', 'our_proposers'):
