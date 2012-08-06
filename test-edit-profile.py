@@ -54,10 +54,10 @@ for obj in objlist:
 			sys.exit(1)
 		
 	new_value = functions.get_value(driver, objName)+value
-	if 'bank_account' in objName:
-		val_list.append(re.sub('bank_account', 'essentialElements', objName)+'~!~'+new_value)
-	else:
-		val_list.append(objName+'~!~'+new_value)
+#	if 'bank_account' in objName:
+#		val_list.append(re.sub('bank_account', 'essentialElements', objName)+'~!~'+new_value)
+#	else:
+	val_list.append(objName+'~!~'+new_value)
 	if functions.edit_control(driver, objName, value, 'text'):
 		log.write('debug', 'element '+objName+' edited successfully')
 	else:
