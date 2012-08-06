@@ -58,11 +58,16 @@ for line in objlist:
 	log.write('info', 'edited '+objname)
 	if 'email' in objname: # FIXME :: dog-nail for further use
 		email = value
+for text in [u'Пригласить', u'Отправить']:
+	try:
+		submit = driver.find_element_by_partial_link_text(u'Пригласить')
+	except NoSuchElementException:
+		log.write('warning', 'no submit button or wrong link text: '+text)
 
 try:
-	driver.find_element_by_partial_link_text(u'Пригласить').click()
-except NoSuchElementException:
-	log.write('error', 'no submit button or wrong link text')
+	submit.click()
+except NameError:
+	log.write('error', 'no submit button at all')
 	driver.close()
 	sys.exit(1)
 
