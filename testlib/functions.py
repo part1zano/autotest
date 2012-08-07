@@ -313,7 +313,7 @@ def get_our_info(driver, field_name):
 	"""
 	if field_name == 'id':
 		return driver.current_url.split('/')[3]
-	elif field_name == 'url':
+	if field_name == 'url':
 		return driver.current_url
 	try:
 		value = driver.find_element_by_id(field_name).text
@@ -385,7 +385,6 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'no recommendations div in their profile')
 		return False
 
-#	if (our_bname in div.text) != new:
 	if (new == recommend) != (our_bname in div.text):
 		log.write('error', 'wrong recommendation data in their profile')
 		return False
@@ -410,7 +409,6 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'no recommendations div in our profile')
 		return False
 
-#	if (title_fragment in div.text) != new:
 	if (new == recommend) != (title_fragment in div.text):
 		log.write('error', 'wrong recommendation data in our profile')
 		return False
