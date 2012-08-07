@@ -93,7 +93,7 @@ for passwd_objects in passwd_objlists:
 		txt = msg.text
 	else:
 		try:
-			msg = find_element_by_name('error-text')
+			msg = driver.find_element_by_name('error-text')
 		except NoSuchElementException:
 			log.write('error', 'no informer')
 			driver.close()
