@@ -89,7 +89,7 @@ for link, sublinks in links.items():
 #			continue
 			layername = 'dialog_list'
 		elif link == 'contractors': # FIXME :: dog-nail
-			layername = re.sub('contractors', 'partners', layername)
+#			layername = re.sub('contractors', 'partners', layername)
 			layername += 'list'
 
 		if not functions.check_div(driver, layername):
