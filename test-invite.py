@@ -90,22 +90,21 @@ except NameError:
 
 log.write('info', 'clicked ok on informer')
 
-if False:
-	try:
-		div = driver.find_element_by_id('invites')
-	except NoSuchElementException:
-		log.write('error', 'no invites div, thats really strange')
-		driver.close()
-		sys.exit(1)
+try:
+	div = driver.find_element_by_id('invites')
+except NoSuchElementException:
+	log.write('error', 'no invites div, thats really strange')
+	driver.close()
+	sys.exit(1)
 
-	matchstring = email+' - '+datetime.date.today().strftime('%d.%m.%Y')
+matchstring = email+' - '+datetime.date.today().strftime('%d.%m.%Y')
 
-	if not (matchstring in div.text):
-		log.write('error', 'email and inv date didnt appear')
-		log.write('error', 'div text follows: '+div.text)
-		log.write('error', 'matchstring is: '+matchstring)
-		driver.close()
-		sys.exit(1)
+if not (matchstring in div.text):
+	log.write('error', 'email and inv date didnt appear')
+	log.write('error', 'div text follows: '+div.text)
+	log.write('error', 'matchstring is: '+matchstring)
+	driver.close()
+	sys.exit(1)
 
 log.write('info', 'test PASSED')
 driver.close()
