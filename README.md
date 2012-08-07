@@ -24,7 +24,11 @@ Edit info form. Edits all the elements in a single pass, checks 'em all.
 Feedback form
 
 ### test-invite.py
-Invite another company form
+Invite another company form, supports 3 test cases:
+* **Positive**: Just invite a company using a valid email and a random message;
+* **Negative**: empty email;
+* **Negative**: empty message;
+* **Negative**: non-empty message, but email that is actually in database. I used my own login (it *is* in database, isn't it? :)
 
 ### test-login.py
 Login
