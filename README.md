@@ -48,9 +48,9 @@ Clicks all the links in a user's settings. No modifications; one modification fo
 Files with lists of objects with values to edit
 
 ### testlib/
-#### functions.py
+##### functions.py
 All needed functions: login/logout/find link and click it/etc
-#### logger.py
+##### logger.py
 A simple and nice logger w/levels. Was way, way too lazy to read about Python's logger
 
 ### sample-autotest.py
