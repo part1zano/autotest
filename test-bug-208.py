@@ -66,6 +66,8 @@ except TimeoutException:
 	driver.close()
 	sys.exit(1)
 
+log.write('info', 'went back ok')
+
 try:
 	div = driver.find_element_by_id('profile')
 except NoSuchElementException:

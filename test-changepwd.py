@@ -66,6 +66,7 @@ for passwd_objects in passwd_objlists:
 		
 		if functions.edit_control(driver, objname, value, 'text'):
 			log.write('debug', 'edited element '+objname+' successfully')
+			log.write('debug', 'entered '+value+' into it')
 		else:
 			log.write('error', 'failed editing '+objname+', see above')
 			driver.close()
@@ -105,7 +106,7 @@ for passwd_objects in passwd_objlists:
 	
 	try:
 		if msgs[objlist_index] in txt:
-			log.write('debug', 'case '+str(objlist_index)+' informer value OK')
+			log.write('info', 'case '+str(objlist_index)+' informer value OK')
 		else:
 			log.write('error', 'case '+str(objlist_index)+' informer value NOK')
 			log.write('error', 'it is: '+txt+', while it should be: '+msgs[objlist_index])
@@ -113,7 +114,7 @@ for passwd_objects in passwd_objlists:
 			sys.exit(1)
 	except IndexError:
 		log.write('warning', 'something is wrong with objlist or msgs: you should fix that')
-
+	
 	objlist_index += 1
 	driver.get(driver.current_url)
 
