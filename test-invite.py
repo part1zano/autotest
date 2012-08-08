@@ -36,6 +36,9 @@ log.write('info', 'login ok')
 
 links = stabledict.StableDict(((u'рекомендации', 'our_proposers'), (u'Пригла', 'invite')))
 
+our_bname = functions.get_our_info(driver, 'brandName')
+our_id = functions.get_our_info(driver, 'id')
+
 for link_text, url in links.items():
 	if not functions.find_link_and_click(driver, link_text, url):
 		log.write('error', 'not going to '+link_text+' and url '+url+', see above')
@@ -103,7 +106,7 @@ for objlist_str in objlists:
 			sys.exit(1)
 
 		log.write('info', 'clicked ok on informer')
-
+		
 		try:
 			div = driver.find_element_by_id('invites')
 		except NoSuchElementException:
@@ -114,11 +117,11 @@ for objlist_str in objlists:
 			matchstring = email+u' - Отправлено '+datetime.date.today().strftime('%d.%m.%Y')
 
 			if not (matchstring in div.text):
-				log.write('warning', 'email and inv date didnt appear')
-				log.write('warning', 'div text follows: '+div.text)
-				log.write('warning', 'matchstring is: '+matchstring)
-#			driver.close()
-#			sys.exit(1)
+				log.write('error', 'email and inv date didnt appear')
+				log.write('error', 'div text follows: '+div.text)
+				log.write('error', 'matchstring is: '+matchstring)
+				driver.close()
+				sys.exit(1)
 	else:
 		try:
 			info = driver.find_element_by_id('informer-text')
