@@ -194,6 +194,27 @@ def logout(driver):
 		return False
 	return True
 
+def find_link_by_id_and_click(driver, id_text, url):
+	try:
+		driver.find_element_by_id(id_text).click()
+		log.write('debug', id_text+' clicked')
+	except NoSuchElementException:
+		log.write('error', 'no such link id='+id_text)
+		return False
+
+	try:
+		WebDriverWait(driver, 10).until(lambda driver : url in driver.current_url)
+	except TimeoutException:
+		log.write('error', 'not going to '+url+' by id='+id_text+' due to timeout')
+		return False
+
+	log.write('debug', 'finally got to '+url+' by link id='+id_text)
+	log.write('debug', 'sleep for 2s')
+	time.sleep(2)
+	log.write('debug', 'woke up, checkin divs')
+
+	return check_page(driver)
+
 def find_link_and_click(driver, link_text, url):
 	try:
 		driver.find_element_by_partial_link_text(link_text).click()
@@ -214,7 +235,7 @@ def find_link_and_click(driver, link_text, url):
 	log.write('debug', 'finally got to '+url)
 	log.write('debug', 'sleep for 2s after getting here')
 	time.sleep(2)
-	log.write('debug', 'waking up, returning True')
+	log.write('debug', 'waking up, checkin divs')
 	return check_page(driver)
 
 def clear_element(driver, control):
