@@ -80,6 +80,7 @@ for line in objlist:
 	if value in contacts_layer.text:
 		log.write('debug', 'found posted info in contacts div')
 	else:
+		log.write('error', 'contacts layer value NOK')
 		log.write('error', 'value not found in contacts div, its text follows: '+contacts_layer.text)
 		driver.close()
 		sys.exit(1)
