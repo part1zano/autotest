@@ -88,7 +88,7 @@ for objlist_str in objlists:
 	time.sleep(2)
 	log.write('debug', 'woke up, continuing')
 	log.write('info', 'clicked submit')
-	if (objlist_index == 0):
+	if (objlist_index == 0) or (objlist_index == 3):
 		for ok in [u'ОК', 'OK']:
 			try:
 				ok_btn = driver.find_element_by_partial_link_text(ok)
@@ -110,13 +110,13 @@ for objlist_str in objlists:
 			log.write('error', 'no invites div, thats really strange')
 			driver.close()
 			sys.exit(1)
+		if objlist_index == 0:
+			matchstring = email+u' - Отправлено '+datetime.date.today().strftime('%d.%m.%Y')
 
-		matchstring = email+' - '+datetime.date.today().strftime('%d.%m.%Y')
-
-		if not (matchstring in div.text):
-			log.write('warning', 'email and inv date didnt appear')
-			log.write('warning', 'div text follows: '+div.text)
-			log.write('warning', 'matchstring is: '+matchstring)
+			if not (matchstring in div.text):
+				log.write('warning', 'email and inv date didnt appear')
+				log.write('warning', 'div text follows: '+div.text)
+				log.write('warning', 'matchstring is: '+matchstring)
 #			driver.close()
 #			sys.exit(1)
 	else:
