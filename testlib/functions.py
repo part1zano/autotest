@@ -327,8 +327,10 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	"""
 	goes to company profile assuming that it might be in search results
 	"""
-
+	
 	our_bname = get_our_info(driver, 'brandName')
+	if len(our_bname) > 30:
+		our_bname = our_bname[:18]
 	our_url = get_our_info(driver, 'url')
 
 	if new:
