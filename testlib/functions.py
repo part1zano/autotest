@@ -373,6 +373,10 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'no btn')
 		return False
 
+	log.write('debug', 'clicked recommend_btn, sleeping for 2s')
+	time.sleep(2)
+	log.write('debug', 'woke up, going to check')
+
 	if not find_link_and_click(driver, u'Рекомендации', 'our_proposers'):
 		log.write('error', 'not going to our-proposers, see above')
 		return False
