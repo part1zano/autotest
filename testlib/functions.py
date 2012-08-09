@@ -197,7 +197,7 @@ def logout(driver):
 def find_link_by_id_and_click(driver, id_text, url):
 	try:
 		driver.find_element_by_id(id_text).click()
-		log.write('debug', id_text+' clicked')
+		log.write('debug', 'link id='+id_text+', url='+url+' clicked')
 	except NoSuchElementException:
 		log.write('error', 'no such link id='+id_text)
 		return False
