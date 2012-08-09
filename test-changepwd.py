@@ -41,13 +41,12 @@ if not functions.find_link_and_click(driver, u'Настройки', 'settings'):
 
 log.write('debug', 'in settings, what to do?')
 
-try:
-	driver.find_element_by_partial_link_text('Пароль').click()
-	log.write('debug', 'password link clicked')
-except NoSuchElementException:
-	log.write('error', 'no password link or wrong link text')
+if not functions.find_link_by_id_and_click(driver, 'link_change_password', 'change-password'):
+	log.write('error', 'no password link')
 	driver.close()
 	sys.exit(1)
+
+log.write('debug', 'got to passwd change, next?')
 
 objlist_index = 0
 failed = False
