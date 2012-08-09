@@ -401,7 +401,7 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	time.sleep(2)
 	log.write('debug', 'woke up, going to check')
 
-	if not find_link_and_click(driver, u'Рекомендации', 'our_proposers'):
+	if not find_link_by_id_and_click(driver, 'mc_sidebar_our_proposers', 'our_proposers'):
 		log.write('error', 'not going to our-proposers, see above')
 		return False
 
@@ -424,9 +424,9 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 
 	log.write('debug', 'in self.profile, tryin to go to recommendations')
 	
-	links = stabledict.StableDict(((u'Наши рекомендации', 'our_proposers'), (u'Мы рекомендуем', 'we_recommend')))
+	links = stabledict.StableDict((('mc_sidebar_our_proposers', 'our_proposers'), ('link_we_recommend', 'we_recommend')))
 	for text, url in links.items():
-		if not find_link_and_click(driver, text, url):
+		if not find_link_by_id_and_click(driver, text, url):
 			log.write('error', 'no such link: '+url)
 			return False
 		log.write('debug', 'got to '+url)
