@@ -31,7 +31,7 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-if not functions.find_link_and_click(driver, u'Контакты', 'contacts'):
+if not functions.find_link_by_id_and_click(driver, 'link_contacts', 'contacts'):
 	log.write('error', 'no contacts link, wrong link or some shit: see above')
 	driver.close()
 	sys.exit(1)

@@ -8,13 +8,6 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
 
-passwd_objlists = []
-
-for passwd_file in ['change-passwd-pos.conf', 'change-passwd-neg-1wrong.conf', 'change-passwd-neg-nomatch.conf', 'change-passwd-afterall.conf']:
-	passwd_objfile = codecs.open('./objlists/change-passwd/text/'+passwd_file, encoding='utf-8')
-	passwd_objlists.append(passwd_objfile.read())
-	passwd_objfile.close()
-
 log = logger.Log('tests.conf')
 
 cnf = ConfigParser.ConfigParser()
@@ -41,13 +34,13 @@ if not functions.find_link_and_click(driver, u'Настройки', 'settings'):
 
 log.write('debug', 'in settings, what to do?')
 links = {
-		u'Основные настройки' : 'settings', 
-		u'Дополнительные настройки' : 'additional-settings', 
-		u'Пароль' : 'change-password'
+		'link_settings' : 'settings', 
+		'link_additional_settings' : 'additional-settings', 
+		'link_change_password' : 'change-password'
 		}
 
 for linktext, url in links.items():
-	if not functions.find_link_and_click(driver, linktext, url):
+	if not functions.find_link_by_id_and_click(driver, linktext, url):
 		log.write('error', 'error visiting '+url+', see above')
 		driver.close()
 		sys.exit(1)

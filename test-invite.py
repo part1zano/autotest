@@ -34,13 +34,13 @@ if not functions.login(driver, login, passwd):
 
 log.write('info', 'login ok')
 
-links = stabledict.StableDict(((u'рекомендации', 'our_proposers'), (u'Пригла', 'invite')))
+links = stabledict.StableDict((('mc_sidebar_our_proposers', 'our_proposers'), ('link_invites', 'invite')))
 
 our_bname = functions.get_our_info(driver, 'brandName')
 our_id = functions.get_our_info(driver, 'id')
 
 for link_text, url in links.items():
-	if not functions.find_link_and_click(driver, link_text, url):
+	if not functions.find_link_by_id_and_click(driver, link_text, url):
 		log.write('error', 'not going to '+link_text+' and url '+url+', see above')
 		log.write('error', 'not going to '+url+', see above')
 		driver.close()
