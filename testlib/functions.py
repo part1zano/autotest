@@ -293,6 +293,7 @@ def check_page(driver):
 		divs.append('feedback')
 	else:
 		divs.append('tabs_container')
+		divs.append('tabs')
 		divs.append('left-sidebar')
 		if 'chat' in driver.current_url:
 			divs.append('employee-header')
