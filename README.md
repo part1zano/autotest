@@ -37,7 +37,10 @@ Login
 Login & Logout
 
 ### test-profile-links.py
-Clicks all of the links in a company's profile. Updated once dev is updated
+Clicks all of the links in a company's profile. Updated once dev is updated. Checks links by partial\_link\_text
+
+### test-profile-links-id.py
+Same as test-profile-links, but finds links by id.
 
 ### test-recommend.py
 Recommends a company, checks whether info updated, unrecommends, checks again
