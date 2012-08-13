@@ -6,6 +6,7 @@ import string,time,stabledict
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 
 def login(driver, loginstr, passwordstr, other=False):
 	try:
@@ -317,16 +318,25 @@ def find_stuff(driver, stuff):
 	search.clear()
 	search.send_keys(stuff)
 	search.submit()
-	
 	try:
 		WebDriverWait(driver, 10).until(lambda driver : 'q' in driver.current_url)
 	except TimeoutException:
 		log.write('error', 'timeout waiting for search results to load')
 		return False
-
 	log.write('debug', 'at the search results page, sleeping for 2s')
 	time.sleep(2)
-	log.write('debug', 'woke up, returning true')
+	log.write('debug', 'woke up, checkin divs')
+	try:
+		searchdiv = driver.find_element_by_id('global-search-result')
+	except NoSuchElementException:
+		log.write('error', 'no search results div')
+		return False
+	if stuff in searchdiv.text:
+		log.write('info', 'even found stuff in div!')
+		log.write('debug', 'stuff was: '+stuff)
+	else:
+		log.write('warning', 'no stuff in div!')
+		log.write('warning', 'stuff was: '+stuff)
 	return True
 
 def get_our_info(driver, field_name):
@@ -344,6 +354,84 @@ def get_our_info(driver, field_name):
 		return None
 
 	return value		
+
+def add_contractor_by_title(driver, their_title, do=True):
+	if not find_stuff(driver, their_title):
+		log.write('error', 'error finding their title, see above')
+		return False
+
+	if not find_link_and_click(driver, their_title, 'profile'):
+		log.write('error', 'needed link not in search results, see above')
+		return False
+
+	try:
+		driver.find_element_by_id('sidebar_contractor_action').click()
+	except NoSuchElementException:
+		log.write('no contractor-action button')
+		return False
+
+	try:
+		info_text = driver.find_element_by_id('informer-text').text
+		log.write('error', 'error adding')
+		log.write('error', 'error is: '+info-text)
+		return False
+	except NoSuchElementException:
+		log.write('info', 'adding w/o errors, ok')
+	
+	log.write('debug', 'clicked sidebar-contractor-action, sleeping for 2s')
+	time.sleep(2)
+	log.write('debug', 'woke up, where is my approve-btn?')
+
+	for oktext in ['OK', u'']:
+		try:
+			ok = driver.find_element_by_partial_link_text(oktext)
+		except NoSuchElementException:
+			log.write('warning', oktext+' button not found')
+
+	try:
+		ok.click()
+	except NameError:
+		log.write('error', 'no informer or no ok button or wrong link text')
+		return False
+
+	return True	
+
+def check_request_contractor_by_name(driver, name):
+	links = stabledict.StableDict((('mc_sidebar_contractors', 'contractors'), ('link_out_reqs', 'outgoing'))) # FIXME :: link_out_reqs
+
+	for link_id, link_url in links.items():
+		if not find_link_by_id_and_click(driver, link_id, link_url):
+			log.write('error', 'error visiting '+link_url+'via link id='+link_id+', see above')
+			return False
+
+		if not check_div(driver, link_url+'list'):
+			log.write('error', 'no such div: '+link_url+'list')
+			return False
+
+	try:
+		title = driver.find_element_by_partial_link_text(name)
+	except NoSuchElementException:
+		log.write('erorr', name+' doesnt seem to be in list')
+		return False
+
+	log.write('debug', 'found title: '+name)
+
+	hover = ActionChains(driver).move_to_element(title)
+	hover.perform()
+	log.write('debug', 'mouse over title:'+name)
+
+	for btn in [u'Написать сообщение', u'Отменить']:
+		try:
+			button = driver.find_element_by_partial_link_text(btn)
+		except NoSuchElementException:
+			log.write('error', 'no '+btn+' button')
+			return False
+
+	return True
+	
+
+def approve_application_by_title(driver, their_title, do=True):
+	pass
 
 def recommend_by_title(driver, title_fragment, new, recommend=True):
 	"""
