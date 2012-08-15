@@ -47,6 +47,53 @@ class TestObject:
 
 		return True
 
+	def get_our_info(self, field):
+		url = self.driver.current_url
+		self.driver.get(self.server)
+
+		if field == 'id':
+			info = self.driver.current_url.split('/')[3]
+		elif field == 'url':
+			info = self.driver.current_url
+		else:
+			try:
+				info = self.driver.find_element_by_id(field).text
+			except NoSuchElementException:
+				self.log.write('error', 'no such field in profile')
+				info = None
+
+		self.driver.get(url)
+		return info
+
+	def get(self, url):
+		if 'http' in url:
+			self.driver.get(url)
+		else:
+			self.driver.get(self.server+url)
+	
+	def visit_link(self, text, url, by='id'):
+		try:
+			if by == 'id':
+				link = self.driver.find_element_by_id(text)
+			elif by == 'text':
+				link = self.driver.find_element_by_partial_link_text(text)
+			else:
+				self.log.write('error', 'unknown link search type')
+				return False
+		except NoSuchElementException:
+			self.log.write('error', 'no such link')
+			return False
+
+		link.click()
+
+		try:
+			WebDriverWait(self.driver, 10).until(lambda driver : url in self.driver.current_url)
+		except TimeoutException:
+			self.log.write('error', 'error on page: timeout or some divs missing')
+			return False
+
+		return self.check_page()
+
 	def check_div(self, div_id):
 		try:
 			div = self.driver.find_element_by_id(div_id)
@@ -120,21 +167,6 @@ class TestObject:
 		self.log.write('error', 'Cookies not ok')
 		return False
 
-	
-
-def get_ff_proxy(proxy_host, proxy_port):
-	fp = webdriver.FirefoxProfile()
-
-	fp.set_preference('network.proxy.type', 1)
-
-	for proto in ['http', 'ftp', 'ssl']:
-		fp.set_preference('network.proxy.'+proto, proxy_host)
-		fp.set_preference('network.proxy.'+proto+'_port', proxy_port)
-
-	fp.set_preference('network.proxy.no_proxies_on', '')
-
-	return webdriver.Firefox(firefox_profile = fp)
-
 def get_browser(browser, proxy_host=None, proxy_port=None):
 	"""
 	doesn't work with chrome
@@ -144,7 +176,18 @@ def get_browser(browser, proxy_host=None, proxy_port=None):
 	if browser == 'firefox':
 		if proxy_host is None:
 			return webdriver.Firefox()
-		return get_ff_proxy(proxy_host, proxy_port)
+		else:
+			fp = webdriver.FirefoxProfile()
+
+			fp.set_preference('network.proxy.type', 1)
+
+			for proto in ['http', 'ftp', 'ssl']:
+				fp.set_preference('network.proxy.'+proto, proxy_host)
+				fp.set_preference('network.proxy.'+proto+'_port', proxy_port)
+
+			fp.set_preference('network.proxy.no_proxies_on', '')
+
+			return webdriver.Firefox(firefox_profile=fp)
 	elif browser == 'chrome':
 		return webdriver.Chrome()
 	else:
