@@ -382,7 +382,7 @@ def add_contractor_by_title(driver, their_title, do=True):
 	time.sleep(2)
 	log.write('debug', 'woke up, where is my approve-btn?')
 
-	for oktext in ['OK', u'']:
+	for oktext in ['OK', u'ОК']:
 		try:
 			ok = driver.find_element_by_partial_link_text(oktext)
 		except NoSuchElementException:
@@ -393,7 +393,7 @@ def add_contractor_by_title(driver, their_title, do=True):
 	except NameError:
 		log.write('error', 'no informer or no ok button or wrong link text')
 		return False
-
+	log.write('info', 'add_contractor_by_name returning True')
 	return True	
 
 def check_request_contractor_by_name(driver, name):
@@ -426,7 +426,9 @@ def check_request_contractor_by_name(driver, name):
 		except NoSuchElementException:
 			log.write('error', 'no '+btn+' button')
 			return False
-
+	
+	log.write('info', 'found all buttons for'+name)
+	log.write('info', 'check_request returning True')
 	return True
 	
 
