@@ -260,19 +260,6 @@ def click_submit(driver, link_text): # TODO :: needed or not?
 		return False
 	return True
 
-def get_ff_proxy(proxy_host, proxy_port):
-	fp = webdriver.FirefoxProfile()
-
-	fp.set_preference('network.proxy.type', 1)
-
-	for proto in ['http', 'ftp', 'ssl']:
-		fp.set_preference('network.proxy.'+proto, proxy_host)
-		fp.set_preference('network.proxy.'+proto+'_port', proxy_port)
-
-	fp.set_preference('network.proxy.no_proxies_on', '')
-
-	return webdriver.Firefox(firefox_profile = fp)
-
 def get_browser(browser, proxy_host=None, proxy_port=None):
 	"""
 	doesn't work with chrome
@@ -282,7 +269,18 @@ def get_browser(browser, proxy_host=None, proxy_port=None):
 	if browser == 'firefox':
 		if proxy_host is None:
 			return webdriver.Firefox()
-		return get_ff_proxy(proxy_host, proxy_port)
+		else:
+			fp = webdriver.FirefoxProfile()
+
+			fp.set_preference('network.proxy.type', 1)
+
+			for proto in ['http', 'ftp', 'ssl']:
+				fp.set_preference('network.proxy.'+proto, proxy_host)
+				fp.set_preference('network.proxy.'+proto+'_port', proxy_port)
+
+			fp.set_preference('network.proxy.no_proxies_on', '')
+
+			return webdriver.Firefox(firefox_profile=fp)
 	elif browser == 'chrome':
 		return webdriver.Chrome()
 	else:
