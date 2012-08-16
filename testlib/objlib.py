@@ -34,6 +34,9 @@ class TestObject:
 
 	def __del__(self):
 		self.driver.close()
+	
+	def execute(self):
+		return self.do_login()
 
 	def check_page(self):
 		divs = ['content']
