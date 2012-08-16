@@ -19,12 +19,21 @@ class TestObject:
 		self.server = cnf.get('net-creds', 'server')
 		self.login = cnf.get('net-creds', 'login')
 		self.passwd = cnf.get('net-creds', 'passwd')
+		try:
+			self.proxy_host = cnf.get('proxy', 'host')
+			self.proxy_port = cnf.get('proxy', 'port')
+		except ConfigParser.Error:
+			self.proxy_host = None
+			self.proxy_port = None
 		browser = cnf.get('browser', 'browser')
 
-		self.driver = get_browser(browser) # FIXME :: proxy
+		self.driver = get_browser(browser, self.proxy_host, self.proxy_port) # FIXME :: proxy
 
 		self.driver.get(self.server)
 		self.info = {}
+
+	def __del__(self):
+		self.driver.close()
 
 	def check_page(self):
 		divs = ['content']
@@ -105,7 +114,7 @@ class TestObject:
 
 		return True
 	
-	def doLogin(self, foreign=False):
+	def do_login(self, foreign=False):
 		try:
 			logins = self.driver.find_elements_by_name('username')
 		except NoSuchElementException:
