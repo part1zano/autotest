@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import string,time,stabledict,ConfigParser
+import time,stabledict,ConfigParser,codecs
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -31,13 +30,45 @@ class TestObject:
 
 		self.driver.get(self.server)
 		self.info = {}
+		self.objlists = []
 
 	def __del__(self):
 		self.driver.close()
-	
-	def execute(self):
-		return self.do_login()
 
+	def sleep(self, time_):
+		time.sleep(time_)
+
+	def get_value(self, control):
+		try:
+			ctl = self.driver.find_element_by_id(control)
+		except NoSuchElementException:
+			self.log.write('error', 'element not found: '+control)
+			return None
+
+		if ctl.get_attribute('value') is not None:
+			return ctl.get_attribute('value')
+		else:
+			return ctl.text
+
+	def clear_element(self, element):
+		try:
+			self.driver.find_element_by_id(element).clear()
+		except NoSuchElementException:
+			self.log.write('error', 'no such element to clear: '+element)
+			return False
+		
+		self.log.write('debug', 'cleared '+element+' successfully')
+		return True
+
+	def click_button(self, link):
+		try:
+			self.driver.find_element_by_partial_link_text(link).click()
+		except NoSuchElementException:
+			self.log.write('error', 'no such button '+link)
+			return False
+
+		return True
+	
 	def check_page(self):
 		divs = ['content']
 		if 'feedback' in self.driver.current_url:
@@ -82,6 +113,36 @@ class TestObject:
 			self.driver.get(url)
 		else:
 			self.driver.get(self.server+url)
+
+	def new_objlist(self, obj_file):
+		objfile = codecs.open(obj_file, encoding='utf-8')
+		self.objlists.append(objfile.readlines())
+		self.log.write('debug', 'new objlist from file '+obj_file)
+		objfile.close()
+
+	def edit_control(self, control, value, ctl_type='text'):
+		try:
+			ctl = self.driver.find_element_by_id(control)
+		except NoSuchElementException:
+			self.log.write('error', 'no such element '+control)
+			return False
+
+		old_value = ctl.get_attribute('value')
+		self.log.write('debug', 'old value for '+control+' is: '+old_value)
+
+		if ctl_type == 'text':
+			self.log.write('debug', control+' is a textarea or so')
+			ctl.send_keys(value)
+			self.log.write('debug', 'sent '+value+' into '+control)
+			return (self.get_value(control).lower() == (old_value+value).lower())
+
+		else:
+			self.log.write('error', 'unsupported control type')
+			return False
+
+	def check_value(self, control, value):
+		return (self.get_value(control).lower() == value.lower())
+
 	
 	def visit_link(self, text, url, by='id'):
 		try:
@@ -105,6 +166,8 @@ class TestObject:
 			return False
 
 		return self.check_page()
+	
+
 
 	def check_div(self, div_id):
 		try:

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from testlib import objlib
-import stabledict,re
+import re
 
 class ProfileLinksTest(objlib.TestObject):
 	def __init__(self, config='tests.conf', parent=None):
