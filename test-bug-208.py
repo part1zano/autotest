@@ -55,8 +55,6 @@ for link, url in links.items():
 		driver.close()
 		sys.exit(1)
 
-# now some check about where we are (TODO)
-
 # got to msgs, now go back
 driver.back()
 try:
