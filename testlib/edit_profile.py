@@ -4,7 +4,7 @@
 from testlib import objlib
 import re
 
-class EditProfile(objlib.TestObject):
+class TestCase(objlib.TestObject):
 	def __init__(self, config='tests.conf', objlist_file='./objlists/edit-profile/text/objlist-edit-profile.conf', parent=None):
 		objlib.TestObject.__init__(self, config, parent)
 
@@ -54,7 +54,7 @@ class EditProfile(objlib.TestObject):
 		return self.edit_elems()
 
 if __name__ == '__main__':
-	tc = EditProfile('tests.conf')
+	tc = TestCase('tests.conf')
 	if tc.do_login():
 		if tc.execute():
 			tc.log.write('info', 'test PASSED')

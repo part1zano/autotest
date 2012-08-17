@@ -4,7 +4,7 @@
 from testlib import objlib
 import re
 
-class TestCaseSL(objlib.TestObject):
+class TestCase(objlib.TestObject):
 	def __init__(self, config='tests.conf', parent=None):
 		objlib.TestObject.__init__(self, config, parent)
 
@@ -40,7 +40,7 @@ class TestCaseSL(objlib.TestObject):
 		return self.click_links_dict()
 
 if __name__ == '__main__':
-	tc = TestCaseSL()
+	tc = TestCase()
 	if tc.do_login():
 		if tc.execute():
 			tc.log.write('info', 'test PASSED')
