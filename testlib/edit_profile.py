@@ -10,7 +10,7 @@ class EditProfile(objlib.TestObject):
 
 		self.new_objlist(objlist_file)
 
-	def execute(self):
+	def edit_elems(self, edit_btn=u'Редактировать', submit_btn=u'Сохранить'):
 		self.get(self.server)
 		objlist_index = 0
 
@@ -20,7 +20,7 @@ class EditProfile(objlib.TestObject):
 			for obj in objlist:
 				if re.match('^#', obj):
 					continue
-				if not self.click_button(u'Редактировать'):
+				if not self.click_button(edit_btn):
 					self.log.write('error', 'error clicking button, see above')
 					return False
 
@@ -37,7 +37,7 @@ class EditProfile(objlib.TestObject):
 					self.log.write('error', 'editing '+name+' failed, see above')
 					return False
 
-				if not self.click_button(u'Сохранить'):
+				if not self.click_button(submit_btn):
 					self.log.write('error', 'submit not found')
 					return False
 
@@ -49,6 +49,9 @@ class EditProfile(objlib.TestObject):
 			self.log.write('debug', 'case '+str(objlist_index)+' ok')
 			objlist_index += 1
 		return True
+
+	def execute(self):
+		return self.edit_elems()
 
 if __name__ == '__main__':
 	tc = EditProfile('tests.conf')
