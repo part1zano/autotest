@@ -14,7 +14,11 @@ class TestCaseSL(objlib.TestObject):
 			link_id = 'link_'+re.sub('-', '_', url)
 			self.links[link_id] = url
 
-	def click_links_dict(self):
+	def click_links_dict(self, btn=u'Настройки', btn_url='settings'):
+		if btn is not None:
+			if not self.visit_link(btn, btn_url, by='text'):
+				self.log.write('error', 'error visiting '+btn_url)
+				return False
 		for link_id, link_url in self.links.items():
 			if not self.visit_link(link_id, link_url):
 				self.log.write('error', 'error visiting link id='+link_id+', see above')
