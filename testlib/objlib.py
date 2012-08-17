@@ -31,6 +31,7 @@ class TestObject:
 		self.driver.get(self.server)
 		self.info = {}
 		self.objlists = []
+		self.links = stabledict.StableDict()
 
 	def __del__(self):
 		self.driver.close()

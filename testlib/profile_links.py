@@ -7,7 +7,6 @@ import re
 class TestCase(objlib.TestObject):
 	def __init__(self, config='tests.conf', parent=None):
 		objlib.TestObject.__init__(self, config, parent)
-		self.links = {}
 
 		for link in ['profile', 'deposit', 'contractors', 'our_proposers', 'chat']:
 			self.links['mc_sidebar_'+link] = [link, {}]

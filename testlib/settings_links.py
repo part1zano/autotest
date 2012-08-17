@@ -8,8 +8,6 @@ class TestCase(objlib.TestObject):
 	def __init__(self, config='tests.conf', parent=None):
 		objlib.TestObject.__init__(self, config, parent)
 
-		self.links = {}
-
 		for url in ['settings', 'additional-settings', 'change-password']:
 			link_id = 'link_'+re.sub('-', '_', url)
 			self.links[link_id] = url
