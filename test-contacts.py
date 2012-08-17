@@ -82,6 +82,7 @@ for line in objlist:
 	else:
 		log.write('error', 'contacts layer value NOK')
 		log.write('error', 'value not found in contacts div, its text follows: '+contacts_layer.text)
+		log.write('error', 'value is: '+value)
 		driver.close()
 		sys.exit(1)
 
