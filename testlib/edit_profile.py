@@ -49,3 +49,13 @@ class EditProfile(objlib.TestObject):
 			self.log.write('debug', 'case '+str(objlist_index)+' ok')
 			objlist_index += 1
 		return True
+
+if __name__ == '__main__':
+	tc = EditProfile('tests.conf')
+	if tc.do_login():
+		if tc.execute():
+			tc.log.write('info', 'test PASSED')
+			sys.exit(0)
+	
+	tc.log.write('error', 'test FAILED, see above')
+	sys.exit(1)

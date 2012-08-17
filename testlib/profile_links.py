@@ -4,7 +4,7 @@
 from testlib import objlib
 import re
 
-class ProfileLinksTest(objlib.TestObject):
+class TestCasePL(objlib.TestObject):
 	def __init__(self, config='tests.conf', parent=None):
 		objlib.TestObject.__init__(self, config, parent)
 		self.links = {}
@@ -64,4 +64,11 @@ class ProfileLinksTest(objlib.TestObject):
 		return True
 
 
-
+if __name__ == '__main__':
+	tc = TestCasePL('tests.conf')
+	if tc.do_login():
+		if tc.execute():
+			tc.log.write('info', 'test PASSED')
+			sys.exit(0)
+	tc.log.write('error', 'test FAILED, see above')
+	sys.exit(1)
