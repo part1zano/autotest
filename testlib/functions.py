@@ -202,7 +202,7 @@ def find_link_by_id_and_click(driver, id_text, url):
 	except NoSuchElementException:
 		log.write('error', 'no such link id='+id_text)
 		return False
-
+	
 	try:
 		WebDriverWait(driver, 10).until(lambda driver : url in driver.current_url)
 	except TimeoutException:
@@ -225,13 +225,13 @@ def find_link_and_click(driver, link_text, url):
 		log.write('error', 'no '+link_text+' link or wrong link text')
 		log.write('error', 'no link for '+url+'s link_text')
 		return False
-
+	
 	try:
 		WebDriverWait(driver, 10).until(lambda driver : url in driver.current_url)
 	except TimeoutException:
 		log.write('error', 'timeout waiting for shit to load or not going to url containing '+url)
 		return False
-
+	
 	log.write('debug', 'finally got to '+link_text+' and url contains '+url)
 	log.write('debug', 'finally got to '+url)
 	log.write('debug', 'sleep for 2s after getting here')

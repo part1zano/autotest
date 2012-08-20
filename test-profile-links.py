@@ -53,51 +53,55 @@ if not functions.login(driver, login, passwd):
 log.write('info', 'login ok')
 
 link_arr = driver.current_url.split('/')
-userid = link_arr[3]
+userid_hi = link_arr[3]
+userid_lo = userid_hi.lower()
 
-log.write('debug', 'login as userid '+userid)
+log.write('debug', 'login as userid '+userid_hi)
 
-for link, sublinks in links.items():
-	if (link == 'profile') or (link == 'our_proposers') or (link == 'contractors'):
-		driver.get(server+'/'+userid+'/'+link)
-	else:
-		driver.get(server+'/'+link)
-	log.write('debug', 'trying to go to '+link)
-	try:
-		WebDriverWait(driver, 10).until(lambda driver : link in driver.current_url)
-		log.write('debug', 'aaaand went to profile')
-	except TimeoutException:
-		log.write('error', 'timeout waiting for shit to load trying to get to '+link)
-		driver.close()
-		sys.exit(1)
-
-	for sublink, subtext in links[link].iteritems():
-		if not functions.find_link_and_click(driver, subtext, sublink):
-			log.write('error', 'some shit happened while checking '+sublink+', see above')
+for userid in [userid_hi, userid_lo]:
+	for link, sublinks in links.items():
+		if (link == 'profile') or (link == 'our_proposers') or (link == 'contractors'):
+			driver.get(server+'/'+userid+'/'+link)
+		else:
+			driver.get(server+'/'+link)
+		log.write('debug', 'trying to go to '+link)
+		try:
+			WebDriverWait(driver, 10).until(lambda driver : link in driver.current_url)
+			log.write('debug', 'aaaand went to profile')
+		except TimeoutException:
+			log.write('error', 'timeout waiting for shit to load trying to get to '+link)
 			driver.close()
 			sys.exit(1)
-		log.write('info', 'went to '+sublink)
-		layername_arr = sublink.split('/')
-		if len(layername_arr) > 1:
-			del layername_arr[0]
-		layername = layername_arr[0]
-		
-		if link == 'deposit': # FIXME :: dog-nail
-			layername = re.sub('-', '_', layername)
-		elif link == 'chat': # FIXME :: dog-nail
+
+		for sublink, subtext in links[link].iteritems():
+			if not functions.find_link_and_click(driver, subtext, sublink):
+				log.write('error', 'some shit happened while checking '+sublink+', see above')
+				driver.close()
+				sys.exit(1)
+			log.write('info', 'went to '+sublink)
+			layername_arr = sublink.split('/')
+			if len(layername_arr) > 1:
+				del layername_arr[0]
+			layername = layername_arr[0]
+			
+			if link == 'deposit': # FIXME :: dog-nail
+				layername = re.sub('-', '_', layername)
+			elif link == 'chat': # FIXME :: dog-nail
 #			log.write('warning', 'chat not tested yet')
 #			continue
-			layername = 'dialog_list'
-		elif link == 'contractors': # FIXME :: dog-nail
+				layername = 'dialog_list'
+			elif link == 'contractors': # FIXME :: dog-nail
 #			layername = re.sub('contractors', 'partners', layername)
-			layername += 'list'
+				layername += 'list'
 
-		if not functions.check_div(driver, layername):
-			log.write('error', 'layer '+layername+' error, see above')
-			driver.close()
-			sys.exit(1)
+			if not functions.check_div(driver, layername):
+				log.write('error', 'layer '+layername+' error, see above')
+				driver.close()
+				sys.exit(1)
 
-		log.write('info', 'found div id='+layername)
+			log.write('info', 'found div id='+layername)
+
+	driver.get(server)
 
 
 
