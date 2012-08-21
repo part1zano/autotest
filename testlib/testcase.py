@@ -129,7 +129,7 @@ class TestObject():
 		self.log.write('debug', 'clicked "login"')
 
 		try:
-			WebDriverWait(self.driver, 10).until(lambda driver : u'profile' in self.driver.current_url)
+			WebDriverWait(self.driver, 10).until(lambda driver : u'news' in self.driver.current_url)
 			self.log.write('debug', 'logged in, visited profile')
 		except TimeoutException:
 			self.log.write('error', 'timeout waiting for shit to load')
