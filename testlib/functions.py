@@ -48,7 +48,7 @@ def login(driver, loginstr, passwordstr, other=False):
 	log.write('debug', 'clicked "login"')
 
 	try:
-		WebDriverWait(driver, 10).until(lambda driver : u'profile' in driver.current_url)
+		WebDriverWait(driver, 10).until(lambda driver : u'news' in driver.current_url)
 		log.write('debug', 'logged in, visited profile')
 	except TimeoutException:
 		log.write('error', 'timeout waiting for shit to load')
