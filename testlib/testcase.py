@@ -200,7 +200,7 @@ class TestObject():
 				new_value=old_value+value
 
 			ctl.send_keys(value)
-			self.log.write('debug', 'sent '+value+' into control')
+			self.log.write('debug', 'sent '+value+' into '+control+' control')
 
 			return (ctl.get_attribute('value') == new_value)
 		else:
@@ -214,7 +214,7 @@ class TestObject():
 				return False
 
 			if bool(int(edit['submit'])):
-				if self.click_btn(submit):
+				if not self.click_btn(submit):
 					self.log.write('error', 'some shit submitting, see above')
 					return False
 
@@ -227,22 +227,28 @@ class TestObject():
 			self.log.write('error', 'no submit btn: '+btn_text)
 			self.log.write('error', 'no submit btn!')
 			return False
-
+		
+		self.log.write('debug', 'clicked button')
+		self.log.write('debug', 'clicked '+btn_text)
 		return True
 
 	def check_results(self):
-		for result in self.reslts:
+		for result in self.results:
+			self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 			try:
-				res = driver.find_element_by_id(result['name'])
+				res = self.driver.find_element_by_id(result['name'])
 			except NoSuchElementException:
 				self.log.write('error', 'no such field: '+result['name'])
 				return False
+			self.log.write('debug', 'found '+result['name'])
 
 			if res.text.lower() != result['value'].lower(): # FIXME :: dog-nail for fckn selenium
 				self.log.write('error', 'field '+result['name']+' values dont match: NOK')
 				self.log.write('error', 'should be: '+result['value'])
 				self.log.write('error', 'but actually it is: '+res.text)
 				return False
+
+			self.log.write('info', 'field '+result['name']+' value OK')
 
 		return True
 
