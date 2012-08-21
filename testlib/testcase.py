@@ -206,7 +206,7 @@ class TestObject():
 			self.log.write('debug', control+' value is: '+old_value)
 			if clear:
 				ctl.clear()
-				new_value=old_value
+				new_value=value
 			else:
 				new_value=old_value+value
 
@@ -255,37 +255,37 @@ class TestObject():
 		self.log.write('debug', 'clicked '+btn_text)
 		return True
 
+	def check_single_result(self, index, method='equal'):
+		self.log.write('debug', 'trying to find field '+self.results[index]['name']+' for check...')
+		try:
+			res = self.driver.find_element_by_id(self.results[index]['name'])
+		except NoSuchElementException:
+			self.log.write('error', 'no such field: '+self.results[index]['name'])
+			return False
+
+		if method == 'equal':
+			found = res.text.lower() == self.results[index]['value'].lower()
+		elif method == 'grep':
+			found = self.results[index]['value'] in res.text
+		else:
+			self.log.write('error', 'unknown comparison method for '+self.results[index]['name'])
+			return False
+
+		if not found:
+			self.log.write('error', self.results[index]['name']+' values dont match: NOK')
+			self.log.write('error', 'value is: '+res.text)
+			self.log.write('error', 'should contain: '+self.results[index]['value'])
+		
+		return found
+
 	def check_results(self, method='equal'):
-		found = True
-		for result in self.results:
-			self.log.write('debug', 'trying to find field '+result['name']+' for check...')
-			try:
-				res = self.driver.find_element_by_id(result['name'])
-			except NoSuchElementException:
-				self.log.write('error', 'no such field: '+result['name'])
+		for index in range(len(self.results)):
+			if not self.check_single_result(index, method):
+				self.log.write('error', 'error checking '+self.results[index]['name'])
 				return False
-			self.log.write('debug', 'found '+result['name'])
-
-			if method == 'equal':
-				if res.text.lower() != result['value'].lower(): # FIXME :: dog-nail for fckn selenium
-					found = False
-			elif method == 'grep':
-				if result['value'] not in res.text:
-					found = False
-			else:
-				self.log.write('error', 'unknown grep method for control '+result['name'])
-				return False
-
-			if not found:
-				self.log.write('error', 'field '+result['name']+' values dont match: NOK')
-				self.log.write('error', 'should be or at least contain: '+result['value'])
-				self.log.write('error', 'but actually it is: '+res.text)
-				return False
-
-			self.log.write('info', 'field '+result['name']+' value OK')
 
 		return True
-
+		
 	def visit_link(self, link, url, by='id'):
 		try:
 			if by == 'id':

@@ -13,6 +13,10 @@ class TestCase(testcase.TestObject):
 			sys.exit(1)
 	
 	def execute(self):
+		if not self.visit_link('link_profile', 'profile'):
+			self.log.write('error', 'no profile link or shit')
+			return False
+
 		for edit in self.edits:
 			if not bool(int(edit['clear'])):
 				value = self.get_value(edit['name'])+edit['value']
