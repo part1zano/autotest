@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser
+import time,ConfigParser,codecs,re
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -49,7 +49,7 @@ class TestObject():
 		self.edits = []
 		self.results = []
 	
-	def new_objlist(self, objfile):
+	def make_objlist(self, objfile, klasse='edits'):
 		objf = codecs.open(objfile, encoding='utf-8')
 		objlist = objf.readlines()
 		objf.close()
@@ -58,10 +58,21 @@ class TestObject():
 			if re.match('^#', obj):
 				continue
 			obj = obj.rstrip()
+			
+			if klasse == 'edits':
+				name, value, submit, clear = obj.split('~!~')
+				self.edits.append({'name': name, 'value': value, 'submit': submit, 'clear': clear})
+			elif klasse == 'links':
+				link, url, by = obj.split('~!~')
+				self.links.append({'link': link, 'url': url, 'by': by})
+			elif klasse == 'results':
+				name, value = obj.split('~!~')
+				self.results.append({'name': name, 'value': value})
+			else:
+				self.log.write('error', 'no such objlist klasse: '+klasse)
+				return False
 
-			name, value, submit, clear = obj.split('~!~')
-
-			self.edits.append({'name': name, 'value': value, 'submit': bool(int(submit)), 'clear': bool(int(submit))})
+		return True
 
 	def __del__(self):
 		self.driver.close()
@@ -279,7 +290,7 @@ class TestObject():
 		try:
 			WebDriverWait(self.driver, 10).until(lambda driver : url in self.driver.current_url)
 		except TimeoutException:
-			self.log.write('timeout waiting for shit to load or no '+url+' in cureent_url')
+			self.log.write('error', 'timeout waiting for shit to load or no '+url+' in cureent_url')
 			return False
 
 		self.log.write('info', 'got to '+url+', checkin divs')
