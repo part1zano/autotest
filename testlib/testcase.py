@@ -213,7 +213,7 @@ class TestObject():
 			ctl.send_keys(value)
 			self.log.write('debug', 'sent '+value+' into '+control+' control')
 
-			return (ctl.get_attribute('value') == new_value)
+			return (ctl.get_attribute('value').lower() == new_value.lower()) # FIXME dog-nail for fckn selenium
 		else:
 			self.log.write('error', control+': unknown ctl type')
 			return False
@@ -230,6 +230,18 @@ class TestObject():
 					return False
 
 		return True
+
+	def get_value(self, control):
+		try:
+			ctl = self.driver.find_element_by_id(control)
+		except NoSuchElementException:
+			self.log.write('error', 'no such element '+control)
+			return None
+
+		if ctl.get_attribute('value') is not None:
+			return ctl.get_attribute('value')
+		else:
+			return ctl.text
 
 	def click_btn(self, btn_text):
 		try:
