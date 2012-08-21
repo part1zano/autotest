@@ -30,6 +30,12 @@ if not functions.login(driver, login, passwd):
 	sys.exit(1)
 
 log.write('info', 'login ok')
+
+if not functions.find_link_by_id_and_click('link_profile', 'profile'):
+	log.write('error', 'some shit with profile link, see above')
+	driver.close()
+	sys.exit(1)
+
 try:
 	driver.find_element_by_partial_link_text(u'Редактировать').click()
 except NoSuchElementException:
