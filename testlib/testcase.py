@@ -232,7 +232,8 @@ class TestObject():
 		self.log.write('debug', 'clicked '+btn_text)
 		return True
 
-	def check_results(self):
+	def check_results(self, method='equal'):
+		found = True
 		for result in self.results:
 			self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 			try:
@@ -242,9 +243,19 @@ class TestObject():
 				return False
 			self.log.write('debug', 'found '+result['name'])
 
-			if res.text.lower() != result['value'].lower(): # FIXME :: dog-nail for fckn selenium
+			if method == 'equal':
+				if res.text.lower() != result['value'].lower(): # FIXME :: dog-nail for fckn selenium
+					found = False
+			elif method == 'grep':
+				if result['value'] not in res.text:
+					found = False
+			else:
+				self.log.write('error', 'unknown grep method for control '+result['name'])
+				return False
+
+			if not found:
 				self.log.write('error', 'field '+result['name']+' values dont match: NOK')
-				self.log.write('error', 'should be: '+result['value'])
+				self.log.write('error', 'should be or at least contain: '+result['value'])
 				self.log.write('error', 'but actually it is: '+res.text)
 				return False
 
