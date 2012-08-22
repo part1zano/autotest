@@ -48,7 +48,7 @@ def login(driver, loginstr, passwordstr, other=False):
 	log.write('debug', 'clicked "login"')
 
 	try:
-		WebDriverWait(driver, 10).until(lambda driver : u'profile' in driver.current_url)
+		WebDriverWait(driver, 10).until(lambda driver : u'news' in driver.current_url)
 		log.write('debug', 'logged in, visited profile')
 	except TimeoutException:
 		log.write('error', 'timeout waiting for shit to load')
@@ -66,8 +66,9 @@ def login(driver, loginstr, passwordstr, other=False):
 	for cookie in driver.get_cookies():
 		if bool(u'sessionid' in string.lower(cookie['name'])) != bool(other):
 			log.write('debug', 'Cookies ok')
-			return True
-	log.write('error', 'Cookies not ok')
+			if find_link_by_id_and_click(driver, 'link_profile', 'profile'):
+				return True
+	log.write('error', 'Cookies not ok or profile link is shit')
 	return False
 
 def edit_control(driver, control, value, ctl_type):
