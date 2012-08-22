@@ -7,9 +7,9 @@ scripts_to_run = []
 
 all_ = False
 
-search_string = 'find . -maxdepth 1 -type f -name "test-*.py" '
+search_string = 'find . -maxdepth 1 -type f -name "test_*.py" '
 if not all_:
-	for script in ['test-feedback.py', 'test-settings-links.py', 'test-contacts.py', 'test-changepwd.py']:
+	for script in ['test_feedback.py', 'test_settings_links.py', 'test_contacts.py', 'test_changepwd.py']:
 		search_string += ' -and -not -name "'+script+'"'
 
 search_string += ' 2>/dev/null'
