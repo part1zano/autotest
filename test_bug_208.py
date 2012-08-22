@@ -46,7 +46,7 @@ except TimeoutException:
 
 log.write('debug', 'got to search results')
 
-links = stabledict.StableDict(((u'™', 'profile'), (u'Написать сообщение', 'dialog')))
+links = stabledict.StableDict(((u'™', 'news'), (u'Написать сообщение', 'dialog')))
 
 for link, url in links.items():
 	log.write('debug', 'link: '+link+'; url: '+url)
@@ -58,7 +58,7 @@ for link, url in links.items():
 # got to msgs, now go back
 driver.back()
 try:
-	WebDriverWait(driver, 10).until(lambda driver : 'profile' in driver.current_url)
+	WebDriverWait(driver, 10).until(lambda driver : 'news' in driver.current_url)
 except TimeoutException:
 	log.write('error', 'timeout waiting for shit to load')
 	driver.close()
@@ -67,7 +67,7 @@ except TimeoutException:
 log.write('info', 'went back ok')
 
 try:
-	div = driver.find_element_by_id('profile')
+	div = driver.find_element_by_id('news')
 except NoSuchElementException:
 	log.write('error', 'profile not loaded, lol')
 	driver.close()

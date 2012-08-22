@@ -463,7 +463,7 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 		log.write('error', 'some shit with search, see above')
 		return False
 
-	if not find_link_and_click(driver, title_fragment, 'profile'):
+	if not find_link_and_click(driver, title_fragment, 'news'):
 		log.write('error', 'no link or no such company')
 		return False
 
