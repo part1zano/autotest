@@ -13,6 +13,8 @@ class TestCase(testcase.TestObject):
 			sys.exit(1)
 	
 	def execute(self):
+		if not testcase.TestObject.execute(self):
+			return False
 		if not self.visit_link('link_profile', 'profile'):
 			self.log.write('error', 'no profile link or shit')
 			return False
@@ -36,10 +38,6 @@ class TestCase(testcase.TestObject):
 
 if __name__ == '__main__':
 	tc = TestCase()
-	if not tc.do_login():
-		tc.log.write('error', 'login failed')
-		sys.exit(1)
-	
 	if not tc.execute():
 		tc.log.write('error', 'test FAILED')
 		sys.exit(1)

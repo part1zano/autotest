@@ -74,6 +74,12 @@ class TestObject():
 
 		return True
 
+	def execute(self):
+		if not self.do_login():
+			self.log.write('error', 'login failed, see above')
+			return False
+		return True
+
 	def __del__(self):
 		self.driver.close()
 

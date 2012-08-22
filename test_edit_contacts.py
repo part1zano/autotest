@@ -14,6 +14,8 @@ class TestCase(testcase.TestObject):
 			self.results.append({'name': 'contacts', 'value': edit['value'], })
 
 	def execute(self):
+		if not testcase.TestObject.execute(self):
+			return False
 		for link in self.links:
 			if not self.visit_link(link['link'], link['url'], by=link['by']):
 				self.log.write('error', 'error visiting '+link['url'])
@@ -42,8 +44,6 @@ class TestCase(testcase.TestObject):
 
 if __name__ == '__main__':
 	tc = TestCase()
-	if not tc.do_login():
-		sys.exit(1)
 	if not tc.execute():
 		tc.log.write('error', 'test FAILED')
 		sys.exit(1)
