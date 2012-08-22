@@ -11,12 +11,18 @@ class TestCase(testcase.TestObject):
 
 		self.links.append({'link': u'Обратная связь', 'url': 'feedback', 'by': 'text'})
 
-		self.edits.append({'name': 'feedback-email', 'value': '', 'submit': '1', 'clear': '1'})
+		self.edits.append({'name': 'feedback-email', 'value': '', 'submit': '0', 'clear': '1'})
+		self.edits.append({'name': 'feedback-message', 'value': 'This is just a test msg', 'submit': '1', 'clear': '1'})
+		self.edits.append({'name': 'feedback-email', 'value': self.login, 'submit': '0', 'clear': '0'})
 		self.edits.append({'name': 'feedback-message', 'value': '', 'submit': '1', 'clear': '1'})
+		self.edits.append({'name': 'feedback-email', 'value': self.login, 'submit': '0', 'clear': '1'})
 		self.edits.append({'name': 'feedback-message', 'value': 'This is just a test msg', 'submit': '1', 'clear': '0'})
-		
+	
+		self.errors.append({})
 		self.errors.append({'name': 'error-text', 'value': u'Неправильный e-mail', 'ok': '0'})
+		self.errors.append({})
 		self.errors.append({'name': 'error-text', 'value': u'Поле не должно быть пустым', 'ok': '0'})
+		self.errors.append({})
 		self.errors.append({'name': 'error-text', 'value': '', 'ok': '1'})
 
 	def execute(self):
@@ -30,16 +36,20 @@ class TestCase(testcase.TestObject):
 				return False
 
 		for index in range(len(self.edits)):
-			if not self.edit_control(self.edits[index]['name'], self.edits[index]['value']):
+			if not self.edit_control(self.edits[index]['name'], self.edits[index]['value'], clear=bool(int(self.edits[index]['clear']))):
 				self.log.write('error', 'failed editing '+self.edits[index]['name']+', see above')
 				return False
-			
-			try:
-				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
-					self.log.write('error', 'wrong err value for case '+str(index))
+			if bool(int(self.edits[index]['submit'])):
+				if not self.click_btn(u'Отправить'):
+					self.log.write('error', 'submit not clicked, see above')
 					return False
-			except IndexError:
-				self.log.write('warning', 'index error for self.errors:something is REALLY wrong')
+
+				try:
+					if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
+						self.log.write('error', 'wrong err value for case '+str(index))
+						return False
+				except IndexError:
+					self.log.write('warning', 'index error for self.errors:something is REALLY wrong')
 
 		return True
 
