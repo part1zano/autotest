@@ -315,19 +315,33 @@ class TestObject():
 		self.log.write('info', 'got to '+url+', checkin divs')
 		return self.check_page()
 
-	def check_error(self, name, value):
-		try:
-			err = self.driver.find_element_by_name(name)
-		except NoSuchElementException:
-			self.log.write('error', 'no such error elem: '+name)
-			return False
+	def check_error(self, name, value, ok):
+		if not bool(int(ok)):
+			try:
+				err = self.driver.find_element_by_name(name)
+			except NoSuchElementException:
+				self.log.write('error', 'no such error elem: '+name)
+				return False
 
-		if value not in err.get_attribute('value'):
-			self.log.write('error', name+' has wrong error message')
-			self.log.write('error', 'it should contain: '+value)
-			self.log.write('error', 'but it is: '+err.get_attribute('value'))
-			return False
+			if value not in err.get_attribute('value'):
+				self.log.write('error', name+' has wrong error message')
+				self.log.write('error', 'it should contain: '+value)
+				self.log.write('error', 'but it is: '+err.get_attribute('value'))
+				return False
+		else:
+			return self.click_oks()
 
 		return True
+
+	def click_oks(self):
+		clicked = False
+		for ok in ['OK', u'ОК']:
+			try:
+				self.driver.find_element_by_partial_link_text(ok).click()
+				clicked = True
+			except NoSuchElementException:
+				self.log.write('warning', 'no '+ok+' button')
+
+		return clicked
 
 

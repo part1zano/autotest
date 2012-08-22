@@ -15,9 +15,9 @@ class TestCase(testcase.TestObject):
 		self.edits.append({'name': 'feedback-message', 'value': '', 'submit': '1', 'clear': '1'})
 		self.edits.append({'name': 'feedback-message', 'value': 'This is just a test msg', 'submit': '1', 'clear': '0'})
 		
-		self.errors.append({'name': 'error-text', 'value': u'Неправильный e-mail'})
-		self.errors.append({'name': 'error-text', 'value': u'Поле не должно быть пустым'})
-		self.errors.append({'name': 'error-text', 'value': ''})
+		self.errors.append({'name': 'error-text', 'value': u'Неправильный e-mail', 'ok': '0'})
+		self.errors.append({'name': 'error-text', 'value': u'Поле не должно быть пустым', 'ok': '0'})
+		self.errors.append({'name': 'error-text', 'value': '', 'ok': '1'})
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
@@ -35,11 +35,11 @@ class TestCase(testcase.TestObject):
 				return False
 			
 			try:
-				if not self.check_error(self.errors[index]['name'], self.errors[index]['value']):
+				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
 					self.log.write('error', 'wrong err value for case '+str(index))
 					return False
 			except IndexError:
-				self.log.write('warning', 'index error for self.errors: something is REALLY wrong')
+				self.log.write('warning', 'index error for self.errors:something is REALLY wrong')
 
 		return True
 
