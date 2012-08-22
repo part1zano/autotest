@@ -48,6 +48,7 @@ class TestObject():
 		self.buttons = []
 		self.edits = []
 		self.results = []
+		self.errors = []
 	
 	def make_objlist(self, objfile, klasse='edits'):
 		objf = codecs.open(objfile, encoding='utf-8')
@@ -313,5 +314,20 @@ class TestObject():
 
 		self.log.write('info', 'got to '+url+', checkin divs')
 		return self.check_page()
+
+	def check_error(self, name, value):
+		try:
+			err = self.driver.find_element_by_name(name)
+		except NoSuchElementException:
+			self.log.write('error', 'no such error elem: '+name)
+			return False
+
+		if value not in err.get_attribute('value'):
+			self.log.write('error', name+' has wrong error message')
+			self.log.write('error', 'it should contain: '+value)
+			self.log.write('error', 'but it is: '+err.get_attribute('value'))
+			return False
+
+		return True
 
 
