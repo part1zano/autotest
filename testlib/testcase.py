@@ -8,11 +8,11 @@ from selenium.common.exceptions import TimeoutException,NoSuchElementException,W
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
-def get_browser(browser, proxy_host=None, proxy_port=None):
-	if proxy_port is None:
+def get_browser(browser, proxy_host='', proxy_port=''):
+	if proxy_port == '':
 		proxy_port = 8090
 	if browser == 'firefox':
-		if proxy_host is None:
+		if proxy_host == '':
 			return webdriver.Firefox()
 		else:
 			fp = webdriver.FirefoxProfile()
@@ -41,6 +41,8 @@ class TestObject():
 		self.login = cnf.get('net-creds', 'login')
 		self.password = cnf.get('net-creds', 'passwd')
 		self.browser = cnf.get('browser', 'browser')
+		self.proxy_host = cnf.get('proxy', 'proxy_host')
+		self.proxy_port = cnf.get('proxy', 'proxy_port')
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
