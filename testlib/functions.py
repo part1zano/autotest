@@ -439,6 +439,8 @@ def recommend_by_title(driver, title_fragment, new, recommend=True):
 	goes to company profile assuming that it might be in search results
 	"""
 	
+	if not find_link_by_id_and_click(driver, 'link_profile', 'profile'):
+		return False
 	our_bname = get_our_info(driver, 'brandName')
 	if len(our_bname) > 30:
 		our_bname = our_bname[:18]

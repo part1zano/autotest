@@ -18,10 +18,13 @@ passwd = cnf.get('net-creds', 'passwd')
 browser = cnf.get('browser', 'browser')
 
 links = {}
-for link in ['profile', 'deposit', 'contractors', 'our_proposers', 'chat']:
-	links['mc_sidebar_'+link] = [link, {}]
-	if 'profile' in link:
-		sublinks = ['profile', 'contacts']
+for link in ['news', 'deposit', 'contractors', 'our_proposers', 'chat']:
+	if 'news' in link:
+		links['mc_sidebar_profile'] = [link, {}]
+	else:
+		links['mc_sidebar_'+link] = [link, {}]
+	if 'news' in link:
+		sublinks = ['news', 'profile', 'contacts']
 	elif 'deposit' in link:
 		sublinks = ['deposit', 'topping_up', 'payments']
 	elif 'contractors' in link:
@@ -32,7 +35,9 @@ for link in ['profile', 'deposit', 'contractors', 'our_proposers', 'chat']:
 		sublinks = ['dialog_list']
 	
 	for sublink in sublinks:
-		if 'contractors' in sublink:
+		if 'news' in link:
+			links['mc_sidebar_profile'][1]['link_'+sublink] = sublink
+		elif 'contractors' in sublink:
 			links['mc_sidebar_'+link][1]['link_'+sublink] = link
 		elif '_reqs' in sublink:
 			if 'in' in sublink:
