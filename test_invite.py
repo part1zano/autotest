@@ -27,8 +27,6 @@ class TestCase(testcase.TestObject):
 		self.results.append({}) # empty
 		self.results.append({'name': 'invites', 'value': '', 'method': 'grep'})
 
-#	def __del__(self):
-#		pass
 	def execute(self):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed, see above')
