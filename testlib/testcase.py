@@ -203,13 +203,31 @@ class TestObject():
 			self.log.write('debug', 'sent '+value+' into '+control+' control')
 
 			return (ctl.get_attribute('value').lower() == new_value.lower()) # FIXME dog-nail for fckn selenium
+		elif ctl_type == 'popup':
+			self.log.write('debug', control+' is a popup or so')
+
+			try:
+				all_options = ctl.find_elements_by_name('option')
+			except NoSuchElementException:
+				self.log.write('warning', control+' has no options')
+				return True
+#				return False
+			clicked = False
+			for option in all_options:
+				self.log.write('debug', control+': found option '+option.get_attribute('value'))
+				if value in option.get_attribute('value'):
+					option.click()
+					self.log.write('debug', control+': clicked '+option.get_attribute('value'))
+					clicked = True
+			return clicked
+
 		else:
 			self.log.write('error', control+': unknown ctl type')
 			return False
 
 	def edit_all_controls(self, submit=u'Сохранить'):
 		for edit in self.edits:
-			if not self.edit_control(edit['name'], edit['value'], clear=bool(int(edit['clear']))):
+			if not self.edit_control(edit['name'], edit['value'], clear=bool(int(edit['clear'])), ctl_type=edit['type']):
 				self.log.write('error', 'control '+edit['name']+' edit failed, see above')
 				return False
 
