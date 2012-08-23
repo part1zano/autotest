@@ -9,7 +9,7 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 
 		self.links.append({'link': 'link_contacts', 'url': 'contacts', 'by': 'id'})
-		self.make_objlist('objlists/edit-contacts/text/objlist-edit-contacts.conf', klasse='edits')
+		self.edits = self.make_json_list('json_lists/edit-contacts/objlist-edit-contacts.json')
 		for edit in self.edits:
 			self.results.append({'name': 'contacts', 'value': edit['value'], })
 
