@@ -53,7 +53,7 @@ class TestObject():
 	
 	def make_json_list(self, json_file):
 		json_fh = codecs.open(json_file, encoding='utf-8')
-		to_return = json.read(json_fh)
+		to_return = json.load(json_fh)
 		json_fh.close()
 		return to_return
 
@@ -244,6 +244,13 @@ class TestObject():
 					self.log.write('error', 'some shit submitting, see above')
 					return False
 
+				if not self.check_result():
+					self.log.write('error', 'wrong results, see above')
+					return False
+
+		return True
+
+	def check_result(self):
 		return True
 
 	def get_value(self, control):
