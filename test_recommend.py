@@ -54,9 +54,10 @@ class TestCase(testcase.TestObject):
 				if not self.visit_link(link, url, by='id'):
 					self.log.write('error', 'link error: '+url)
 					return False
-				if (self.check_div_value(info_cluster['divs'][i], info_cluster['bnames'][i]) != (re_cond == accept)):
-					self.log.write('error', 'no value in '+info_cluster['adjs'][i]+' info')
-					return False
+
+			if (self.check_div_value(info_cluster['divs'][i], info_cluster['bnames'][i]) != (re_cond == accept)):
+				self.log.write('error', 'no value in '+info_cluster['adjs'][i]+' info')
+				return False
 
 		return True
 	
