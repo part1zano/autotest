@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser,codecs,re
+import time,ConfigParser,codecs,re,json
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -52,7 +52,14 @@ class TestObject():
 		self.results = []
 		self.errors = []
 	
+	def make_json_list(self, json_file):
+		json_fh = codecs.open(json_file, encoding='utf-8')
+		to_return = json.read(json_fh)
+		json_fh.close()
+		return to_return
+
 	def make_objlist(self, objfile, klasse='edits'):
+		# TODO :: obsolete
 		objf = codecs.open(objfile, encoding='utf-8')
 		objlist = objf.readlines()
 		objf.close()
