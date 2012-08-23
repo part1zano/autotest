@@ -210,8 +210,7 @@ class TestObject():
 				all_options = ctl.find_elements_by_name('option')
 			except NoSuchElementException:
 				self.log.write('warning', control+' has no options')
-				return True
-#				return False
+				return False
 			clicked = False
 			for option in all_options:
 				self.log.write('debug', control+': found option '+option.get_attribute('value'))
