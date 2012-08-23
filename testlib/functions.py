@@ -62,14 +62,18 @@ def login(driver, loginstr, passwordstr, other=False):
 		log.write('error', 'some divs missing, see above')
 		return False
 	log.write('debug', 'divs ok')
-
+	ok = False
 	for cookie in driver.get_cookies():
 		if bool(u'sessionid' in string.lower(cookie['name'])) != bool(other):
 			log.write('debug', 'Cookies ok')
-			if find_link_by_id_and_click(driver, 'link_profile', 'profile'):
-				return True
-	log.write('error', 'Cookies not ok or profile link is shit')
-	return False
+			ok = True
+	for link, url in stabledict.StableDict((('mc_sidebar_profile', 'news'), ('link_profile', 'profile'))).items():
+		if not find_link_by_id_and_click(driver, link, url):
+			log.write('error', 'error visiting '+url)
+			return False
+	if not ok:
+		log.write('error', 'Cookies not ok')
+	return ok
 
 def edit_control(driver, control, value, ctl_type):
 	try:
@@ -295,7 +299,7 @@ def check_page(driver):
 		divs.append('tabs_container')
 		divs.append('tabs')
 		divs.append('left-sidebar')
-		divs.append('employee-header')
+#		divs.append('employee-header')
 
 	for divname in divs:
 		if not check_div(driver, divname):
