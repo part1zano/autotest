@@ -50,7 +50,43 @@ class TestObject():
 		self.edits = []
 		self.results = []
 		self.errors = []
-	
+
+	def find_link(self, link, by='id'):
+		try:
+			if by == 'text':
+				link_ = self.driver.find_element_by_partial_link_text(link)
+			elif by == 'id':
+				link = self.driver.find_element_by_id(link)
+			else:
+				self.log.write('error', 'unknown search criteria: '+by)
+				return False
+			return True
+		except NoSuchElementException:
+			self.log.write('error', 'no link: '+link)
+			return False
+
+	def get_our_info(self, field):
+		links = {'mc_sidebar_profile': 'news', 'link_profile': 'profile'}
+		for link, url in links.items():
+			if not self.visit_link(link, url, by='id'):
+				return None
+		if field == 'id':
+			toReturn = self.driver.current_url.split('/')[3]
+			return toReturn
+		elif field == 'url':
+			toReturn = self.driver.current_url
+			return toReturn
+		try:
+			field_ = self.driver.find_element_by_id(field)
+		except NoSuchElementException:
+			self.log.write('error', 'no such field')
+			self.go(url)
+			return None
+
+		toReturn = field_.text
+		return toReturn
+
+
 	def make_json_list(self, json_file):
 		json_fh = codecs.open(json_file, encoding='utf-8')
 		to_return = json.load(json_fh)
@@ -326,7 +362,7 @@ class TestObject():
 		return self.check_page()
 
 	def check_error(self, name, value, ok):
-		if not bool(int(ok)):
+		if name is not None:
 			try:
 				err = self.driver.find_element_by_name(name)
 			except NoSuchElementException:
@@ -338,7 +374,7 @@ class TestObject():
 				self.log.write('error', 'it should contain: '+value)
 				self.log.write('error', 'but it is: '+err.get_attribute('value'))
 				return False
-		else:
+		if bool(int(ok)):
 			return self.click_oks()
 
 		return True

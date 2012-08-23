@@ -23,7 +23,7 @@ class TestCase(testcase.TestObject):
 		self.errors.append({})
 		self.errors.append({'name': 'error-text', 'value': u'Поле не должно быть пустым', 'ok': '0'})
 		self.errors.append({})
-		self.errors.append({'name': 'error-text', 'value': '', 'ok': '1'})
+		self.errors.append({'name': None, 'value': None, 'ok': '1'})
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
