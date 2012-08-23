@@ -50,6 +50,22 @@ class TestObject():
 		self.edits = []
 		self.results = []
 		self.errors = []
+	
+	def find_stuff(self, stuff):
+		try:
+			search = self.driver.find_element_by_name('q')
+		except NoSuchElementException:
+			self.log.write('error', 'no search form, aborting right now')
+			return False
+		search.send_keys(stuff)
+		search.submit()
+		try:
+			WebDriverWait(self.driver, 10).until(lambda driver : self.check_div('global-search-result'))
+		except TimeoutException:
+			self.log.write('error', 'timeout waiting for shit to load')
+			return False
+
+		return True
 
 	def find_link(self, link, by='id'):
 		try:
@@ -281,7 +297,17 @@ class TestObject():
 
 		return True
 
-	def check_result(self):
+	def check_div_value(self, div, value):
+		try:
+			div_ = self.driver.find_element_by_id(div)
+		except NoSuchElementException:
+			self.log.write('error', 'no such div')
+			return False
+
+		if value not in div_.text:
+			self.log.write('error', 'no '+value+' in '+div)
+			return False
+
 		return True
 
 	def get_value(self, control):
