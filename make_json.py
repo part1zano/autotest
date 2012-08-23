@@ -29,7 +29,7 @@ for objdir in os.popen('ls objlists').readlines():
 			else:
 				# objfile for links
 				link, text, by = obj.split('~!~')
-				toprint.append({'link': link, 'text': text, 'by': by})
+				toprint.append({'link': link, 'url': text, 'by': by})
 
 		json_file = codecs.open('json_lists/'+objdir+'/'+basename, mode='a+', encoding='utf-8')
 		print simplejson.dumps(toprint)

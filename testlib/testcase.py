@@ -47,7 +47,6 @@ class TestObject():
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
 		self.links = []
-		self.buttons = []
 		self.edits = []
 		self.results = []
 		self.errors = []
