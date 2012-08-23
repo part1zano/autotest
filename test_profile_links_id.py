@@ -21,8 +21,11 @@ links = {}
 for link in ['news', 'deposit', 'contractors', 'our_proposers', 'chat', 'newsfeed']:
 	if ('news' in link) and ('feed' not in link):
 		links['mc_sidebar_profile'] = [link, {}]
+	elif ('newsfeed' in link):
+		links['mc_sidebar_'+link] = ['news-feed', {}]
 	else:
 		links['mc_sidebar_'+link] = [link, {}]
+
 	if ('news' in link) and ('feed' not in link):
 		sublinks = ['news', 'profile', 'contacts']
 	elif 'deposit' in link:
@@ -31,6 +34,8 @@ for link in ['news', 'deposit', 'contractors', 'our_proposers', 'chat', 'newsfee
 		sublinks = ['contractors_list', 'in_reqs', 'out_reqs']
 	elif 'our_proposers' in link:
 		sublinks = ['our_proposers', 'we_recommend', 'invites']
+	elif 'newsfeed' in link:
+		sublinks = ['newsfeed']
 	elif 'chat' in link:
 		sublinks = ['dialog_list']
 	
@@ -87,6 +92,8 @@ for sidebar_id, tablinks in links.items():
 			layername = re.sub('-', '_', layername)
 		elif 'contractors' in sidebar_id:
 			layername += 'list'
+		elif 'newsfeed' in sidebar_id:
+			layername += '-block'
 		elif 'chat' in sidebar_id:
 			layername = re.sub('link_', '', tablink)
 
