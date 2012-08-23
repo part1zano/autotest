@@ -150,8 +150,8 @@ class TestObject():
 			divs.append('left-sidebar')
 			if 'chat' in self.driver.current_url:
 				divs.append('employee-header')
-			else:
-				divs.append('company-header')
+#			else:
+#				divs.append('company-header')
 
 		for divname in divs:
 			if not self.check_div(divname):
