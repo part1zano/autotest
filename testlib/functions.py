@@ -299,15 +299,16 @@ def check_page(driver):
 		divs.append('tabs_container')
 		divs.append('tabs')
 		divs.append('left-sidebar')
-	emp_header = False
-	for substr in ('news-feed', 'chat'):
-		if substr in driver.current_url:
-			emp_header = True
-	
-	if emp_header:
-		divs.append('employee-header')
-	else:
-		divs.append('company-header')
+		emp_header = False
+		for substr in ('news-feed', 'chat'):
+			if substr in driver.current_url:
+				emp_header = True
+		
+		if emp_header:
+			divs.append('employee-header')
+		else:
+			divs.append('company-header')
+
 	for divname in divs:
 		if not check_div(driver, divname):
 			log.write('error', 'no such div: '+divname)
