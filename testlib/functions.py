@@ -295,10 +295,7 @@ def check_page(driver):
 		divs.append('tabs_container')
 		divs.append('tabs')
 		divs.append('left-sidebar')
-		if 'chat' in driver.current_url:
-			divs.append('employee-header')
-		else:
-			divs.append('company-header')
+		divs.append('employee-header')
 
 	for divname in divs:
 		if not check_div(driver, divname):
