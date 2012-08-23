@@ -302,7 +302,7 @@ def check_page(driver):
 	emp_header = False
 	for substr in ('news-feed', 'chat'):
 		if substr in driver.current_url:
-			emp_header = False
+			emp_header = True
 	
 	if emp_header:
 		divs.append('employee-header')
