@@ -325,16 +325,21 @@ class TestObject():
 			return ctl.text
 
 	def click_btn(self, btn_text):
+		clicked = False
 		try:
-			self.driver.find_element_by_partial_link_text(btn_text).click()
+			btns = self.driver.find_elements_by_partial_link_text(btn_text)
 		except NoSuchElementException:
 			self.log.write('error', 'no submit btn: '+btn_text)
 			self.log.write('error', 'no submit btn!')
 			return False
-		
-		self.log.write('debug', 'clicked button')
-		self.log.write('debug', 'clicked '+btn_text)
-		return True
+
+		for btn in btns:
+			btn.click()
+			clicked = True
+			self.log.write('debug', 'clicked button')
+			self.log.write('debug', 'clicked '+btn_text)
+
+		return clicked
 
 	def check_single_result(self, index, method='equal'):
 		self.log.write('debug', 'trying to find field '+self.results[index]['name']+' for check...')

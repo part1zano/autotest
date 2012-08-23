@@ -43,7 +43,7 @@ class TestCase(testcase.TestObject):
 		if not self.click_btn(give_link):
 			self.log.write('error', 'no recommendation link or wrong direction')
 			return False
-
+		self.sleep(2)
 		if not self.click_btn(btn):
 			self.log.write('error', 'no accept-decline btn or something else strange and frightening')
 			return False
@@ -54,13 +54,12 @@ class TestCase(testcase.TestObject):
 				if not self.visit_link(link, url, by='id'):
 					self.log.write('error', 'link error: '+url)
 					return False
-
 				if (self.check_div_value(info_cluster['divs'][i], info_cluster['bnames'][i]) != (re_cond == accept)):
 					self.log.write('error', 'no value in '+info_cluster['adjs'][i]+' info')
 					return False
 
 		return True
-
+	
 	def execute(self):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
