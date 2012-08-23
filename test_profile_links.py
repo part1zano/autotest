@@ -8,9 +8,7 @@ class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 
-		if not self.make_objlist('./objlists/profile-links/profile-links.conf', klasse='links'):
-			self.log.write('error', 'objlist creation failure, see above')
-			sys.exit(1)
+		self.links = self.make_json_list('json_lists/profile-links/profile-links.json')
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
