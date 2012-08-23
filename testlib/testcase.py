@@ -148,10 +148,14 @@ class TestObject():
 			divs.append('tabs_container')
 			divs.append('tabs')
 			divs.append('left-sidebar')
-			if 'chat' in self.driver.current_url:
+			emp_header = False
+			for substr in ('chat', 'news-feed'):
+				if substr in self.driver.current_url:
+					emp_header = True
+			if emp_header:
 				divs.append('employee-header')
-#			else:
-#				divs.append('company-header')
+			else:
+				divs.append('company-header')
 
 		for divname in divs:
 			if not self.check_div(divname):
