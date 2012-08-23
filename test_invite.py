@@ -91,6 +91,12 @@ for objlist_str in objlists:
 	time.sleep(2)
 	log.write('debug', 'woke up, continuing')
 	log.write('info', 'clicked submit')
+	if objlist_index == 3:
+		if not functions.find_link(driver, our_bname, by='text'):
+			log.write('error', 'wrong informer text')
+			driver.close()
+			sys.exit(1)
+
 	if (objlist_index == 0) or (objlist_index == 3):
 		for ok in [u'ОК', 'OK']:
 			try:
