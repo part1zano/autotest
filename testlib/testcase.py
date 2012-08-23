@@ -57,32 +57,6 @@ class TestObject():
 		json_fh.close()
 		return to_return
 
-	def make_objlist(self, objfile, klasse='edits'):
-		# TODO :: obsolete
-		objf = codecs.open(objfile, encoding='utf-8')
-		objlist = objf.readlines()
-		objf.close()
-
-		for obj in objlist:
-			if re.match('^#', obj):
-				continue
-			obj = obj.rstrip()
-			
-			if klasse == 'edits':
-				name, value, submit, clear = obj.split('~!~')
-				self.edits.append({'name': name, 'value': value, 'submit': submit, 'clear': clear})
-			elif klasse == 'links':
-				link, url, by = obj.split('~!~')
-				self.links.append({'link': link, 'url': url, 'by': by})
-			elif klasse == 'results':
-				name, value = obj.split('~!~')
-				self.results.append({'name': name, 'value': value})
-			else:
-				self.log.write('error', 'no such objlist klasse: '+klasse)
-				return False
-
-		return True
-
 	def execute(self):
 		if not self.do_login():
 			self.log.write('error', 'login failed, see above')

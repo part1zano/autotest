@@ -9,10 +9,6 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 		
 		self.edits = self.make_json_list('json_lists/edit-profile/objlist-edit-profile.json')
-
-#		if not self.make_objlist('objlists/edit-profile/text/objlist-edit-profile.conf', 'edits'):
-#			self.log.write('error', 'objlist make error; see above')
-#			sys.exit(1)
 	
 	def execute(self):
 		if not testcase.TestObject.execute(self):
