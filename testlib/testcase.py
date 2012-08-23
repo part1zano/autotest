@@ -57,6 +57,7 @@ class TestObject():
 		except NoSuchElementException:
 			self.log.write('error', 'no search form, aborting right now')
 			return False
+		search.clear()
 		search.send_keys(stuff)
 		search.submit()
 		try:
@@ -306,6 +307,7 @@ class TestObject():
 
 		if value not in div_.text:
 			self.log.write('error', 'no '+value+' in '+div)
+			self.log.write('error', 'div text follows: '+div_.text)
 			return False
 
 		return True
