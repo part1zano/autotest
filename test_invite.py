@@ -91,8 +91,9 @@ for objlist_str in objlists:
 	time.sleep(2)
 	log.write('debug', 'woke up, continuing')
 	log.write('info', 'clicked submit')
+
 	if objlist_index == 3:
-		if not functions.find_link(driver, our_bname, by='text'):
+		if not functions.find_link(driver, our_bname, by='text', length=2):
 			log.write('error', 'wrong informer text')
 			driver.close()
 			sys.exit(1)
@@ -119,6 +120,7 @@ for objlist_str in objlists:
 			log.write('error', 'no invites div, thats really strange')
 			driver.close()
 			sys.exit(1)
+		
 		if objlist_index == 0:
 			matchstring = email+u' - Отправлено '+datetime.date.today().strftime('%d.%m.%Y')
 

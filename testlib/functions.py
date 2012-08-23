@@ -200,17 +200,19 @@ def logout(driver):
 		return False
 	return True
 
-def find_link(driver, text, by='id'):
+def find_link(driver, text, by='id', length=1):
 	try:
 		if by == 'id':
-			link = driver.find_element_by_id(text)
+			links = driver.find_element_by_id(text)
 		elif by == 'text':
-			link = driver.find_element_by_partial_link_text(text)
+			links = driver.find_elements_by_partial_link_text(text)
 		else:
 			log.write('error', 'unknown search criteria: '+by)
 			return False
 	except NoSuchElementException:
 		log.write('error', 'no such link: '+text)
+		return False
+	if len(links) < length:
 		return False
 	return True
 
