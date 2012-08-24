@@ -43,7 +43,7 @@ class TestCase(testcase.TestObject):
 		if not self.click_btn(give_link):
 			self.log.write('error', 'no recommendation link or wrong direction')
 			return False
-		self.sleep(2)
+		
 		if not self.click_btn(btn):
 			self.log.write('error', 'no accept-decline btn or something else strange and frightening')
 			return False
