@@ -66,8 +66,6 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		self.info = {}
-
 		for field in ['brandName', 'url']:
 			self.info[field] = self.get_our_info(field)
 			if self.info[field] is None:

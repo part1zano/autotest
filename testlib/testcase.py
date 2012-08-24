@@ -50,6 +50,7 @@ class TestObject():
 		self.edits = []
 		self.results = []
 		self.errors = []
+		self.info = {}
 	
 	def find_stuff(self, stuff):
 		try:
