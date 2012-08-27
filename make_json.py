@@ -25,7 +25,7 @@ for objdir in os.popen('ls objlists').readlines():
 			if cond:
 				# objfile for controls
 				name, value, submit, clear = obj.split('~!~')
-				toprint.append({'name': name, 'value': value, 'submit': submit, 'clear': clear})
+				toprint.append({'name': name, 'value': value, 'submit': submit, 'clear': clear, 'type': 'text'})
 			else:
 				# objfile for links
 				link, text, by = obj.split('~!~')

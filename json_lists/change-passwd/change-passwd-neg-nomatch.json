@@ -1,1 +1,1 @@
-[{"clear": "1", "submit": "0", "name": "old", "value": "fgihad5"}, {"clear": "1", "submit": "0", "name": "new", "value": "222222"}, {"clear": "1", "submit": "1", "name": "new2", "value": "333333"}]
+[{"clear": "1", "submit": "0", "type": "text", "name": "old", "value": "fgihad5"}, {"clear": "1", "submit": "0", "type": "text", "name": "new", "value": "222222"}, {"clear": "1", "submit": "1", "type": "text", "name": "new2", "value": "333333"}]
