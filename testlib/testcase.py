@@ -373,6 +373,9 @@ class TestObject():
 
 		return True
 		
+	def visit_dlink(self, link):
+		return self.visit_link(link['link'], link['url'], link['by'])
+
 	def visit_link(self, link, url, by='id'):
 		try:
 			if by == 'id':
