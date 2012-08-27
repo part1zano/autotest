@@ -249,7 +249,7 @@ class TestObject():
 			self.log.write('error', 'no such div id='+divname)
 			return False
 
-		self.log.write('info', 'found div id='+divname)
+		self.log.write('debug', 'found div id='+divname)
 		self.log.write('debug', 'its content follows:'+div.text)
 		return True
 
