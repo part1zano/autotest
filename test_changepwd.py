@@ -16,6 +16,19 @@ class TestCase(testcase.TestObject):
 		self.links.append({'link': u'Настройки', 'url': 'settings', 'by': 'text'})
 		self.links.append({'link': 'link_change_password', 'url': 'change-password', 'by': 'id'})
 
+		self.errors.append({})
+		self.errors.append({})
+		self.errors.append({'name': 'informer-text', 'value': u'успешно', 'ok': '0'})
+		self.errors.append({})
+		self.errors.append({})
+		self.errors.append({'name': 'error-text', 'value': u'не совпадает', 'ok': '0'})
+		self.errors.append({})
+		self.errors.append({})
+		self.errors.append({'name': 'error-text', 'value': u'неправильный', 'ok': '0'})
+		self.errors.append({})
+		self.errors.append({})
+		self.errors.append({'name': 'informer-text', 'value': u'успешно', 'ok': '0'})
+
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
@@ -28,8 +41,26 @@ class TestCase(testcase.TestObject):
 				return False
 
 		# got to change-passwd
+		index = 0
 		for edit in self.edits:
-			pass
+			if not self.dedit(edit):
+				self.log.write('error', 'failed editing '+edit['name']+' case '+str(index))
+				return False
+
+			if bool(int(edit['submit'])):
+				if not self.click_btn(u'Сохранить'):
+					self.log.write('error', 'failed clicking submit')
+					return False
+
+				self.sleep(2)
+
+				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
+					self.log.write('error', 'error text NOK, case '+str(index))
+					return False
+
+				self.go(self.driver.current_url)
+
+			index += 1
 
 		return True
 

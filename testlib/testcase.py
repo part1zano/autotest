@@ -239,6 +239,9 @@ class TestObject():
 
 		self.log.write('verbose', 'cleared element id='+control)
 		return True
+	
+	def dedit(self, control):
+		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
 	def edit_control(self, control, value, ctl_type='text', clear=False):
 		try:
@@ -397,12 +400,20 @@ class TestObject():
 	def check_error(self, name, value, ok):
 		if name is not None:
 			try:
-				err = self.driver.find_element_by_name(name)
+				if 'informer-text' in name:
+					err = self.driver.find_element_by_id(name)
+					errval = err.text
+				elif 'error-text' in name:
+					err = self.driver.find_element_by_name(name)
+					errval = err.get_attribute('value')
+				else:
+					self.log.write('error', 'wrong informer name: '+name+', unknown search criteria')
+					return False
 			except NoSuchElementException:
 				self.log.write('error', 'no such error elem: '+name)
 				return False
 
-			if value not in err.get_attribute('value'):
+			if value not in errval: 
 				self.log.write('error', name+' has wrong error message')
 				self.log.write('error', 'it should contain: '+value)
 				self.log.write('error', 'but it is: '+err.get_attribute('value'))
