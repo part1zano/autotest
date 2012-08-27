@@ -67,7 +67,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		for field in ['brandName', 'url']:
-			self.info[field] = self.get_our_info(field)
+			self.info[field] = self.cut_string(self.get_our_info(field))
 			if self.info[field] is None:
 				self.log.write('error', 'error finding brand name, aborting')
 				return False

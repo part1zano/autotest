@@ -69,6 +69,12 @@ class TestObject():
 
 		return True
 
+	def cut_string(self, string):
+		if (len(string) > 20) and ('http' not in string):
+			return string[:18]+'...'
+		else:
+			return string
+
 	def find_link(self, link, by='id'):
 		try:
 			if by == 'text':
