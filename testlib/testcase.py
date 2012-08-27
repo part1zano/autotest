@@ -293,10 +293,6 @@ class TestObject():
 					self.log.write('error', 'some shit submitting, see above')
 					return False
 
-				if not self.check_result():
-					self.log.write('error', 'wrong results, see above')
-					return False
-
 		return True
 
 	def check_div_value(self, div, value):

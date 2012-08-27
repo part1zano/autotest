@@ -9,13 +9,17 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 		
 		self.edits = self.make_json_list('json_lists/edit-profile/objlist-edit-profile.json')
+		self.links.append({'link': 'mc_sidebar_profile', 'url': 'news', 'by': 'id'})
+		self.links.append({'link': 'link_profile', 'url': 'profile', 'by': 'id'})
 	
 	def execute(self):
 		if not testcase.TestObject.execute(self):
 			return False
-		if not self.visit_link('link_profile', 'profile'):
-			self.log.write('error', 'no profile link or shit')
-			return False
+
+		for link in self.links:
+			if not self.visit_dlink(link):
+				self.log.write('error', 'no '+link['url']+' link or shit')
+				return False
 
 		for edit in self.edits:
 			if not bool(int(edit['clear'])):
