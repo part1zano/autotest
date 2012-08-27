@@ -8,10 +8,11 @@ class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 
+		self.links.append({'link': 'mc_sidebar_profile', 'url': 'news', 'by': 'id'})
 		self.links.append({'link': 'link_contacts', 'url': 'contacts', 'by': 'id'})
 		self.edits = self.make_json_list('json_lists/edit-contacts/objlist-edit-contacts.json')
 		for edit in self.edits:
-			self.results.append({'name': 'contacts', 'value': edit['value'], })
+			self.results.append({'name': 'contacts', 'value': edit['value'], 'method': 'grep'})
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
@@ -39,6 +40,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'results dont match')
 				return False
 			objlist_index += 1
+			self.log.write('info', 'pass '+str(objlist_index)+' ok')
 
 		return True
 
