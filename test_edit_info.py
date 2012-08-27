@@ -33,6 +33,7 @@ class TestCase(testcase.TestObject):
 		if not self.edit_all_controls():
 			self.log.write('error', 'controls edit failure, see above')
 			return False
+		self.sleep(2)
 		if not self.check_results():
 			self.log.write('error', 'results NOK, see above')
 			return False
