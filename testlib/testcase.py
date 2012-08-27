@@ -194,6 +194,23 @@ class TestObject():
 		self.log.write('error', 'Cookies not ok')
 		return False
 
+	def logout(self):
+		if not self.click_btn(u'Выйти'):
+			self.log.write('error', 'logout button not found')
+			return False
+
+		self.log.write('debug', 'clicked logout btn')
+
+		try:
+			WebDriverWait(self.driver, 10).until(lambda driver : 'profile' not in self.driver.current_url)
+		except TimeoutException:
+			self.log.write('error', 'timeout trying to log out')
+			return False
+
+		self.log.write('info', 'logout ok')
+
+		return True
+
 	def check_page(self):
 		divs = ['content']
 		if 'feedback' in self.driver.current_url:
