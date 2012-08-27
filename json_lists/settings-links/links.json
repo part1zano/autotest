@@ -1,1 +1,10 @@
-[{"url": "news", "link": "mc_sidebar_profile", "by": "id"}, {"url": "settings", "link": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", "by": "text"}, {"url": "settings", "link": "link_settings", "by": "id"}, {"url": "additional-settings", "link": "link_additional_settings", "by": "id"}, {"url": "change-password", "link": "link_change_password", "by": "id"}]
+[
+{"url": "news", "link": "mc_sidebar_profile", "by": "id"}, 
+{"url": "settings", "link": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", "by": "text"}, 
+{"url": "settings", "link": "link_settings", "by": "id"}, 
+{"url": "additional-settings", "link": "link_additional_settings", "by": "id"}, 
+{"url": "change-password", "link": "link_change_password", "by": "id"},
+{"link": "Дополнительные настройки", "url": "additional-settings", "by": "text"},
+{"link": "Пароль", "url": "change-password", "by": "text"},
+{"link": "Основные настройки", "url": "settings", "by": "text"}
+]
