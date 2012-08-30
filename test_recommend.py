@@ -55,7 +55,7 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'link error: '+url)
 					return False
 
-			if (self.check_div_value(info_cluster['divs'][i], info_cluster['bnames'][i]) != (re_cond == accept)):
+			if not self.check_div_value(info_cluster['divs'][i], info_cluster['bnames'][i], (re_cond == accept)):
 				self.log.write('error', 'no value in '+info_cluster['adjs'][i]+' info')
 				return False
 

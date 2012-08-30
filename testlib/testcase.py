@@ -321,14 +321,14 @@ class TestObject():
 
 		return True
 
-	def check_div_value(self, div, value):
+	def check_div_value(self, div, value, condition=True):
 		try:
 			div_ = self.driver.find_element_by_id(div)
 		except NoSuchElementException:
 			self.log.write('error', 'no such div')
 			return False
 
-		if value not in div_.text:
+		if (value in div_.text) != condition:
 			self.log.write('error', 'no '+value+' in '+div)
 			self.log.write('error', 'div text follows: '+div_.text)
 			return False
