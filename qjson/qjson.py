@@ -74,7 +74,7 @@ class MainWin(QtGui.QMainWindow):
 			for cindex in range(self.table.columnCount()):
 				try:
 					text = str(self.table.item(rindex, cindex).text())
-					if (text == '') and (cindex > 1):
+					if text == '':
 						text = self.defaults[cindex]
 #					print self.table.item(rindex, cindex).text()
 				except AttributeError:
