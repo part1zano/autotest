@@ -123,7 +123,7 @@ class MainWin(QtGui.QMainWindow):
 			val = {}
 			for cindex in range(self.table.columnCount()):
 				try:
-					text = unicode(self.table.item(rindex, cindex).text()) # FIXME :: unicode shit
+					text = unicode(self.table.item(rindex, cindex).text()) 
 					if text == '':
 						text = self.defaults[cindex]
 #					print self.table.item(rindex, cindex).text()
