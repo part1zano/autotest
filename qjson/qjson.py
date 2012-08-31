@@ -10,15 +10,28 @@ class MainWin(QtGui.QMainWindow):
 
 		self.ui = uic.loadUi('ui/qjson.ui')
 		self.ui.show()
-
+		self.tabfields = []
+		for index in range(self.ui.tabWidget.count()):
+			text = str(self.ui.tabWidget.tabText(index)).lower()
+			if 'link' in text:
+				self.tabfields.append('by')
+			elif 'control' in text:
+				self.tabfields.append('type')
+			elif 'error' in text:
+				self.tabfields.append('ok')
+			elif 'result' in text:
+				self.tabfields.append('method')
+				
 		self.tray = QtGui.QSystemTrayIcon(self)
 		self.trayMenu = QtGui.QMenu()
 		self.trayIcon = QtGui.QIcon('imgs/Database-blue-48.png')
 
 		self.action_quit = QtGui.QAction(QtGui.QIcon('imgs/Exit-48.png'), u'&Quit', self)
 		self.action_showhide = QtGui.QAction(QtGui.QIcon('imgs/Metro-Viewer-Blue-256.png'), u'&Toggle visibility', self)
+		self.action_open = QtGui.QAction(QtGui.QIcon('imgs/open_256.png'), u'&Open a file', self)
 
 		self.trayMenu.addAction(self.action_showhide)
+		self.trayMenu.addAction(self.action_open)
 		self.trayMenu.addAction(self.action_quit)
 
 		self.tray.setContextMenu(self.trayMenu)
@@ -33,10 +46,47 @@ class MainWin(QtGui.QMainWindow):
 		self.ui.closeEvent = self.closeEvent
 		self.connect(self.action_quit, QtCore.SIGNAL('triggered()'), self.quit)
 		self.connect(self.action_showhide, QtCore.SIGNAL('triggered()'), self.toggleVisibility)
+		self.connect(self.action_open, QtCore.SIGNAL('triggered()'), self.openJson)
+
+	def openJson(self):
+		filename = QtGui.QFileDialog.getOpenFileName()
+		if filename == '':
+			return False
+
+		try:
+			fh = codecs.open(filename, encoding='utf-8')
+		except IOError:
+			print '%s: no such file or directory' % filename
+			return False
+
+		dataStructure = simplejson.load(fh)
+		fh.close()
+		for field in self.tabfields:
+			try:
+				print dataStructure[0][field]
+				key = self.tabfields.index(field)
+				break
+			except KeyError:
+				continue
+
+		self.clearTable()
+		self.ui.tabWidget.setCurrentIndex(key)
+		self.check(key)
+		for index in range(len(dataStructure)):
+			self.table.insertRow(index)
+			for name, value in dataStructure[index].items():
+				item = QtGui.QTableWidgetItem()
+				item.setText(value)
+				self.table.setItem(index, self.fields.index(name), item)
+				
 
 	def closeEvent(self, event):
 		self.toggleVisibility()
 		event.ignore()
+
+	def clearTable(self):
+		for rowIndex in range(self.table.rowCount()):
+			self.table.removeRow(rowIndex)
 
 	def quit(self):
 		sys.exit(0)
@@ -73,7 +123,7 @@ class MainWin(QtGui.QMainWindow):
 			val = {}
 			for cindex in range(self.table.columnCount()):
 				try:
-					text = str(self.table.item(rindex, cindex).text())
+					text = str(self.table.item(rindex, cindex).text()) # FIXME :: unicode shit
 					if text == '':
 						text = self.defaults[cindex]
 #					print self.table.item(rindex, cindex).text()
