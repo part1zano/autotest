@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, string
+import os, sys
 import ConfigParser
 
 def find_num(array, argument):
@@ -25,9 +25,15 @@ class Log:
 		if level == 'stfu':
 			return 2
 		if find_num(levels, level) >= find_num(levels, self.level):
-			try:
-				print level.upper() + ' ' + string 
-			except UnicodeEncodeError:
-				print level.upper() + ' ' + 'some shit with unicode, bro'
+			if find_num(levels, level) >= find_num(levels, 'warning'):
+				try:
+					sys.stderr.write(level.upper() + ' ' + string + '\n')
+				except UnicodeEncodeError:
+					sys.stderr.write(level.upper() + ' ' + 'some shit with unicode, bro\n')
+			else:
+				try:
+					print level.upper() + ' ' + string 
+				except UnicodeEncodeError:
+					print level.upper() + ' ' + 'some shit with unicode, bro'
 
 log = Log('tests.conf')
