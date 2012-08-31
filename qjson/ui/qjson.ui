@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>QJSON</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../imgs/Database-blue-48.png</normaloff>../imgs/Database-blue-48.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0" colspan="3">
@@ -23,7 +27,7 @@
       <property name="documentMode">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="tabLink" native="true">
+      <widget class="QWidget" name="tabLink">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -109,7 +113,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabError" native="true">
+      <widget class="QWidget" name="tabError">
        <attribute name="title">
         <string>New &amp;Error File</string>
        </attribute>

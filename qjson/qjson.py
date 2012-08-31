@@ -10,11 +10,39 @@ class MainWin(QtGui.QMainWindow):
 
 		self.ui = uic.loadUi('ui/qjson.ui')
 		self.ui.show()
+
+		self.tray = QtGui.QSystemTrayIcon(self)
+		self.trayMenu = QtGui.QMenu()
+		self.trayIcon = QtGui.QIcon('imgs/Database-blue-48.png')
+
+		self.action_quit = QtGui.QAction(QtGui.QIcon('imgs/Exit-48.png'), u'&Quit', self)
+		self.action_showhide = QtGui.QAction(QtGui.QIcon('imgs/Metro-Viewer-Blue-256.png'), u'&Toggle visibility', self)
+
+		self.trayMenu.addAction(self.action_showhide)
+		self.trayMenu.addAction(self.action_quit)
+
+		self.tray.setContextMenu(self.trayMenu)
+		self.tray.setIcon(self.trayIcon)
+		self.tray.show()
+
 		self.check(self.ui.tabWidget.currentIndex())
 		self.connect(self.ui.tabWidget, QtCore.SIGNAL('currentChanged(int)'), self.check)
 		self.connect(self.ui.btnAdd, QtCore.SIGNAL('clicked()'), self.add_row)
 		self.connect(self.ui.btnRemove, QtCore.SIGNAL('clicked()'), self.remove_row)
 		self.connect(self.ui.btnWrite, QtCore.SIGNAL('clicked()'), self.write)
+		self.ui.closeEvent = self.closeEvent
+		self.connect(self.action_quit, QtCore.SIGNAL('triggered()'), self.quit)
+		self.connect(self.action_showhide, QtCore.SIGNAL('triggered()'), self.toggleVisibility)
+
+	def closeEvent(self, event):
+		self.toggleVisibility()
+		event.ignore()
+
+	def quit(self):
+		sys.exit(0)
+
+	def toggleVisibility(self):
+		self.ui.setVisible(not self.ui.isVisible())
 
 	def check(self, int_):
 		if 'Link' in self.ui.tabWidget.tabText(int_):
