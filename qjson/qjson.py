@@ -36,6 +36,8 @@ class MainWin(QtGui.QMainWindow):
 	
 	def write(self):
 		outfile = QtGui.QFileDialog.getSaveFileName()
+		if str(outfile) == '':
+			return False
 		print outfile
 		fh = codecs.open(outfile, mode='a+', encoding='utf-8')
 		valList = []
