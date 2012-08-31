@@ -60,6 +60,7 @@ class TestCase(testcase.TestObject):
 
 				self.go(self.driver.current_url)
 
+			self.log.write('info', sys.argv[0]+' pass '+str(index)+' ok')
 			index += 1
 
 		return True

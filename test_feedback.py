@@ -39,6 +39,7 @@ class TestCase(testcase.TestObject):
 			if not self.edit_control(self.edits[index]['name'], self.edits[index]['value'], clear=bool(int(self.edits[index]['clear']))):
 				self.log.write('error', 'failed editing '+self.edits[index]['name']+', see above')
 				return False
+			
 			if bool(int(self.edits[index]['submit'])):
 				if not self.click_btn(u'Отправить'):
 					self.log.write('error', 'submit not clicked, see above')
@@ -50,6 +51,8 @@ class TestCase(testcase.TestObject):
 						return False
 				except IndexError:
 					self.log.write('warning', 'index error for self.errors:something is REALLY wrong')
+
+				self.log.write('info', sys.argv[0]+' pass '+str(index)+' ok')
 
 		return True
 

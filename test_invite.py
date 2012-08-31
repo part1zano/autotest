@@ -69,6 +69,8 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'error/ok msg NOK')
 					return False
 
+				self.log.write('info', sys.argv[0]+' pass '+str(index)+' ok')
+
 		return True
 
 if __name__ == '__main__':
