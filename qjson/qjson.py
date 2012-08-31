@@ -12,7 +12,7 @@ class MainWin(QtGui.QMainWindow):
 		self.ui.show()
 		self.tabfields = []
 		for index in range(self.ui.tabWidget.count()):
-			text = str(self.ui.tabWidget.tabText(index)).lower()
+			text = unicode(self.ui.tabWidget.tabText(index)).lower()
 			if 'link' in text:
 				self.tabfields.append('by')
 			elif 'control' in text:
@@ -114,7 +114,7 @@ class MainWin(QtGui.QMainWindow):
 	
 	def write(self):
 		outfile = QtGui.QFileDialog.getSaveFileName()
-		if str(outfile) == '':
+		if unicode(outfile) == '':
 			return False
 		print outfile
 		fh = codecs.open(outfile, mode='w+', encoding='utf-8')
@@ -123,14 +123,14 @@ class MainWin(QtGui.QMainWindow):
 			val = {}
 			for cindex in range(self.table.columnCount()):
 				try:
-					text = str(self.table.item(rindex, cindex).text()) # FIXME :: unicode shit
+					text = unicode(self.table.item(rindex, cindex).text()) # FIXME :: unicode shit
 					if text == '':
 						text = self.defaults[cindex]
 #					print self.table.item(rindex, cindex).text()
 				except AttributeError:
 					item = QtGui.QTableWidgetItem()
 					item.setText(self.defaults[cindex])
-					text = str(item.text())
+					text = unicode(item.text())
 					self.table.setItem(rindex, cindex, item)
 
 				val[self.fields[cindex]] = text
