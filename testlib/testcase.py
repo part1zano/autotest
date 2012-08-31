@@ -397,6 +397,35 @@ class TestObject():
 		
 	def visit_dlink(self, link):
 		return self.visit_link(link['link'], link['url'], link['by'])
+	
+	def visit_plink(self, link, url, by='text'):
+		try:
+			if by == 'id':
+				self.driver.find_element_by_id(link).click()
+			elif by == 'text':
+				self.driver.find_element_by_partial_link_text(link).click()
+			else:
+				self.log.write('error', 'unknown link search criteria for '+link)
+				return False
+		except NoSuchElementException:
+			self.log.write('error', 'no such link: '+link)
+			return False
+
+		try:
+			WebDriverWait(self.driver, 10).until(lambda driver : url in self.driver.current_url)
+		except TimeoutException:
+			self.log.write('error', 'timeout waiting for shit to load or no '+url+' in cureent_url')
+			return False
+
+		return True
+
+	def get_xpath_text(self, xpath):
+		try:
+			xpath = self.driver.find_element_by_xpath(xpath)
+			return xpath.text
+		except NoSuchElementException:
+			self.log.write('error', 'no such xpath: '+xpath)
+			return None
 
 	def visit_link(self, link, url, by='id'):
 		try:
