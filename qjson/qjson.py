@@ -67,7 +67,7 @@ class MainWin(QtGui.QMainWindow):
 		if str(outfile) == '':
 			return False
 		print outfile
-		fh = codecs.open(outfile, mode='a+', encoding='utf-8')
+		fh = codecs.open(outfile, mode='w+', encoding='utf-8')
 		valList = []
 		for rindex in range(self.table.rowCount()):
 			val = {}
