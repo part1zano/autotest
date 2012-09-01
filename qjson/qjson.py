@@ -27,8 +27,10 @@ class MainWin(QtGui.QMainWindow):
 		self.trayIcon = QtGui.QIcon('imgs/Database-blue-48.png')
 
 		self.action_quit = QtGui.QAction(QtGui.QIcon('imgs/Exit-48.png'), u'&Quit', self)
+		self.action_quit.setShortcut('Ctrl+Q')
 		self.action_showhide = QtGui.QAction(QtGui.QIcon('imgs/Metro-Viewer-Blue-256.png'), u'&Toggle visibility', self)
 		self.action_open = QtGui.QAction(QtGui.QIcon('imgs/open_256.png'), u'&Open a file', self)
+		self.action_open.setShortcut('Ctrl+O')
 
 		self.trayMenu.addAction(self.action_showhide)
 		self.trayMenu.addAction(self.action_open)
@@ -89,7 +91,13 @@ class MainWin(QtGui.QMainWindow):
 			self.table.removeRow(rowIndex)
 
 	def quit(self):
-		sys.exit(0)
+		reply = QtGui.QMessageBox.question(self, 'Quit', 'Save before quit?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+
+		if reply == QtGui.QMessageBox.No:
+			sys.exit(0)
+		else:
+			self.write()
+			sys.exit(0)
 
 	def toggleVisibility(self):
 		self.ui.setVisible(not self.ui.isVisible())
