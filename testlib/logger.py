@@ -26,14 +26,12 @@ class Log:
 			return 2
 		if find_num(levels, level) >= find_num(levels, self.level):
 			if find_num(levels, level) >= find_num(levels, 'warning'):
-				try:
-					sys.stderr.write(level.upper() + ' ' + string + '\n')
-				except UnicodeEncodeError:
-					sys.stderr.write(level.upper() + ' ' + 'some shit with unicode, bro\n')
+				out = sys.stderr
 			else:
-				try:
-					print level.upper() + ' ' + string 
-				except UnicodeEncodeError:
-					print level.upper() + ' ' + 'some shit with unicode, bro'
+				out = sys.stdout
+			try:
+				print >> out, level.upper() + ' ' + string 
+			except UnicodeEncodeError:
+				print >> out, level.upper() + ' ' + 'some shit with unicode, bro'
 
 log = Log('tests.conf')
