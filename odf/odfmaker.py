@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+'''
+Before running this shit, run something like:
+	libreoffice --accept="socket,host=localhost,port=2002;urp;StarOffice.ServiceManager"
+'''
+
 import sys,re,uno,codecs
 
 infile = codecs.open('persons.csv', encoding='utf-8')
