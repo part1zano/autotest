@@ -11,10 +11,8 @@ class TestCase(testcase.TestObject):
 		for objstr in ['pos', 'neg-nomatch', 'neg-1wrong', 'afterall']:
 			for edit in self.make_json_list('json_lists/change-passwd/change-passwd-'+objstr+'.json'):
 				self.edits.append(edit)
-
-		self.links.append({'link': 'mc_sidebar_profile', 'url': 'news', 'by': 'id'})
-		self.links.append({'link': u'Настройки', 'url': 'settings', 'by': 'text'})
-		self.links.append({'link': 'link_change_password', 'url': 'change-password', 'by': 'id'})
+		
+		self.links = self.make_json_list('json_lists/change-passwd/changepwd-links.json')
 
 		self.errors = self.make_json_list('json_lists/change-passwd/changepwd-errors.json')
 
