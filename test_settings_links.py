@@ -31,9 +31,3 @@ class TestCase(testcase.TestObject):
 if __name__ == '__main__':
 	tc = TestCase()
 	sys.exit(int(not tc.execute()))
-#	if not tc.execute():
-#		tc.log.write('error', 'test FAILED, see above')
-#		sys.exit(1)
-#
-#	tc.log.write('info', 'test PASSED')
-#	sys.exit(0)

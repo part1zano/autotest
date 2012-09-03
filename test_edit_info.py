@@ -41,8 +41,8 @@ class TestCase(testcase.TestObject):
 if __name__ == '__main__':
 	tc = TestCase()
 	if not tc.execute():
-		tc.log.write('error', 'test FAILED')
+		tc.log.write('error', '%s FAILED' % sys.argv[0])
 		sys.exit(1)
 	
-	tc.log.write('info', 'test PASSED')
+	tc.log.write('info', '%s PASSED' % sys.argv[0])
 	sys.exit(0)
