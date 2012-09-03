@@ -9,8 +9,7 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 		
 		self.edits = self.make_json_list('json_lists/edit-profile/objlist-edit-profile.json')
-		self.links.append({'link': 'mc_sidebar_profile', 'url': 'news', 'by': 'id'})
-		self.links.append({'link': 'link_profile', 'url': 'profile', 'by': 'id'})
+		self.links = self.make_json_list('json_lists/default-links.json')
 	
 	def execute(self):
 		if not testcase.TestObject.execute(self):

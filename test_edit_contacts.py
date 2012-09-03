@@ -8,8 +8,7 @@ class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 
-		self.links.append({'link': 'mc_sidebar_profile', 'url': 'news', 'by': 'id'})
-		self.links.append({'link': 'link_contacts', 'url': 'contacts', 'by': 'id'})
+		self.links = self.make_json_list('json_lists/edit-contacts/linklist-edit-contacts.json')
 		self.edits = self.make_json_list('json_lists/edit-contacts/objlist-edit-contacts.json')
 		for edit in self.edits:
 			self.results.append({'name': 'contacts', 'value': edit['value'], 'method': 'grep'})
