@@ -16,18 +16,7 @@ class TestCase(testcase.TestObject):
 		self.links.append({'link': u'Настройки', 'url': 'settings', 'by': 'text'})
 		self.links.append({'link': 'link_change_password', 'url': 'change-password', 'by': 'id'})
 
-		self.errors.append({})
-		self.errors.append({})
-		self.errors.append({'name': 'informer-text', 'value': u'успешно', 'ok': '0'})
-		self.errors.append({})
-		self.errors.append({})
-		self.errors.append({'name': 'error-text', 'value': u'не совпадает', 'ok': '0'})
-		self.errors.append({})
-		self.errors.append({})
-		self.errors.append({'name': 'error-text', 'value': u'неправильный', 'ok': '0'})
-		self.errors.append({})
-		self.errors.append({})
-		self.errors.append({'name': 'informer-text', 'value': u'успешно', 'ok': '0'})
+		self.errors = self.make_json_list('json_lists/change-passwd/changepwd-errors.json')
 
 
 	def execute(self):

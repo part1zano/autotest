@@ -15,6 +15,7 @@
  {"url": "contractors", "link": "link_contractors_list", "by": "id"},
  {"url": "outgoing", "link": "link_out_reqs", "by": "id"},
  {"url": "incoming", "link": "link_in_reqs", "by": "id"},
+ {"url": "chat", "link": "main-header-chat-notificaiton", "by": "id"},
  {"url": "chat", "link": "mc_sidebar_chat", "by": "id"},
  {"url": "chat", "link": "link_dialog_list", "by": "id"},
  {"url": "news", "link": "Наша компания", "by": "text"},
@@ -35,6 +36,7 @@
  {"url": "invites", "link": "Приглашения", "by": "text"},
  {"url": "news-feed", "link": "Лента новостей", "by": "text"},
  {"url": "news-feed", "link": "Лента новостей", "by": "text"},
+ {"url": "chat", "link": "Мои сообщения", "by": "text"},
  {"url": "chat", "link": "Мои сообщения", "by": "text"},
  {"url": "chat", "link": "Мои диалоги", "by": "text"} 
  ]
