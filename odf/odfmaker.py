@@ -36,6 +36,6 @@ for obj in objlist:
 			found = document.findNext(found.End, search)
 
 	document.storeAsURL(u'file:///home/che/wrk/odf/work/'+arr[0]+u'.odt', ())
+	document.dispose()
 	if index >= 30:
-		document.dispose()
 		sys.exit(0)
