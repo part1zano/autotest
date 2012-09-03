@@ -7,6 +7,10 @@ Before running this shit, run something like:
 '''
 
 import sys,re,uno,codecs
+from com.sun.star.beans import PropertyValue
+property = (
+    PropertyValue( "FilterName" , 0, "writer_pdf_Export" , 0 ),
+)
 
 infile = codecs.open('persons.csv', encoding='utf-8')
 objlist = [elem.rstrip() for elem in infile.readlines()]
@@ -35,14 +39,16 @@ for obj in objlist:
 			found.String = re.sub(searchString, arr[arr_strings.index(searchString)], found.String)
 			found = document.findNext(found.End, search)
 
-	document.storeAsURL(u'file:///home/che/wrk/odf/work/'+arr[0]+u'.odt', ())
+#	document.storeAsURL(u'file:///home/che/wrk/odf/work/'+arr[0]+u'.odt', ())
+	document.storeToURL(u'file:///home/che/wrk/odf/work/'+arr[0]+u'.pdf', property)
 	document.dispose()
 	document = desktop.loadComponentFromURL("private:factory/swriter", "_blank", 0, ())
 	cursor = document.Text.createTextCursor()
 	cursor.setPropertyValue('CharHeight', 22)
 	cursor.setPropertyValue('CharWeight', 150)
 	document.Text.insertString(cursor, u'company: %s\nphone: %s\nperson: %s\n' % (arr[0], arr[4], (arr[2]+u' '+arr[3])), 0)
-	document.storeAsURL(u'file:///home/che/wrk/odf/work/~~~contacts.'+arr[0]+u'.odt', ())
+#	document.storeAsURL(u'file:///home/che/wrk/odf/work/~~~contacts.'+arr[0]+u'.odt', ())
+	document.storeToURL(u'file:///home/che/wrk/odf/work/~~~contacts.'+arr[0]+u'.pdf', property)
 	document.dispose()
 	print arr[0]+' done'
 	if index >= 30:
