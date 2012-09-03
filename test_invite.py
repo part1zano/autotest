@@ -69,7 +69,7 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'error/ok msg NOK')
 					return False
 
-				self.log.write('info', sys.argv[0]+' pass '+str(index)+' ok')
+				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], index))
 
 		return True
 

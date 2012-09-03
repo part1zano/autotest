@@ -39,7 +39,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'results dont match')
 				return False
 			objlist_index += 1
-			self.log.write('info', 'pass '+str(objlist_index)+' ok')
+			self.log.write('info', '%s pass %2d ok' % (sys.argv[0], objlist_index))
 
 		return True
 

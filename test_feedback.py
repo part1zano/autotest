@@ -52,7 +52,7 @@ class TestCase(testcase.TestObject):
 				except IndexError:
 					self.log.write('warning', 'index error for self.errors:something is REALLY wrong')
 
-				self.log.write('info', sys.argv[0]+' pass '+str(index)+' ok')
+				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], index))
 
 		return True
 
