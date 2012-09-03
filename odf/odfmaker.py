@@ -37,5 +37,13 @@ for obj in objlist:
 
 	document.storeAsURL(u'file:///home/che/wrk/odf/work/'+arr[0]+u'.odt', ())
 	document.dispose()
+	document = desktop.loadComponentFromURL("private:factory/swriter", "_blank", 0, ())
+	cursor = document.Text.createTextCursor()
+	cursor.setPropertyValue('CharHeight', 22)
+	cursor.setPropertyValue('CharWeight', 150)
+	document.Text.insertString(cursor, u'company: %s\nphone: %s\nperson: %s\n' % (arr[0], arr[4], (arr[2]+u' '+arr[3])), 0)
+	document.storeAsURL(u'file:///home/che/wrk/odf/work/~~~contacts.'+arr[0]+u'.odt', ())
+	document.dispose()
+	print arr[0]+' done'
 	if index >= 30:
 		sys.exit(0)
