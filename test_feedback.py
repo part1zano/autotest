@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from testlib import testcase
-import sys
+import sys,re
 
 
 class TestCase(testcase.TestObject):
@@ -11,19 +11,12 @@ class TestCase(testcase.TestObject):
 
 		self.links.append({'link': u'Обратная связь', 'url': 'feedback', 'by': 'text'})
 
-		self.edits.append({'name': 'feedback-email', 'value': '', 'submit': '0', 'clear': '1'})
-		self.edits.append({'name': 'feedback-message', 'value': 'This is just a test msg', 'submit': '1', 'clear': '1'})
-		self.edits.append({'name': 'feedback-email', 'value': self.login, 'submit': '0', 'clear': '0'})
-		self.edits.append({'name': 'feedback-message', 'value': '', 'submit': '1', 'clear': '1'})
-		self.edits.append({'name': 'feedback-email', 'value': self.login, 'submit': '0', 'clear': '1'})
-		self.edits.append({'name': 'feedback-message', 'value': 'This is just a test msg', 'submit': '1', 'clear': '0'})
-	
-		self.errors.append({})
-		self.errors.append({'name': 'error-text', 'value': u'Неправильный e-mail', 'ok': '0'})
-		self.errors.append({})
-		self.errors.append({'name': 'error-text', 'value': u'Поле не должно быть пустым', 'ok': '0'})
-		self.errors.append({})
-		self.errors.append({'name': None, 'value': None, 'ok': '1'})
+		self.edits = self.make_json_list('json_lists/feedback/objlist-feedback.json')
+		for edit in self.edits:
+			if edit['value'] == '%%LOGIN%%':
+				edit['value'] = re.sub('%%LOGIN%%', self.login, edit['value'])
+
+		self.errors = self.make_json_list('json_lists/feedback/errlist-feedback.json')
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):

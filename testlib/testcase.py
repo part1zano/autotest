@@ -450,7 +450,7 @@ class TestObject():
 		return self.check_page()
 
 	def check_error(self, name, value, ok):
-		if name is not None:
+		if name != '':
 			try:
 				if 'informer-text' in name:
 					err = self.driver.find_element_by_id(name)

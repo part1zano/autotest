@@ -12,17 +12,9 @@ class TestCase(testcase.TestObject):
 			for edit in self.make_json_list('json_lists/invite/'+objfile+'.json'):
 				self.edits.append(edit)
 
-		self.links.append({'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'})
-		self.links.append({'link': 'link_invites', 'url': 'invites', 'by': 'id'})
+		self.links = self.make_json_list('json_lists/invite/linklist-invite.json')
 
-		self.errors.append({}) # empty
-		self.errors.append({'name': None, 'value': None, 'ok': '1'})
-		self.errors.append({}) # empty
-		self.errors.append({'name': None, 'value': None, 'ok': '1'})
-		self.errors.append({}) # empty
-		self.errors.append({'name': 'informer-text', 'value': u'введите корректный адрес электронной почты', 'ok': '0'})
-		self.errors.append({}) # empty
-		self.errors.append({'name': 'informer-text', 'value': u'введите ваше сообщение', 'ok': '0'})
+		self.errors = self.make_json_list('json_lists/invite/errlist-invite.json')
 
 		self.results.append({}) # empty
 		self.results.append({'name': 'invites', 'value': '', 'method': 'grep'})
