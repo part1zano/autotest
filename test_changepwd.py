@@ -44,10 +44,11 @@ class TestCase(testcase.TestObject):
 				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
 					self.log.write('error', 'error text NOK, case '+str(index))
 					return False
+				
+				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], int(index/3)))
 
 				self.go(self.driver.current_url)
 
-			self.log.write('info', '%s pass %2d ok' % (sys.argv[0], index))
 			index += 1
 
 		return True
