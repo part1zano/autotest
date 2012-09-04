@@ -379,7 +379,7 @@ class TestObject():
 		if method == 'equal':
 			found = res.text.lower() == self.results[index]['value'].lower()
 		elif method == 'grep':
-			found = self.results[index]['value'] in res.text
+			found = self.results[index]['value'].lower() in res.text.lower()
 		else:
 			self.log.write('error', 'unknown comparison method for '+self.results[index]['name'])
 			return False
