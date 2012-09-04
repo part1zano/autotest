@@ -314,10 +314,14 @@ class TestObject():
 				self.log.write('error', 'control '+edit['name']+' edit failed, see above')
 				return False
 
+			self.log.write('info', '%s edited successfully' % edit['name'])
+
 			if bool(int(edit['submit'])):
 				if not self.click_btn(submit):
 					self.log.write('error', 'some shit submitting, see above')
 					return False
+
+				self.log.write('info', 'clicked submit with editing %s' % edit['name'])
 
 		return True
 
