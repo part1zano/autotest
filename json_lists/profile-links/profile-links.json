@@ -11,7 +11,7 @@
  {"url": "payments", "link": "link_payments", "by": "id"},
  {"url": "deposit", "link": "link_deposit", "by": "id"},
  {"url": "topping-up", "link": "link_topping_up", "by": "id"},
- {"url": "subscribed-people", "link": "mc_sidebar_subscribers", "by": "id"},
+ {"url": "subscribed-people", "link": "mc_sidebar_subscriptions", "by": "id"},
  {"url": "news-subscriptions", "link": "link_news_subscriptions", "by": "id"},
  {"url": "subscribed-people", "link": "link_subscribed_people", "by": "id"},
  {"url": "contractors", "link": "mc_sidebar_contractors", "by": "id"},
