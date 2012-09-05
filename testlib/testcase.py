@@ -226,7 +226,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ('chat', 'news-feed'):
+			for substr in ('chat', 'news-feed', 'subscr'):
 				if substr in self.driver.current_url:
 					emp_header = True
 			if emp_header:
@@ -399,8 +399,8 @@ class TestObject():
 
 		return True
 		
-	def visit_dlink(self, link):
-		return self.visit_link(link['link'], link['url'], link['by'])
+	def visit_dlink(self, link, sleep=False):
+		return self.visit_link(link['link'], link['url'], link['by'], sleep)
 	
 	def visit_plink(self, link, url, by='text'):
 		try:
@@ -431,7 +431,7 @@ class TestObject():
 			self.log.write('error', 'no such xpath: '+xpath)
 			return None
 
-	def visit_link(self, link, url, by='id'):
+	def visit_link(self, link, url, by='id', sleep=False):
 		try:
 			if by == 'id':
 				self.driver.find_element_by_id(link).click()
@@ -451,7 +451,8 @@ class TestObject():
 			return False
 
 		self.log.write('info', 'got to '+url+', checkin divs')
-		self.sleep(2)
+		if sleep:
+			self.sleep(2)
 		return self.check_page()
 
 	def check_error(self, name, value, ok):

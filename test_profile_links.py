@@ -27,6 +27,8 @@ class TestCase(testcase.TestObject):
 				divname = 'dialog_list'
 			elif linkitem['url'] in ('contractors', 'incoming', 'outgoing'):
 				divname += 'list'
+			elif linkitem['url'] == 'subscribed-people':
+				divname = 'news-subscribers'
 
 			if not self.check_div(divname):
 				self.log.write('error', 'no div id='+divname)
