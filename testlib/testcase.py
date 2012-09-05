@@ -451,6 +451,7 @@ class TestObject():
 			return False
 
 		self.log.write('info', 'got to '+url+', checkin divs')
+		self.sleep(2)
 		return self.check_page()
 
 	def check_error(self, name, value, ok):
