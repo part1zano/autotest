@@ -11,19 +11,17 @@ class TestCase(testcase.TestObject):
 	def recommend_by_title(self, title_fragment, re_cond = True, accept = True):
 		our_links = {'mc_sidebar_our_proposers': 'our_proposers', 'link_we_recommend': 'we_recommend'}
 		their_links = {'mc_sidebar_our_proposers': 'our_proposers'}
+
+		give_links = {True: u'Дать рекомендацию', False: u'Отозвать рекомендацию'}
+
+		give_link = give_links[re_cond]
 		
 		if re_cond:
-			give_link = u'Дать рекомендацию'
-			if accept:
-				btn = give_link
-			else:
-				btn = u'Отмена'
+			btns = {True: give_link, False: u'Отмена'}
 		else:
-			give_link = u'Отозвать рекомендацию'
-			if accept:
-				btn = u'Да'
-			else:
-				btn = u'Нет'
+			btns = {True: u'Да', False: u'Нет'}
+
+		btn = btns[accept]
 
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error in search: see above')
@@ -41,8 +39,21 @@ class TestCase(testcase.TestObject):
 				}
 
 		if not self.click_btn(give_link):
-			self.log.write('error', 'no recommendation link or wrong direction')
-			return False
+			self.log.write('warning', 'no recommendation link or wrong direction')
+			self.log.write('warning', 'trying to fix it')
+
+			if not self.click_btn(give_links[not re_cond]):
+				self.log.write('error', 'now for sure: no fucking link')
+				return False
+
+			if not self.click_btn(btns[True]):
+				self.log.write('error', 'no button: %s' % btns[True])
+				return False
+
+			if not self.click_btn(give_link):
+				self.log.write('error', 'fixed button doesn\'t appear to be clickable')
+				return False
+			
 		
 		if not self.click_btn(btn):
 			self.log.write('error', 'no accept-decline btn or something else strange and frightening')
