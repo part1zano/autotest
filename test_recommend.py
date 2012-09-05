@@ -16,12 +16,9 @@ class TestCase(testcase.TestObject):
 
 		give_link = give_links[re_cond]
 		
-		if re_cond:
-			btns = {True: give_link, False: u'Отмена'}
-		else:
-			btns = {True: u'Да', False: u'Нет'}
+		btns = {True: {True: give_link, False: u'Отмена'}, False: {True: u'Да', False: u'Нет'}}
 
-		btn = btns[accept]
+		btn = btns[re_cond][accept]
 
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error in search: see above')
@@ -46,8 +43,8 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'now for sure: no fucking link')
 				return False
 
-			if not self.click_btn(btns[True]):
-				self.log.write('error', 'no button: %s' % btns[True])
+			if not self.click_btn(btns[not re_cond][True]):
+				self.log.write('error', 'no button: %s' % btns[not re_cond][True])
 				return False
 
 			if not self.click_btn(give_link):
