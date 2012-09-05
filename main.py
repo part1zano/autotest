@@ -4,12 +4,13 @@
 import os,sys,time,re
 
 scripts_to_run = []
+exclude_scripts = []
 
 all_ = False
 
 search_string = 'find . -maxdepth 1 -type f -name "test_*.py" '
 if not all_:
-	for script in []:
+	for script in exclude_scripts:
 		search_string += ' -and -not -name "'+script+'"'
 
 search_string += ' 2>/dev/null'
