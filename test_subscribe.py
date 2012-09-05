@@ -64,6 +64,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error subscribing pass %2d' % index)
 				return False
 			index += 1
+			self.log.write('info', '%s pass %2d ok' % (sys.argv[0], index))
 
 		return True
 
