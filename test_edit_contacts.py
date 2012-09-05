@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from testlib import testcase
