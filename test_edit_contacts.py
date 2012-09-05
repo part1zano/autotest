@@ -34,7 +34,7 @@ class TestCase(testcase.TestObject):
 			if not self.click_btn(u'Сохранить'):
 				self.log.write('error', 'error clicking save-btn')
 				return False
-
+			self.sleep(2)
 			if not self.check_div_value(self.results[objlist_index]['name'], self.results[objlist_index]['value'], True):	
 				self.log.write('error', 'results dont match')
 				return False
