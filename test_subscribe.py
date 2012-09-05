@@ -1,11 +1,31 @@
 # -*- coding: utf-8 -*-
 
-from testlib import testcase
+from testlib import testcase,myrandom
 import sys
 
 class TestCase(testcase.TestObject):
-	def __init__(self, config='tests.conf'):
-		testcase.TestObject.__init__(self, config)
+	def unsubscribe_in_profile(self, title_fragment, restore=False):
+		linkchains = [
+				[{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'}],
+				[
+					{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'},
+					{'link': 'link_news_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
+					]
+				]
+		divs = ['news-subscribers', 'news-subscriptions']
+		titles = [self.info['brandName'], title_fragment]
+		
+		self.go(self.info['url'])
+		for link in linkchains[1]:
+			if not self.visit_dlink(link):
+				self.log.write('error', 'not visiting %s' % link['url'])
+				return False
+
+		if not self.check_div_value(divs[1], titles[1], True):
+			self.log.write('error', 'already unsubscribed')
+			return False
+
+
 
 	def subscribe_by_title(self, title_fragment, su_cond=True):
 		subscribe_btns = {True: u'Подписаться', False: u'Отписаться'}
