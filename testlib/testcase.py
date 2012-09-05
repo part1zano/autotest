@@ -51,7 +51,7 @@ class TestObject():
 		self.results = []
 		self.errors = []
 		self.info = {}
-	
+
 	def find_stuff(self, stuff):
 		try:
 			search = self.driver.find_element_by_name('q')
@@ -68,6 +68,28 @@ class TestObject():
 			return False
 
 		return True
+
+	def move_to(self, elem, by='id'):
+		try:
+			if by == 'id':
+				obj = self.driver.find_element_by_id(elem)
+			elif by == 'text':
+				obj = self.driver.find_element_by_partial_link_text(elem)
+			elif by == 'xpath':
+				obj = self.driver.find_element_by_xpath(elem)
+			else:
+				self.log.write('error', 'unknown search criteria: by %s' % by)
+				return False
+		except NoSuchElementException:
+			self.log.write('error', 'no such element %s' % elem)
+			return False
+	
+		hover = ActionChains(self.driver).move_to_element(obj)
+		hover.perform()
+		return True
+
+
+
 
 	def cut_string(self, string):
 		if (len(string) > 20) and ('http' not in string):
