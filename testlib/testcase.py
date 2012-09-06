@@ -75,11 +75,16 @@ class TestObject():
 		else:
 			return string
 
-	def find_link(self, link, by='id'):
+	def find_link(self, link, by='id', count=1):
 		try:
 			if by == 'text':
-				link_ = self.driver.find_element_by_partial_link_text(link)
+				link_ = self.driver.find_elements_by_partial_link_text(link)
+				if len(link_) < count:
+					self.log.write('error', 'found only %2d eleemnts, NOK' % len(link_))
+					return False
 			elif by == 'id':
+				if count > 1:
+					self.log.write('warning', 'searching by id returns only one element. always.')
 				link = self.driver.find_element_by_id(link)
 			else:
 				self.log.write('error', 'unknown search criteria: '+by)

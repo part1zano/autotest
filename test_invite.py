@@ -42,13 +42,13 @@ class TestCase(testcase.TestObject):
 			if not self.edit_control(self.edits[index]['name'], value, clear=bool(int(self.edits[index]['clear']))):
 				self.log.write('error', 'error editing '+self.edits[index]['name']+', see above')
 				return False
-
 			if bool(int(self.edits[index]['submit'])):
 				if not self.click_btn(u'Отправить'):
 					self.log.write('error', 'couldnt click submit, see above')
 					return False
+				self.sleep(2)
 				if index == 3:
-					if not self.find_link(bname, by='text'):
+					if not self.find_link(bname, by='text', 2):
 						self.log.write('error', 'no brand name in msg-box')
 						return False
 				elif index == 1:
