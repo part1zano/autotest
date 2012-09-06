@@ -48,7 +48,7 @@ class TestCase(testcase.TestObject):
 					return False
 				self.sleep(2)
 				if index == 3:
-					if not self.find_link(bname, by='text', 2):
+					if not self.find_link(bname, 'text', 2):
 						self.log.write('error', 'no brand name in msg-box')
 						return False
 				elif index == 1:
