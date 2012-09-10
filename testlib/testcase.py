@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser,codecs,re,json
+import time,ConfigParser,codecs,re,json,getopt,sys
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -37,12 +37,20 @@ class TestObject():
 		self.log = Log(config)
 		cnf = ConfigParser.ConfigParser()
 		cnf.read(config)
+
+		options,operands = getopt.getopt(sys.argv[1:], 'bu:d', ['browser=', 'url='])
+
+		for name, value in options:
+			if name == '-d':
+				self.log.level = 'debug'
+
 		self.url = cnf.get('net-creds', 'server')
 		self.login = cnf.get('net-creds', 'login')
 		self.password = cnf.get('net-creds', 'passwd')
 		self.browser = cnf.get('browser', 'browser')
 		self.proxy_host = cnf.get('proxy', 'proxy_host')
 		self.proxy_port = cnf.get('proxy', 'proxy_port')
+
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
