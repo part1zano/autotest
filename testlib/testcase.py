@@ -68,9 +68,9 @@ class TestObject():
 		self.log.write('debug', 'login: %s' % self.login)
 		self.log.write('debug', 'password: %s' % self.password)
 		self.log.write('debug', 'url: %s' % self.url)
-		self.log.write('debug', 'browser: %s', self.browser)
-		self.log.write('debug', 'proxy_host: %s', self.proxy_host)
-		self.log.write('debug', 'proxy_port: %s', self.proxy_port)
+		self.log.write('debug', 'browser: %s' % self.browser)
+		self.log.write('debug', 'proxy_host: %s' % self.proxy_host)
+		self.log.write('debug', 'proxy_port: %s' % self.proxy_port)
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
@@ -230,10 +230,8 @@ class TestObject():
 		except TimeoutException:
 			self.log.write('error', 'timeout waiting for shit to load')
 			return False
-		
-		self.log.write('debug', 'sleeping for 2s waiting for shit to load')
-		time.sleep(2)
-		self.log.write('debug', 'woke up, will now check divs')
+
+		self.sleep(2)
 
 		if not self.check_page():
 			self.log.write('error', 'some divs missing, see above')
