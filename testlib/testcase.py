@@ -127,7 +127,7 @@ class TestObject():
 			if by == 'text':
 				link_ = self.driver.find_elements_by_partial_link_text(link)
 				if len(link_) < count:
-					self.log.write('error', 'found only %2d elements, NOK' % len(link_))
+					self.log.write('error', 'found only %2d eleemnts, NOK' % len(link_))
 					return False
 			elif by == 'id':
 				if count > 1:
