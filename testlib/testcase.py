@@ -8,6 +8,11 @@ from selenium.common.exceptions import TimeoutException,NoSuchElementException,W
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
+
+# this is a piece of random text
+# out here somewhere
+
+
 def get_browser(browser, proxy_host='', proxy_port=''):
 	if proxy_port == '':
 		proxy_port = 8090
