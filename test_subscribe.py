@@ -35,7 +35,7 @@ class TestCase(testcase.TestObject):
 			self.go(urls[index])
 
 			for link in linkchains[index]:
-				if not self.visit_dlink(link):
+				if not self.visit_dlink(link, sleep=True):
 					self.log.write('error', 'error visiting %s' % link['url'])
 					return False
 
