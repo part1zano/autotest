@@ -34,11 +34,14 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 
 class TestObject():
 	def __init__(self, config='tests.conf'):
+		options,operands = getopt.getopt(sys.argv[1:], 'bclu:d', ['browser=', 'config=', 'level=', 'url='])
+		for name, value in options:
+			if (name == '-c') or (name == '--config':
+				config = value or config
+		
 		self.log = Log(config)
 		cnf = ConfigParser.ConfigParser()
 		cnf.read(config)
-
-		options,operands = getopt.getopt(sys.argv[1:], 'bul:d', ['browser=', 'url=', 'level='])
 
 		self.login = cnf.get('net-creds', 'login')
 		self.password = cnf.get('net-creds', 'passwd')
