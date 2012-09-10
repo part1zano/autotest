@@ -21,4 +21,4 @@ class TestCase(testcase.TestObject):
 
 if __name__ == '__main__':
 	tc = TestCase()
-	sys.exit(int(not tc.execute))
+	sys.exit(int(not tc.execute()))
