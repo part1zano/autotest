@@ -38,9 +38,11 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'submit not clicked, see above')
 					return False
 
+				self.sleep(2)
+
 				try:
 					if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
-						self.log.write('error', 'wrong err value for case '+str(index))
+						self.log.write('error', 'wrong err value for case %2d' % int(index/2))
 						return False
 				except IndexError:
 					self.log.write('warning', 'index error for self.errors:something is REALLY wrong')

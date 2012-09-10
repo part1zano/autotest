@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser,codecs,re,json
+import time,ConfigParser,codecs,re,json,getopt,sys,os.path
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,15 +34,43 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 
 class TestObject():
 	def __init__(self, config='tests.conf'):
+		options,operands = getopt.getopt(sys.argv[1:], 'bclu:d', ['browser=', 'config=', 'level=', 'url='])
+		defaultCfg = True
+		for name, value in options:
+			if (name == '-c') or (name == '--config'):
+				if os.path.exists(value):
+					config = value
+					defaultCfg = False
+		
 		self.log = Log(config)
 		cnf = ConfigParser.ConfigParser()
 		cnf.read(config)
-		self.url = cnf.get('net-creds', 'server')
+
 		self.login = cnf.get('net-creds', 'login')
 		self.password = cnf.get('net-creds', 'passwd')
+		self.url = cnf.get('net-creds', 'server')
 		self.browser = cnf.get('browser', 'browser')
 		self.proxy_host = cnf.get('proxy', 'proxy_host')
 		self.proxy_port = cnf.get('proxy', 'proxy_port')
+
+		for name, value in options:
+			if name == '-d':
+				self.log.level = 'debug'
+			elif (name == '-u') or (name == '--url'):
+				self.url = value or self.url
+			elif (name == '-b') or (name == '--browser'):
+				self.browser = value or self.browser
+			elif (name == '-l') or (name == '--level'):
+				self.log.level = value or self.log.level
+
+		self.log.write('debug', 'starting instance with parameters:')
+		self.log.write('debug', 'config: %s' % config)
+		self.log.write('debug', 'login: %s' % self.login)
+		self.log.write('debug', 'password: %s' % self.password)
+		self.log.write('debug', 'url: %s' % self.url)
+		self.log.write('debug', 'browser: %s' % self.browser)
+		self.log.write('debug', 'proxy_host: %s' % self.proxy_host)
+		self.log.write('debug', 'proxy_port: %s' % self.proxy_port)
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
@@ -51,7 +79,7 @@ class TestObject():
 		self.results = []
 		self.errors = []
 		self.info = {}
-	
+
 	def find_stuff(self, stuff):
 		try:
 			search = self.driver.find_element_by_name('q')
@@ -67,6 +95,25 @@ class TestObject():
 			self.log.write('error', 'timeout waiting for shit to load')
 			return False
 
+		return True
+
+	def move_to(self, elem, by='id'):
+		try:
+			if by == 'id':
+				obj = self.driver.find_element_by_id(elem)
+			elif by == 'text':
+				obj = self.driver.find_element_by_partial_link_text(elem)
+			elif by == 'xpath':
+				obj = self.driver.find_element_by_xpath(elem)
+			else:
+				self.log.write('error', 'unknown search criteria: by %s' % by)
+				return False
+		except NoSuchElementException:
+			self.log.write('error', 'no such element %s' % elem)
+			return False
+	
+		hover = ActionChains(self.driver).move_to_element(obj)
+		hover.perform()
 		return True
 
 	def cut_string(self, string):
@@ -188,10 +235,8 @@ class TestObject():
 		except TimeoutException:
 			self.log.write('error', 'timeout waiting for shit to load')
 			return False
-		
-		self.log.write('debug', 'sleeping for 2s waiting for shit to load')
-		time.sleep(2)
-		self.log.write('debug', 'woke up, will now check divs')
+
+		self.sleep(2)
 
 		if not self.check_page():
 			self.log.write('error', 'some divs missing, see above')
