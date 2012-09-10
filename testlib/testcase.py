@@ -38,19 +38,24 @@ class TestObject():
 		cnf = ConfigParser.ConfigParser()
 		cnf.read(config)
 
-		options,operands = getopt.getopt(sys.argv[1:], 'bu:d', ['browser=', 'url='])
+		options,operands = getopt.getopt(sys.argv[1:], 'bul:d', ['browser=', 'url=', 'level='])
 
-		for name, value in options:
-			if name == '-d':
-				self.log.level = 'debug'
-
-		self.url = cnf.get('net-creds', 'server')
 		self.login = cnf.get('net-creds', 'login')
 		self.password = cnf.get('net-creds', 'passwd')
+		self.url = cnf.get('net-creds', 'server')
 		self.browser = cnf.get('browser', 'browser')
 		self.proxy_host = cnf.get('proxy', 'proxy_host')
 		self.proxy_port = cnf.get('proxy', 'proxy_port')
 
+		for name, value in options:
+			if name == '-d':
+				self.log.level = 'debug'
+			elif (name == '-u') or (name == '--url'):
+				self.url = value or self.url
+			elif (name == '-b') or (name == '--browser'):
+				self.browser = value or self.browser
+			elif (name == '-l') or (name == '--level'):
+				self.log.level = value or self.log.level
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
