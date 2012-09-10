@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from testlib import testcase
+from testlib import testcase,myrandom
 import sys
 
 class TestCase(testcase.TestObject):
-	def __init__(self, config='tests.conf'):
-		testcase.TestObject.__init__(self, config)
-
 	def subscribe_by_title(self, title_fragment, su_cond=True):
 		subscribe_btns = {True: u'Подписаться', False: u'Отписаться'}
 
