@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser,codecs,re,json,getopt,sys
+import time,ConfigParser,codecs,re,json,getopt,sys,os.path
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -35,9 +35,12 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 class TestObject():
 	def __init__(self, config='tests.conf'):
 		options,operands = getopt.getopt(sys.argv[1:], 'bclu:d', ['browser=', 'config=', 'level=', 'url='])
+		defaultCfg = True
 		for name, value in options:
-			if (name == '-c') or (name == '--config':
-				config = value or config
+			if (name == '-c') or (name == '--config'):
+				if os.path.exists(value):
+					config = value
+					defaultCfg = False
 		
 		self.log = Log(config)
 		cnf = ConfigParser.ConfigParser()
@@ -59,6 +62,15 @@ class TestObject():
 				self.browser = value or self.browser
 			elif (name == '-l') or (name == '--level'):
 				self.log.level = value or self.log.level
+
+		self.log.write('debug', 'starting instance with parameters:')
+		self.log.write('debug', 'config: %s' % config)
+		self.log.write('debug', 'login: %s' % self.login)
+		self.log.write('debug', 'password: %s' % self.password)
+		self.log.write('debug', 'url: %s' % self.url)
+		self.log.write('debug', 'browser: %s', self.browser)
+		self.log.write('debug', 'proxy_host: %s', self.proxy_host)
+		self.log.write('debug', 'proxy_port: %s', self.proxy_port)
 
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
