@@ -34,10 +34,10 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 
 class TestObject():
 	def __init__(self, config='tests.conf'):
-		options,operands = getopt.getopt(sys.argv[1:], 'bclu:d', ['browser=', 'config=', 'level=', 'url='])
+		options,operands = getopt.getopt(sys.argv[1:], 'b:c:l:u:d', ['browser=', 'config=', 'level=', 'url=', 'debug'])
 		defaultCfg = True
 		for name, value in options:
-			if (name == '-c') or (name == '--config'):
+			if name in ('-c', '--config'):
 				if os.path.exists(value):
 					config = value
 					defaultCfg = False
@@ -54,13 +54,13 @@ class TestObject():
 		self.proxy_port = cnf.get('proxy', 'proxy_port')
 
 		for name, value in options:
-			if name == '-d':
+			if name in ('-d', '--debug'):
 				self.log.level = 'debug'
-			elif (name == '-u') or (name == '--url'):
+			elif name in ('-u', '--url'):
 				self.url = value or self.url
-			elif (name == '-b') or (name == '--browser'):
+			elif name in ('-b', '--browser'):
 				self.browser = value or self.browser
-			elif (name == '-l') or (name == '--level'):
+			elif name in ('-l', '--level'):
 				self.log.level = value or self.log.level
 
 		self.log.write('debug', 'starting instance with parameters:')
