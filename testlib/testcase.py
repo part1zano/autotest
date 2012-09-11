@@ -316,11 +316,11 @@ class TestObject():
 	def dedit(self, control):
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
-	def edit_control(self, control, value, ctl_type='text', clear=False):
+	def edit_control(self, control, value, ctl_type='text', clear=False, click=False):
 		try:
 			ctl = self.driver.find_element_by_id(control)
 		except NoSuchElementException:
-			self.log.write('error', 'no such control id='+ctl)
+			self.log.write('error', 'no such control id='+control)
 			return False
 
 		if ctl_type == 'text':
@@ -335,6 +335,9 @@ class TestObject():
 
 			ctl.send_keys(value)
 			self.log.write('debug', 'sent '+value+' into '+control+' control')
+
+			if click:
+				ctl.click()
 
 			return (ctl.get_attribute('value').lower() == new_value.lower()) # FIXME dog-nail for fckn selenium
 		elif ctl_type == 'popup':
