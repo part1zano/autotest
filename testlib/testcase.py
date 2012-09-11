@@ -316,9 +316,15 @@ class TestObject():
 	def dedit(self, control):
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
-	def edit_control(self, control, value, ctl_type='text', clear=False, click=False):
+	def edit_control(self, control, value, ctl_type='text', by='id', clear=False, click=False):
 		try:
-			ctl = self.driver.find_element_by_id(control)
+			if by == 'id':
+				ctl = self.driver.find_element_by_id(control)
+			elif by == 'xpath':
+				ctl = self.driver.find_element_by_xpath(control)
+			else:
+				self.log.write('error', 'unknown search criteria: by %s' % by)
+				return False
 		except NoSuchElementException:
 			self.log.write('error', 'no such control id='+control)
 			return False
