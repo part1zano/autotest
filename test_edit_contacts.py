@@ -35,7 +35,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error clicking save-btn')
 				return False
 			self.sleep(2)
-			if not self.check_div_value(self.results[objlist_index]['name'], self.results[objlist_index]['value'], True):	
+			if not self.check_result(self.results[objlist_index], True):
 				self.log.write('error', 'results dont match')
 				return False
 			objlist_index += 1
