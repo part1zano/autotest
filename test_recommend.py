@@ -24,7 +24,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error in search: see above')
 			return False
 		
-		if not self.visit_link(title_fragment, 'news', 'text'):
+		if not self.visit_link(title_fragment, 'news', 'text', True):
 			self.log.write('error', 'error visiting profile from search, see above')
 			return False
 		
