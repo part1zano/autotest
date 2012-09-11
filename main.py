@@ -1,12 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os,sys,time,re
+import os,sys,time,re,getopt
 
 scripts_to_run = []
 exclude_scripts = []
-
+run_opts = ' '
 all_ = False
+
+options,operands = getopt.getopt(sys.argv[1:], 'bcelu:da', ['browser=', 'config=', 'exclude=', 'level=', 'url='])
+
+for name, value in options:
+	if (name == '-e') or (name == '--exclude'):
+		exclude_scripts.append(value)
+	elif (name == '-a'):
+		all_ = True
+	else:
+		run_opts += name+' '+value
 
 search_string = 'find . -maxdepth 1 -type f -name "test_*.py" '
 if not all_:
@@ -15,11 +25,11 @@ if not all_:
 
 search_string += ' 2>/dev/null'
 
-if len(sys.argv) < 2:
+if len(operands) == 0:
 	scripts_to_run = [script.rstrip() for script in os.popen(search_string).readlines()]
 	#	scripts_to_run = [script.rstrip() for script in os.popen('find . -maxdepth 1 -type f -name "test-*.py" -and -not -name "test-feedback.py" -and -not -name "test-settings.py" -and -not -name "test-contacts.py"').readlines()]
 else:
-	scripts_to_run = ['./'+re.sub('-', '_', sys.argv[index]) for index in range(1, len(sys.argv))]
+	scripts_to_run = [script.rstrip() for script in operands]
 
 fails = 0
 
@@ -27,7 +37,7 @@ for script in scripts_to_run:
 	print '='*20
 	print 'RUN TEST: '+script
 	print '='*20
-	if os.system('python '+script) == 0:
+	if os.system('python '+script+run_opts) == 0:
 		result = 'PASSED'
 	else:
 		result = 'FAILED'
