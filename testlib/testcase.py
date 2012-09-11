@@ -34,7 +34,7 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 
 class TestObject():
 	def __init__(self, config='tests.conf'):
-		options,operands = getopt.getopt(sys.argv[1:], 'bclu:d', ['browser=', 'config=', 'level=', 'url='])
+		options,operands = getopt.getopt(sys.argv[1:], 'b:c:l:u:d', ['browser=', 'config=', 'level=', 'url='])
 		defaultCfg = True
 		for name, value in options:
 			if (name == '-c') or (name == '--config'):
