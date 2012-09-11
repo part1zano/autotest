@@ -8,7 +8,7 @@ exclude_scripts = []
 run_opts = ' '
 all_ = False
 
-options,operands = getopt.getopt(sys.argv[1:], 'bcelu:da', ['browser=', 'config=', 'exclude=', 'level=', 'url='])
+options,operands = getopt.getopt(sys.argv[1:], 'b:c:e:l:u:da', ['browser=', 'config=', 'exclude=', 'level=', 'url='])
 
 for name, value in options:
 	if (name == '-e') or (name == '--exclude'):
