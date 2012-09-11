@@ -25,7 +25,7 @@ class TestCase(testcase.TestObject):
 				value = self.get_value(edit['name'])+edit['value']
 			else:
 				value = edit['value']
-			self.results.append({'name': edit['name'], 'value': value})
+			self.results.append({'name': edit['name'], 'value': value, 'method': 'equal'})
 		if not self.click_btn(u'Редактировать'):
 			self.log.write('error', 'btn click failure, see above')
 			return False
