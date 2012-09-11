@@ -53,7 +53,7 @@ class TestCase(testcase.TestObject):
 						return False
 				elif index == 1:
 					self.results[index]['value'] = self.edits[index-1]['value']+u' - Отправлено '+datetime.date.today().strftime('%d.%m.%Y')
-					if not self.check_div_value(self.results[index]['name'], self.results[index]['value'], True):
+					if not self.check_result(self.results[index], True):
 						self.log.write('error', 'no sent invite data')
 						return False
 
