@@ -417,7 +417,7 @@ class TestObject():
 
 		return clicked
 
-	def check_single_result(self, result):
+	def check_result(self, result, mustbe=True):
 		self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 		try:
 			res = self.driver.find_element_by_id(result['name'])
@@ -438,11 +438,11 @@ class TestObject():
 			self.log.write('error', 'value is: '+res.text)
 			self.log.write('error', 'should contain: '+result['value'])
 		
-		return found
+		return (found == mustbe)
 
-	def check_results(self):
+	def check_results(self, mustbe=True):
 		for result in self.results:
-			if not self.check_single_result(result):
+			if not self.check_result(result, mustbe):
 				self.log.write('error', 'error checking '+result['name'])
 				return False
 
