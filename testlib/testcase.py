@@ -302,16 +302,6 @@ class TestObject():
 		self.log.write('debug', 'found div id='+divname)
 		self.log.write('debug', 'its content follows:'+div.text)
 		return True
-
-	def clear_element(self, control):
-		try:
-			self.driver.find_element_by_id(control).clear()
-		except NoSuchElementException:
-			self.log.write('error', 'no such element id='+control)
-			return False
-
-		self.log.write('verbose', 'cleared element id='+control)
-		return True
 	
 	def dedit(self, control):
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
@@ -427,33 +417,33 @@ class TestObject():
 
 		return clicked
 
-	def check_single_result(self, index, method='equal'):
-		self.log.write('debug', 'trying to find field '+self.results[index]['name']+' for check...')
+	def check_single_result(self, result):
+		self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 		try:
-			res = self.driver.find_element_by_id(self.results[index]['name'])
+			res = self.driver.find_element_by_id(result['name'])
 		except NoSuchElementException:
-			self.log.write('error', 'no such field: '+self.results[index]['name'])
+			self.log.write('error', 'no such field: '+result['name'])
 			return False
 
-		if method == 'equal':
-			found = res.text.lower() == self.results[index]['value'].lower()
-		elif method == 'grep':
-			found = self.results[index]['value'].lower() in res.text.lower()
+		if result['method'] == 'equal':
+			found = res.text.lower() == result['value'].lower()
+		elif result['method'] == 'grep':
+			found = result['value'].lower() in res.text.lower()
 		else:
-			self.log.write('error', 'unknown comparison method for '+self.results[index]['name'])
+			self.log.write('error', 'unknown comparison method for '+result['name'])
 			return False
 
 		if not found:
-			self.log.write('error', self.results[index]['name']+' values dont match: NOK')
+			self.log.write('error', result['name']+' values dont match: NOK')
 			self.log.write('error', 'value is: '+res.text)
-			self.log.write('error', 'should contain: '+self.results[index]['value'])
+			self.log.write('error', 'should contain: '+result['value'])
 		
 		return found
 
-	def check_results(self, method='equal'):
-		for index in range(len(self.results)):
-			if not self.check_single_result(index, method):
-				self.log.write('error', 'error checking '+self.results[index]['name'])
+	def check_results(self):
+		for result in self.results:
+			if not self.check_single_result(result):
+				self.log.write('error', 'error checking '+result['name'])
 				return False
 
 		return True
