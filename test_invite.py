@@ -28,6 +28,8 @@ class TestCase(testcase.TestObject):
 		if bname is None:
 			self.log.write('error', 'couldnt get bname, see above')
 			return False
+		else:
+			bname = self.cut_string(bname, 34)
 		
 		for link in self.links:
 			if not self.visit_link(link['link'], link['url'], link['by']):

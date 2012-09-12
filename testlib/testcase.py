@@ -116,9 +116,9 @@ class TestObject():
 		hover.perform()
 		return True
 
-	def cut_string(self, string):
-		if (len(string) > 20) and ('http' not in string):
-			return string[:18]+'...'
+	def cut_string(self, string, length = 20):
+		if (len(string) > length) and ('http' not in string):
+			return string[:(length-2)]+'...'
 		else:
 			return string
 
