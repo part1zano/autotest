@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""@package main.py
-Starts all of the scripts
-
-Supported command-line keys follow:
-	* -b or --browser: for defining whether to run firefox or chrome (is passed to scripts)
-	* -c or --config: to define the config file (is passed to scripts)
-	* -e or --exclude: to define which script(s) to exclude from runlist (consumes it by itself)
-	* -l or --level: to define log level (is passed to scripts)
-	* -u or --url: to define url to go to start (is passed to scripts)
-	* -d or --debug: to define log level as debug (is passed to scripts)
-	* -a or --all: to define whether to run all of the scripts or no (by default, there is an internal runlist and an internal exclude list
-"""
-
 import os,sys,time,re,getopt
 
 scripts_to_run = []
