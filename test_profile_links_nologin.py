@@ -19,6 +19,16 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
+			divname = link['url']
+			if 'contractors' in divname:
+				divname += 'list'
+			elif divname == 'subscribed-people':
+				divname = 'news-subscriptions'
+
+			if not self.check_div(divname):
+				self.log.write('error', 'no div id=%s at page, NOK' % divname)
+				return False
+
 		return True
 
 if __name__ == '__main__':
