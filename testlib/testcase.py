@@ -427,6 +427,10 @@ class TestObject():
 			self.log.write('error', 'no submit btn!')
 			return False
 
+		if len(btns) == 0:
+			self.log.write('error', 'no such btns!')
+			return False
+
 		for btn in btns:
 			btn.click()
 			clicked = True
