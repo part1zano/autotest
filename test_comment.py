@@ -15,7 +15,7 @@ class TestCase(testcase.TestObject):
 
 		for elem_id in range(1, 100):
 			if not self.click_btn_in_xpath('//ul/li[%d]/table' % elem_id, u'Комментировать'):
-				self.log.write('warning', 'no comment link')
+				self.log.write('warning', 'no comment link @ post # %d' % elem_id)
 			else:
 				self.log.write('info', 'found a post to comment #%d' % elem_id)
 				self.sleep(2)
@@ -43,6 +43,16 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.log.write('info', 'found comment in news!')
+
+		if not self.visit_link('//ul/li[%d]/table/tbody/tr/td[2]/span/span/span/h3/a' % elem_id, 'news', by='xpath', sleep=True):
+			self.log.write('error', 'error visiting OP\'s news')
+			return False
+
+		if not self.check_div_value('news', comment_text):
+			self.log.write('error', 'no comment in their news')
+			return False
+
+		self.log.write('info', 'found comment in their news')
 
 		return True
 

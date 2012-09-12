@@ -508,6 +508,8 @@ class TestObject():
 				self.driver.find_element_by_id(link).click()
 			elif by == 'text':
 				self.driver.find_element_by_partial_link_text(link).click()
+			elif by == 'xpath':
+				self.driver.find_element_by_xpath(link).click()
 			else:
 				self.log.write('error', 'unknown link search criteria for '+link)
 				return False
