@@ -46,7 +46,7 @@ class TestCase(testcase.TestObject):
 				if not self.click_btn(u'Отправить'):
 					self.log.write('error', 'couldnt click submit, see above')
 					return False
-				self.sleep(2)
+				self.sleep(3)
 				if index == 3:
 					if not self.find_link(bname, 'text', 2):
 						self.log.write('error', 'no brand name in msg-box')
