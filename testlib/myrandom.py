@@ -5,7 +5,9 @@ phrases = [
 ['The', 'Le', 'Our', 'Their', 'This', 'My', 'Your', 'That', 'Obvious', 'Hilarious', 'Slutty'],
 ['fox', 'dog', 'plane', 'pencil', 'drawer', 'roll', 'dice', 'mother', 'son', 'father', 'daughter'],
 ['is', 'gets', 'likes', 'fakes', 'loves', 'hates', 'dislikes', 'can in', 'cannot in', 'flames', 'changes'],
-['cake', 'love', 'god', 'math', 'physics', 'orgasm', 'mud', 'dirt', 'bitches', 'whores', 'sluts']
+['cake', 'love', 'god', 'math', 'physics', 'orgasm', 'mud', 'dirt', 'bitches', 'whores', 'sluts'],
+['in', 'inside of', 'outside of', 'by', 'at', 'near', 'before', 'after', 'before', 'near', 'at'],
+['plague', 'shadow', 'shade', 'the dark', 'the box', 'bed', 'shower', 'work', 'town', 'city', 'village']
 ]
 
 
