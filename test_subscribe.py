@@ -51,7 +51,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		for field in ('brandName', 'id', 'url'):
-			self.info[field] = self.get_our_info(field)
+			self.info[field] = self.cut_string(self.get_our_info(field), 34)
 
 		title_fragment = u'™'
 		index = 0
