@@ -29,7 +29,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'no post in news')
 			return False
 
-		self.log.wirte('info', 'appeared in news...')
+		self.log.write('info', 'appeared in news...')
 
 		if not self.visit_link('mc_sidebar_profile', 'news'):
 			self.log.write('error', 'error visiting profile')
