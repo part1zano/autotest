@@ -97,6 +97,23 @@ class TestObject():
 
 		return True
 
+	def click_btn_in_xpath(self, xpath, btn=u'Поделиться'):
+		try:
+			table = self.driver.find_element_by_xpath(xpath)
+		except NoSuchElementException:
+			self.log.write('error', 'no such table or wrong xpath: %s' % xpath)
+			return False
+
+		try:
+			table.find_element_by_partial_link_text(btn).click()
+		except NoSuchElementException:
+			self.log.write('warning', 'no such button in table')
+			self.log.write('warning', 'btn text is %s' % btn)
+			return False
+
+		return True
+
+
 	def move_to(self, elem, by='id'):
 		try:
 			if by == 'id':
@@ -408,6 +425,10 @@ class TestObject():
 		except NoSuchElementException:
 			self.log.write('error', 'no submit btn: '+btn_text)
 			self.log.write('error', 'no submit btn!')
+			return False
+
+		if len(btns) == 0:
+			self.log.write('error', 'no such btns!')
 			return False
 
 		for btn in btns:
