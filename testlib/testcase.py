@@ -127,7 +127,7 @@ class TestObject():
 			if by == 'text':
 				link_ = self.driver.find_elements_by_partial_link_text(link)
 				if len(link_) < count:
-					self.log.write('error', 'found only %2d elements, NOK' % len(link_))
+					self.log.write('debug', 'found only %2d elements, NOK' % len(link_))
 					return False
 			elif by == 'id':
 				if count > 1:
@@ -268,6 +268,7 @@ class TestObject():
 		return True
 
 	def check_page(self):
+		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
 		if 'feedback' in self.driver.current_url:
 			divs.append('feedback')
@@ -278,7 +279,7 @@ class TestObject():
 			emp_header = False
 			for substr in ('chat', 'news-feed', 'subscr'):
 				if substr in self.driver.current_url:
-					emp_header = True
+					emp_header = True and logon
 			if emp_header:
 				divs.append('employee-header')
 			else:
