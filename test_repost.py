@@ -16,10 +16,13 @@ class TestCase(testcase.TestObject):
 				self.log.write('warning', 'possibly, no share button at post %2d' % elem_id)
 			else:
 				shared = True
+				self.log.write('info', 'found a post to share #%d' % elem_id)
 				post_text = self.get_xpath_text('//ul/li[%d]/table/tbody/tr/td[2]/span/span/span/p' % elem_id)
+				self.log.write('debug', 'its text follows: %s' % post_text)
 				break
 
 		self.go(self.driver.current_url)
+		self.log.write('debug', 'reloaded page...')
 		
 		if not shared:
 			self.log.write('error', 'no post to share, sorry')
@@ -28,6 +31,8 @@ class TestCase(testcase.TestObject):
 		if not self.check_div_value('news-view', post_text):
 			self.log.write('error', 'no repost in news')
 			return False
+
+		self.log.write('info', 'found repost in news...')
 		
 		if not self.visit_link('mc_sidebar_profile', 'news'):
 			self.log.write('error', 'error visiting self-news')
@@ -36,6 +41,8 @@ class TestCase(testcase.TestObject):
 		if not self.check_div_value('news-view', post_text):
 			self.log.write('error', 'no repost in self-news')
 			return False
+
+		self.log.write('info', 'found repost in self-news!')
 
 		return True
 
