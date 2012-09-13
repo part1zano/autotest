@@ -296,7 +296,7 @@ class TestObject():
 		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
 		notabs = False
-		for substr in ('q', 'feedback'):
+		for substr in ('q', 'feedback', 'search'):
 			if substr in self.driver.current_url:
 				notabs = True
 		if notabs:
