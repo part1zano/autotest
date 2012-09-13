@@ -15,7 +15,6 @@ phrases = [
 def randomPhrase(length = len(phrases)):
 	phrase = ''
 	for index in range(length):
-		print index
 		rnd_2 = random.randint(0, len(phrases[index])-1)
 		phrase += ' '+phrases[index][random.randint(0, rnd_2)]
 
