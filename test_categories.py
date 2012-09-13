@@ -56,8 +56,9 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error submitting')
 				return False
 			self.log.write('info', 'deleted \'em all')
+			self.sleep(2)
 
-		for category in categories:
+		for category in self.categories:
 			if not self.click_btn(u'Редактировать'):
 				self.log.write('error', 'error clicking edit for normal edit of category %s' % category['id'])
 				return False
@@ -70,15 +71,22 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error submitting change for %s category' % category['id'])
 				return False
 
+			self.log.write('debug', 'submitted change of category to %s' % category['id'])
+
 			self.sleep(2)
 
-			if not self.visit_link(category['text'], 'q', by='text'):
+			if not self.visit_link(category['text'], 'search', by='text'):
 				self.log.write('error', 'error visiting search')
 				return False
 
-			if not self.find_link(self.info['brandName'], by='text'):
+			self.sleep(2)
+			self.go(self.driver.current_url)
+
+			if not self.find_link(self.info['brandName'], by='text', count=2):
 				self.log.write('error', 'brandName not found in search for category %s' % category['id'])
 				return False
+
+			self.log.write('info', 'found brandName for category %s, returning back to profile edit' % category['id'])
 
 			self.driver.back()
 			self.sleep(2)
