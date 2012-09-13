@@ -28,6 +28,12 @@ class TestCase(testcase.TestObject):
 				self.log.write('error visiting '+link['link']+', see above')
 				return False
 
+		if self.login != self.get_value('feedback-email'):
+			self.log.write('error', 'email not entered before edit')
+			return False
+
+		self.log.write('info', 'email in field, thats ok')
+
 		for index in range(len(self.edits)):
 			if not self.edit_control(self.edits[index]['name'], self.edits[index]['value'], clear=bool(int(self.edits[index]['clear']))):
 				self.log.write('error', 'failed editing '+self.edits[index]['name']+', see above')
