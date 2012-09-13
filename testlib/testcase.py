@@ -295,8 +295,15 @@ class TestObject():
 	def check_page(self):
 		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
-		if 'feedback' in self.driver.current_url:
-			divs.append('feedback')
+		notabs = False
+		for substr in ('q', 'feedback'):
+			if substr in self.driver.current_url:
+				notabs = True
+		if notabs:
+			if 'feedback' in self.driver.current_url:
+				divs.append('feedback')
+			else:
+				divs.append('left-sidebar')
 		else:
 			divs.append('tabs_container')
 			divs.append('tabs')
@@ -305,6 +312,7 @@ class TestObject():
 			for substr in ('chat', 'news-feed', 'subscr'):
 				if substr in self.driver.current_url:
 					emp_header = True and logon
+
 			if emp_header:
 				divs.append('employee-header')
 			else:
