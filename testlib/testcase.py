@@ -296,7 +296,7 @@ class TestObject():
 		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
 		notabs = False
-		for substr in ('q', 'feedback'):
+		for substr in ('q', 'feedback', 'search'):
 			if substr in self.driver.current_url:
 				notabs = True
 		if notabs:
@@ -434,10 +434,17 @@ class TestObject():
 		else:
 			return ctl.text
 
-	def click_btn(self, btn_text):
+	def click_btn(self, btn_text, by='text'):
 		clicked = False
 		try:
-			btns = self.driver.find_elements_by_partial_link_text(btn_text)
+			if by == 'text':
+				btns = self.driver.find_elements_by_partial_link_text(btn_text)
+			elif by == 'xpath':
+				btns = self.driver.find_elements_by_xpath(btn_text)
+			elif by == 'id':
+				btns = [self.driver.find_element_by_id(btn_text)]
+			else:
+				self.log.write('error', 'unknown search criteria: by %s' % by)
 		except NoSuchElementException:
 			self.log.write('error', 'no submit btn: '+btn_text)
 			self.log.write('error', 'no submit btn!')
