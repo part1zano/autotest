@@ -6,7 +6,9 @@ import time,ConfigParser,codecs,re,json,getopt,sys,os.path
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
+#from selenium.webdriver.common.action_chains import ActionChains
+#from selenium.webdriver.remote.command import Command
+#from selenium.webdriver.common.keys import Keys
 
 def get_browser(browser, proxy_host='', proxy_port=''):
 	if proxy_port == '':
@@ -114,24 +116,30 @@ class TestObject():
 		return True
 
 
-	def move_to(self, elem, by='id'):
-		try:
-			if by == 'id':
-				obj = self.driver.find_element_by_id(elem)
-			elif by == 'text':
-				obj = self.driver.find_element_by_partial_link_text(elem)
-			elif by == 'xpath':
-				obj = self.driver.find_element_by_xpath(elem)
-			else:
-				self.log.write('error', 'unknown search criteria: by %s' % by)
-				return False
-		except NoSuchElementException:
-			self.log.write('error', 'no such element %s' % elem)
-			return False
-	
-		hover = ActionChains(self.driver).move_to_element(obj)
-		hover.perform()
-		return True
+#	def move_to(self, elem, by='id'):
+#		try:
+#			if by == 'id':
+#				obj = self.driver.find_element_by_id(elem)
+#			elif by == 'text':
+#				obj = self.driver.find_element_by_partial_link_text(elem)
+#			elif by == 'xpath':
+#				obj = self.driver.find_element_by_xpath(elem)
+#			else:
+#				self.log.write('error', 'unknown search criteria: by %s' % by)
+#				return False
+#		except NoSuchElementException:
+#			self.log.write('error', 'no such element %s' % elem)
+#			return False
+#	
+##		hover = ActionChains(self.driver).move_to_element(obj)
+##		hover.perform()
+#		
+#		result = self.driver.execute(Command.MOVE_TO, {'element': obj.id})
+#		if result['status'] == 0:
+#			return True
+#		else:
+#			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
+#			return False
 
 	def cut_string(self, string, length = 20):
 		if (len(string) > length) and ('http' not in string):
