@@ -26,7 +26,7 @@ class TestCase(testcase.TestObject):
 		
 		if not self.click_btn(subscribe_btns[su_cond]):
 			self.log.write('warning', 'possibly wrong subscribe direction: trying to fix')
-			if not self.find_link(subscribe_btns[not su_cond]):
+			if not self.find_link(subscribe_btns[not su_cond], by='text'):
 				self.log.write('error', 'no subscribe btns at all, NOK')
 				return False
 			self.log.write('warning', 'button found, continuing as is')
