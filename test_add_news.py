@@ -17,7 +17,7 @@ class TestCase(testcase.TestObject):
 
 		self.sleep(2)
 
-		if not self.click_btn(u'Отправить'):
+		if not self.click_btn(u'Опубликовать'):
 			self.log.write('error', 'no submit btn or error submitting')
 			return False
 		

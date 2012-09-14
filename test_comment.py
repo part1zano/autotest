@@ -19,7 +19,7 @@ class TestCase(testcase.TestObject):
 			else:
 				self.log.write('info', 'found a post to comment #%d' % elem_id)
 				self.sleep(2)
-				if not self.edit_control('//ul/li[%d]/table/tbody/tr/td[2]/span/div/textarea' % elem_id, comment_text, by='xpath'):
+				if not self.edit_control('//ul/li[%d]/table/tbody/tr/td[2]/div/div/textarea' % elem_id, comment_text, by='xpath'):
 					self.log.write('error', 'error adding comment')
 					return False
 
@@ -44,7 +44,7 @@ class TestCase(testcase.TestObject):
 
 		self.log.write('info', 'found comment in news!')
 
-		if not self.visit_link('//ul/li[%d]/table/tbody/tr/td[2]/span/span/span/h3/a' % elem_id, 'news', by='xpath', sleep=True):
+		if not self.visit_link('//ul/li[%d]/table/tbody/tr/td[2]/div/div/div/h3/a' % elem_id, 'news', by='xpath', sleep=True):
 			self.log.write('error', 'error visiting OP\'s news')
 			return False
 
