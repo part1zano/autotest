@@ -15,7 +15,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
