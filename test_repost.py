@@ -11,13 +11,17 @@ class TestCase(testcase.TestObject):
 
 		shared = False
 
-		for elem_id in range(1, 10):
+		for elem_id in range(1, 20):
 			if not self.click_btn_in_xpath('//ul/li[%d]/table' % elem_id, u'Поделиться'):
 				self.log.write('warning', 'possibly, no share button at post %2d' % elem_id)
 			else:
 				shared = True
 				self.log.write('info', 'found a post to share #%d' % elem_id)
-				post_text = self.get_xpath_text('//ul/li[%d]/table/tbody/tr/td[2]/span/span/span/p' % elem_id)
+				post_text = self.get_xpath_text('//ul/li[%d]/table/tbody/tr/td[2]/div/div/div/div/p' % elem_id)
+				if post_text is None:
+					shared = False
+					self.log.write('warning', 'no text in post, trying to find a text post to share')
+					continue
 				self.log.write('debug', 'its text follows: %s' % post_text)
 				break
 
