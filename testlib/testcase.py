@@ -350,7 +350,7 @@ class TestObject():
 				self.log.write('error', 'unknown search criteria: by %s' % by)
 				return False
 		except NoSuchElementException:
-			self.log.write('error', 'no such control id='+control)
+			self.log.write('error', 'no such control %s="%s"' % (by, control))
 			return False
 
 		if ctl_type == 'text':
