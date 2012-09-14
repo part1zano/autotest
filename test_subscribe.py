@@ -16,7 +16,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		urls = [self.info['url'], self.driver.current_url]
-		divs = ['news-subscriptions', 'news-subscribers']
+		divs = ['news-subscriptions', 'subscribed-people']
 		titles = [title_fragment, self.info['brandName']]
 		linkchains = [[
 			{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'},
@@ -26,10 +26,10 @@ class TestCase(testcase.TestObject):
 		
 		if not self.click_btn(subscribe_btns[su_cond]):
 			self.log.write('warning', 'possibly wrong subscribe direction: trying to fix')
-
-			if not self.click_btn(subscribe_btns[not su_cond]):
-				self.log.write('error', 'shit! no such button!')
+			if not self.find_link(subscribe_btns[not su_cond], by='text'):
+				self.log.write('error', 'no subscribe btns at all, NOK')
 				return False
+			self.log.write('warning', 'button found, continuing as is')
 
 		for index in range(len(urls)):
 			self.go(urls[index])
