@@ -273,6 +273,7 @@ class TestObject():
 		for cookie in self.driver.get_cookies():
 			if bool(u'sessionid' in cookie['name'].lower()) != bool(foreign):
 				self.log.write('debug', 'Cookies ok')
+				self.log.write('info', 'login ok')
 				return True
 		self.log.write('error', 'Cookies not ok')
 		return False
