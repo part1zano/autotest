@@ -143,7 +143,8 @@ class TestObject():
 
 	def cut_string(self, string, length = 20):
 		if (len(string) > length) and ('http' not in string):
-			return string[:(length-2)]+'...'
+			self.log.write('debug', 'cut %s to %2d chars, got %s' % (string, length, string[:(length-2)]))
+			return string[:(length-2)]
 		else:
 			return string
 
@@ -185,6 +186,7 @@ class TestObject():
 			return None
 
 		toReturn = field_.text
+		self.log.write('debug', 'got %s -> %s' % (field, toReturn))
 		return toReturn
 
 

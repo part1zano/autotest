@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from testlib import testcase
-import sys,datetime
+import sys,datetime,re
 
 class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
@@ -29,7 +29,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'couldnt get bname, see above')
 			return False
 		else:
-			bname = self.cut_string(bname, 34)
+			bname = self.cut_string(bname, 31)
 		
 		for link in self.links:
 			if not self.visit_link(link['link'], link['url'], link['by']):
