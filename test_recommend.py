@@ -83,7 +83,7 @@ class TestCase(testcase.TestObject):
 		for re_cond in [True, False]:
 			for accept in [False, True]:
 				index += 1
-				if not self.recommend_by_title('Kaya', re_cond, accept):
+				if not self.recommend_by_title('™', re_cond, accept):
 					self.log.write('error', 'recommend failed, case '+str(index))
 					return False
 

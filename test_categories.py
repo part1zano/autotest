@@ -38,7 +38,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('debug', 'found link for %s, it must be deleted' % cat_item['id'])
 				deletes.append(cat_item)
 
-		self.log.write('debug', 'found %2d categories' % len(deletes))
+		self.log.write('debug', 'found %2d categories to delete' % len(deletes))
 		
 		if len(deletes) > 0:
 			self.log.write('info', 'found categories to delete, deleting')
