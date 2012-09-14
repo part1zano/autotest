@@ -309,7 +309,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ('chat', 'news-feed', 'subscr'):
+			for substr in ('chat', 'news-feed'):
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
