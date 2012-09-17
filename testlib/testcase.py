@@ -83,6 +83,11 @@ class TestObject():
 		self.info = {}
 
 	def find_stuff(self, stuff):
+		try:
+			search = self.driver.find_element_by_name('q')
+		except NoSuchElementException:
+			self.log.write('error', 'no search form, aborting right now')
+			return False
 		search.clear()
 		search.send_keys(stuff)
 		search.submit()
@@ -342,8 +347,6 @@ class TestObject():
 		try:
 			if by == 'id':
 				ctl = self.driver.find_element_by_id(control)
-			elif by == 'name':
-				ctl = self.driver.find_element_by_name(control)
 			elif by == 'xpath':
 				ctl = self.driver.find_element_by_xpath(control)
 			else:
