@@ -5,7 +5,7 @@ import sys
 
 class TestCase(testcase.TestObject):
 	def execute(self):
-		if not testcae.TestObject.execute(self):
+		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
 
