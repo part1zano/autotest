@@ -44,6 +44,8 @@ class TestCase(testcase.TestObject):
 			if not self.visit_dlink(link):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
+		
+		self.sleep(2)
 
 		if not self.check_div_value('we_recommend', self.info['brandName']):
 			self.log.write('error', 'no brandName in recommend div')
@@ -65,23 +67,21 @@ class TestCase(testcase.TestObject):
 
 		return True
 
-	def check_recommended_by_title(self, title_fragment, who, me=True): # FIXME :: me and not me
-		'''
-			A very buggy method
-		'''
-		if me:
+	def check_recommended_by_title(self, recommendator, recommended, mine=True): # FIXME :: me and not me
+		if mine:
 			links = [
-					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'}
+					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
+					{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'}
 					]
 			divname = 'our_proposers'
 		else:
-			if not self.find_stuff(title_fragment):
+			recommendator, recommended = recommended,recommendator
+			if not self.find_stuff(recommendator):
 				self.log.write('error', 'not going to search')
 				return False
 			links = [
 					{'link': title_fragment, 'url': 'news', 'by': 'text'},
-					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
-					{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'}
+					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'}
 					]
 			divname = 'we_recommend'
 
@@ -90,7 +90,9 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
-		if not self.check_div_value(divname, who):
+		self.sleep(2)
+
+		if not self.check_div_value(divname, recommended):
 			self.log.write('error', 'not finding who in %s' % divname)
 			return False
 
@@ -129,6 +131,8 @@ class TestCase(testcase.TestObject):
 		if not self.confirm_recommendation():
 			self.log.write('error', 'error confirming as %s' % self.login)
 			return False
+
+		self.go(self.url)
 	
 		for me in (True, False):
 			if not self.check_recommended_by_title(title_fragment, self.info['brandName'], me):
