@@ -65,7 +65,10 @@ class TestCase(testcase.TestObject):
 
 		return True
 
-	def check_recommended_by_title(self, title_fragment, who, me=True):
+	def check_recommended_by_title(self, title_fragment, who, me=True): # FIXME :: me and not me
+		'''
+			A very buggy method
+		'''
 		if me:
 			links = [
 					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'}
