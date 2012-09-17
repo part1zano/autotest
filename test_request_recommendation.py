@@ -2,6 +2,7 @@
 
 import sys
 from testlib import myrandom, testcase
+import test_recommend
 
 class TestCase(testcase.TestObject):
 	def request_recommendation_by_title(self, title_fragment, do=True, msg=''):
@@ -29,7 +30,7 @@ class TestCase(testcase.TestObject):
 
 		return True
 
-	def confirm_recommendation(self, do=True):
+	def confirm_recommendation(self, do=True, msg=''):
 		''' Confirms recommendation
 		Requires logout and login as another company before
 		'''
@@ -61,6 +62,10 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'no profile link')
 			return False
 
+		if not self.check_div_value('we_recommend', msg):
+			self.log.write('error', 'msg not found in we_recommend')
+			return False
+
 		if not self.click_btn(btns[do], by='text'):
 			self.log.write('error', 'error clicking btn to submit aciton')
 			return False
@@ -68,25 +73,14 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def check_recommended_by_title(self, recommendator, recommended, mine=True): # FIXME :: me and not me
-		if mine:
-			links = [
-					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
-					{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'}
-					]
-			divname = 'our_proposers'
-		else:
-			recommendator, recommended = recommended,recommendator
-			if not self.find_stuff(recommendator):
-				self.log.write('error', 'not going to search')
-				return False
-			links = [
-					{'link': title_fragment, 'url': 'news', 'by': 'text'},
-					{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'}
-					]
-			divname = 'we_recommend'
-
+		links = [
+				{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
+				{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'}
+				]
+		divname = 'we_recommend'
+		
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link,sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
@@ -98,10 +92,30 @@ class TestCase(testcase.TestObject):
 
 		return True
 
+	def undo_recommend(self, recommended):
+		links = [
+				{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
+				{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'},
+				{'link': recommended, 'url': 'news', 'by': 'text'}
+				]
+		btns = [u'Отозвать рекомендацию', u'Да']
+		for link in links:
+			if not self.visit_dlink(link):
+				self.log.write('error', 'not visiting %s' % link['url'])
+				return False
+
+		for btn in btns:
+			if not self.click_btn(btn):
+				self.log.write('error', 'not unrecommending due to some shit with buttn %s' % btn)
+				return False
+
+		return True
+
 	def execute(self):
 		title_fragment = u'™'
 		asLogin = 'part1zancheg@gmail.com'
 		asPassword = 'fgihad5'
+		message = myrandom.randomPhrase()
 
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
@@ -114,10 +128,13 @@ class TestCase(testcase.TestObject):
 				return False
 			else:
 				self.info[field] = self.cut_string(self.info[field], 30)
+				self.log.write('info', 'got %s info field' % field)
 
-		if not self.request_recommendation_by_title(u'™'):
+		if not self.request_recommendation_by_title(u'™', msg=message):
 			self.log.write('error', 'error requesting recommendation')
 			return False
+
+		self.log.write('info', 'requested recommendation successfully')
 
 		if not self.logout():
 			self.log.write('error', 'error logging out')
@@ -128,31 +145,26 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error logging in as %s' % self.login)
 			return False
 
-		if not self.confirm_recommendation():
+		if not self.confirm_recommendation(msg=message):
 			self.log.write('error', 'error confirming as %s' % self.login)
 			return False
 
+		self.log.write('info', 'confirmed recommendation successfully')
+
 		self.go(self.url)
 	
-		for me in (True, False):
-			if not self.check_recommended_by_title(title_fragment, self.info['brandName'], me):
-				self.log.write('error', 'not recommended')
-				return False
-		
-		if not self.logout():
-			self.log.write('error', 'error logging out as %s' % self.login)
+		if not self.check_recommended_by_title(title_fragment, self.info['brandName']):
+			self.log.write('error', 'not recommended')
 			return False
 
-		self.login,self.password,asLogin,asPassword = asLogin,asPassword,self.login,self.password
+		self.log.write('info', 'checked: recommended')
 
-		if not self.do_login():
-			self.log.write('error', 'error logging in as %s' % self.login)
+		if not self.undo_recommend(self.info['brandName']):
+			self.log.write('error', 'error unrecommending finally')
 			return False
-		
-		for me in (True, False):
-			if not self.check_recommended_by_title(title_fragment, self.info['brandName'], me):
-				self.log.write('error', 'not recommended')
-				return False
+
+		self.log.write('info', 'cleanup after work done')
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 
 		return True
 
