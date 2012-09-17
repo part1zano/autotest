@@ -347,6 +347,8 @@ class TestObject():
 		try:
 			if by == 'id':
 				ctl = self.driver.find_element_by_id(control)
+			elif by == 'name':
+				ctl = self.driver.find_element_by_name(control)
 			elif by == 'xpath':
 				ctl = self.driver.find_element_by_xpath(control)
 			else:
