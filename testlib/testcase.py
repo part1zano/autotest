@@ -299,7 +299,7 @@ class TestObject():
 		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
 		notabs = False
-		for substr in ('q', 'feedback', 'search'):
+		for substr in ['q', 'feedback', 'search']:
 			if substr in self.driver.current_url:
 				notabs = True
 		if notabs:
@@ -312,7 +312,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ('chat', 'news-feed'):
+			for substr in ['chat']:
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
