@@ -41,20 +41,25 @@ class TestCase(testcase.TestObject):
 				value = self.login
 			else:
 				value = self.edits[index]['value']
+
 			if not self.edit_control(self.edits[index]['name'], value, clear=bool(int(self.edits[index]['clear']))):
 				self.log.write('error', 'error editing '+self.edits[index]['name']+', see above')
 				return False
+
 			if bool(int(self.edits[index]['submit'])):
 				if not self.click_btn(u'Отправить'):
 					self.log.write('error', 'couldnt click submit, see above')
 					return False
+
 				self.sleep(3)
+
 				if index == 3:
 					if not self.find_link(bname, 'text', 2):
 						self.log.write('error', 'no brand name in msg-box')
 						return False
 				elif index == 1:
 					self.results[index]['value'] = self.edits[index-1]['value']+u' - Отправлено '+datetime.date.today().strftime('%d.%m.%Y')
+
 					if not self.check_result(self.results[index], True):
 						self.log.write('error', 'no sent invite data')
 						return False

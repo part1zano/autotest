@@ -4,7 +4,7 @@
 import os,sys,time,re,getopt
 
 scripts_to_run = []
-exclude_scripts = []
+exclude_scripts = ['test_invite.py']
 run_opts = ' '
 all_ = False
 
