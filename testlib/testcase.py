@@ -565,6 +565,9 @@ class TestObject():
 				elif 'error-text' in name:
 					err = self.driver.find_element_by_name(name)
 					errval = err.get_attribute('value')
+				elif 'class' in name:
+					err = self.driver.find_element_by_xpath(name)
+					errval = err.text
 				else:
 					self.log.write('error', 'wrong informer name: '+name+', unknown search criteria')
 					return False
