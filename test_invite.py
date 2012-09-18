@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import testcase
+from testlib import testcase,myrandom
 import sys,datetime,re
 
 class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 
-		for objfile in ['invite-pos', 'invite-neg-reg-email', 'invite-neg-empty-email', 'invite-neg-empty-msg']:
+		for objfile in ['invite-pos', 'invite-neg-reg-email', 'invite-neg-empty-email', 'invite-neg-empty-msg', 'invite-neg-already-sent']:
 			for edit in self.make_json_list('json_lists/invite/'+objfile+'.json'):
+				if 'random' in edit['value']:
+					edit['value'] = myrandom.random_email()
 				self.edits.append(edit)
 
 		self.links = self.make_json_list('json_lists/invite/linklist-invite.json')
