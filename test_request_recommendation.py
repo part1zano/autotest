@@ -2,7 +2,6 @@
 
 import sys
 from testlib import myrandom, testcase
-import test_recommend
 
 class TestCase(testcase.TestObject):
 	def request_recommendation_by_title(self, title_fragment, do=True, msg=''):
@@ -115,7 +114,7 @@ class TestCase(testcase.TestObject):
 		title_fragment = u'™'
 		asLogin = 'part1zancheg@gmail.com'
 		asPassword = 'fgihad5'
-		message = myrandom.randomPhrase()
+		message = myrandom.random_phrase()
 
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')

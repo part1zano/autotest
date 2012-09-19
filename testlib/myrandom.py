@@ -42,7 +42,7 @@ def random_domain(lvl=2, lvl1_length=2):
 def random_email(login_len=3, login_separator='_', domain_lvl=2, lvl1_length=2):
 	return random_login(login_len, login_separator)+'@'+random_domain(domain_lvl, lvl1_length)
 
-def randomPhrase(length = len(phrases)):
+def random_phrase(length = len(phrases)):
 	phrase = ''
 	for index in range(length):
 		rnd_2 = random.randint(0, len(phrases[index])-1)
@@ -50,7 +50,7 @@ def randomPhrase(length = len(phrases)):
 
 	return phrase.strip()
 
-def randomNum(length):
+def random_num(length):
 	number = ''
 	for index in range(length):
 		number += str(random.randint(0, 9))
