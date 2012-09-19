@@ -9,7 +9,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		news_text = myrandom.randomPhrase()
+		news_text = myrandom.random_phrase()
 
 		if not self.edit_control('add_event', news_text, clear=True, click=True):
 			self.log.write('error', 'unable to add news: no edit or error editing')

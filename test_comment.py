@@ -9,7 +9,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		comment_text = myrandom.randomPhrase()
+		comment_text = myrandom.random_phrase()
 
 		commented = False
 
