@@ -126,7 +126,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error getting %s' % field)
 				return False
 			else:
-				self.info[field] = self.cut_string(self.info[field], 30)
+				self.info[field] = self.cut_string(self.info[field], 18)
 				self.log.write('info', 'got %s info field' % field)
 
 		if not self.request_recommendation_by_title(u'™', msg=message):
