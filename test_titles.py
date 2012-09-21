@@ -8,9 +8,9 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 		
 		self.links = self.make_json_list('json_lists/profile-links/profile-links.json') # FIXME :: a lil bit wrong json_list
-		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
+#		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
 
-	def search_dict_in(self, where, field, field_val):
+	def find_dict_in(self, where, field, field_val):
 		for elem in where:
 			try:
 				if elem[field] == field_val:
