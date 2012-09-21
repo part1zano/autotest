@@ -10,15 +10,6 @@ class TestCase(testcase.TestObject):
 		self.links = self.make_json_list('json_lists/profile-links/profile-links.json') # FIXME :: a lil bit wrong json_list
 #		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
 
-	def find_dict_in(self, where, field, field_val):
-		for elem in where:
-			try:
-				if elem[field] == field_val:
-					return elem
-			except KeyError:
-				self.log.write('error', 'wrong dict type to search')
-				return None
-
 	def check_dtitle(self, title):
 		if title['page_title'] not in self.driver.title:
 			self.log.write('error', 'wrong title for url %s' % title['url'])
