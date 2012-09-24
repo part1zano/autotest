@@ -99,6 +99,16 @@ class TestObject():
 
 		return True
 
+	def find_dict_in(self, where, name, value):
+		for elem in where:
+			try:
+				if elem[name] == value:
+					return elem
+			except KeyError:
+				self.log.write('error', 'KeyError: no %s in list element' % name)
+				return {}
+		return {}
+
 	def click_btn_in_xpath(self, xpath, btn=u'Поделиться'):
 		try:
 			table = self.driver.find_element_by_xpath(xpath)
