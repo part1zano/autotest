@@ -18,6 +18,7 @@ class Log:
 		config = ConfigParser.ConfigParser()
 		config.read(conf)
 		self.level = config.get('log', 'level')
+		self.stderr = bool(int(config.get('log', 'stderr')))
 
 	def write(self, level, string):
 		if level not in levels:
@@ -25,7 +26,7 @@ class Log:
 		if level == 'stfu':
 			return 2
 		if find_num(levels, level) >= find_num(levels, self.level):
-			if find_num(levels, level) >= find_num(levels, 'warning'):
+			if (find_num(levels, level) >= find_num(levels, 'warning')) and self.stderr:
 				out = sys.stderr
 			else:
 				out = sys.stdout
