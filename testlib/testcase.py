@@ -213,8 +213,8 @@ class TestObject():
 		return True
 
 	def __del__(self):
-		if not self.driver.get_screenshot_as_file('/home/che/wrk/autoscreens/'+re.sub('/', '__', sys.argv[0])+'.png'):
-			self.log.write('error', 'screenshot saving failed')
+#		if not self.driver.get_screenshot_as_file('/home/che/wrk/autoscreens/'+re.sub('/', '__', sys.argv[0])+'.png'):
+#			self.log.write('error', 'screenshot saving failed')
 		self.driver.close()
 
 	def sleep(self, time_):
