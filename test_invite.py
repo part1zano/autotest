@@ -12,6 +12,8 @@ class TestCase(testcase.TestObject):
 			for edit in self.make_json_list('json_lists/invite/'+objfile+'.json'):
 				if 'random' in edit['value']:
 					edit['value'] = myrandom.random_email()
+				elif 'neg-reg-email' in objfile:
+					edit['value'] = self.login
 				self.edits.append(edit)
 
 		self.links = self.make_json_list('json_lists/invite/linklist-invite.json')
@@ -39,11 +41,6 @@ class TestCase(testcase.TestObject):
 				return False
 
 		for index in range(len(self.edits)):
-			if index == 2:
-				value = self.login
-			else:
-				value = self.edits[index]['value']
-
 			if not self.dedit(self.edits[index]):
 				self.log.write('error', 'error editing '+self.edits[index]['name']+', see above')
 				return False
