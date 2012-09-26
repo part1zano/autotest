@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from testlib import testcase
+from testlib import testcase,myrandom
 import sys
 
 class TestCase(testcase.TestObject):
@@ -9,7 +9,17 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 
 		self.links = self.make_json_list('json_lists/edit-contacts/linklist-edit-contacts.json')
-		self.edits = self.make_json_list('json_lists/edit-contacts/objlist-edit-contacts.json')
+		domain = myrandom.random_domain()
+		for edit in self.make_json_list('json_lists/edit-contacts/objlist-edit-contacts.json'):
+			if 'phone' in edit['name']:
+				edit['value'] = myrandom.random_phone()
+			elif 'site' in edit['name']:
+				edit['value'] = 'http://'+domain+'/'
+			elif 'email' in edit['name']:
+				edit['value'] = myrandom.random_login()+'@'+domain
+
+			self.edits.append(edit)
+
 		for edit in self.edits:
 			self.results.append({'name': 'contacts', 'value': edit['value'], 'method': 'grep'})
 
