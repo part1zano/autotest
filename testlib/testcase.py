@@ -215,7 +215,7 @@ class TestObject():
 	def __del__(self):
 #		if not self.driver.get_screenshot_as_file('/home/che/wrk/autoscreens/'+re.sub('/', '__', sys.argv[0])+'.png'):
 #			self.log.write('error', 'screenshot saving failed')
-		self.driver.close()
+		self.driver.quit()
 
 	def sleep(self, time_):
 		self.log.write('debug', 'sleepin for '+str(time_)+'s')
