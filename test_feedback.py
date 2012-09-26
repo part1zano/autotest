@@ -35,7 +35,7 @@ class TestCase(testcase.TestObject):
 		self.log.write('info', 'email in field, thats ok')
 
 		for index in range(len(self.edits)):
-			if not self.edit_control(self.edits[index]['name'], self.edits[index]['value'], clear=bool(int(self.edits[index]['clear']))):
+			if not self.dedit(self.edits[index]):
 				self.log.write('error', 'failed editing '+self.edits[index]['name']+', see above')
 				return False
 			

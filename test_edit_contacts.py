@@ -27,7 +27,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error clicking edit btn')
 				return False
 
-			if not self.edit_control(edit['name'], edit['value'], clear=True):
+			if not self.dedit(edit):
 				self.log.write('error', 'error editing '+edit['name']+', see above')
 				return False
 

@@ -44,7 +44,7 @@ class TestCase(testcase.TestObject):
 			else:
 				value = self.edits[index]['value']
 
-			if not self.edit_control(self.edits[index]['name'], value, clear=bool(int(self.edits[index]['clear']))):
+			if not self.dedit(self.edits[index]):
 				self.log.write('error', 'error editing '+self.edits[index]['name']+', see above')
 				return False
 
