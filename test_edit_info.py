@@ -23,8 +23,11 @@ class TestCase(testcase.TestObject):
 
 		for json_list in ['pos-common', 'pos-big-inn', 'neg-inn-tooshort', 'neg-kpp-tooshort']:
 			self.log.write('info', 'checking case %s' % json_list)
+
 			self.edits = self.make_json_list('json_lists/edit-profile/objlist-edit-profile-%s.json' % json_list)
+
 			self.results = []
+
 			for edit in self.edits:
 				if not bool(int(edit['clear'])):
 					value = self.get_value(edit['name'])+edit['value']

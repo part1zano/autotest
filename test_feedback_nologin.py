@@ -11,7 +11,7 @@ class TestCase(test_feedback.TestCase):
 				return False
 
 		for edit in self.edits:
-			if not self.edit_control(edit['name'], edit['value'], clear=bool(int(edit['clear']))):
+			if not self.dedit(edit):
 				self.log.write('error', 'failed editing %s, see above' % edit['name'])
 				return False
 

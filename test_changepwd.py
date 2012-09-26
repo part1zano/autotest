@@ -9,8 +9,7 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 
 		for objstr in ['pos', 'neg-nomatch', 'neg-1wrong', 'afterall']:
-			for edit in self.make_json_list('json_lists/change-passwd/change-passwd-'+objstr+'.json'):
-				self.edits.append(edit)
+			self.edits.extend(self.make_json_list('json_lists/change-passwd/change-passwd-'+objstr+'.json'))
 		
 		self.links = self.make_json_list('json_lists/change-passwd/changepwd-links.json')
 
