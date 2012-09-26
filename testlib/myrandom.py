@@ -29,17 +29,17 @@ def random_location():
 	
 	return location.rstrip()
 
-def random_office():
-	return departments[random.randint(0, len(departments)-1)]+' '+random_location()
+def random_office(city=None):
+	if city is None:
+		city = random_location()
+
+	return departments[random.randint(0, len(departments)-1)]+' '+city
 
 def random_address(city=None, max_house=99):
 	if city is None:
 		city = random_location()
 
 	return city+', '+streets[random.randint(0, len(streets)-1)]+', '+str(random.randint(1, max_house))
-
-def random_office():
-	return departments[random.randint(0, len(departments)-1)]+' '+random_location()
 
 def random_login(words=3, separator='_'):
 	login = ''
@@ -50,6 +50,19 @@ def random_login(words=3, separator='_'):
 	login = re.sub(separator+'$', '', login)
 	
 	return login
+
+def random_phone():
+	country_code = '+7' # FIXME :: hardcode
+	city_code = '812' # FIXME :: hardcode
+	number = country_code+' '+city_code+' ' # FIXME :: separator hardcode
+	for i in range(7): # FIXME :: hardcode
+		number += str(random.randint(0, 9))
+		
+		if i in (2, 4):
+			number += ' ' # FIXME :: separator hardcode
+
+	return number
+
 
 def random_1lvl_domain(length=2):
 	domain = ''
