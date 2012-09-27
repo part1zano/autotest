@@ -112,8 +112,10 @@ class TestCase(testcase.TestObject):
 
 	def execute(self):
 		title_fragment = u'™'
-		asLogin = 'part1zancheg@gmail.com'
-		asPassword = 'fgihad5'
+#		asLogin = 'part1zancheg@gmail.com'
+#		asPassword = 'fgihad5'
+		asLogin = self.aslogin
+		asPassword = self.aspwd
 		message = myrandom.random_phrase()
 
 		if not testcase.TestObject.execute(self):

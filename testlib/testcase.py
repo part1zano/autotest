@@ -37,12 +37,10 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 class TestObject():
 	def __init__(self, config='tests.conf'):
 		options,operands = getopt.getopt(sys.argv[1:], 'b:c:l:u:d', ['browser=', 'config=', 'level=', 'url=', 'debug'])
-		defaultCfg = True
 		for name, value in options:
 			if name in ('-c', '--config'):
 				if os.path.exists(value):
 					config = value
-					defaultCfg = False
 		
 		self.log = Log(config)
 		cnf = ConfigParser.ConfigParser()
@@ -54,6 +52,8 @@ class TestObject():
 		self.browser = cnf.get('browser', 'browser')
 		self.proxy_host = cnf.get('proxy', 'proxy_host')
 		self.proxy_port = cnf.get('proxy', 'proxy_port')
+		self.aslogin = cnf.get('user2', 'login')
+		self.aspwd = cnf.get('user2', 'passwd')
 
 		for name, value in options:
 			if name in ('-d', '--debug'):
