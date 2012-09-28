@@ -23,6 +23,8 @@ class TestCase(testcase.TestObject):
 				divname = linkitem['url'] = re.sub('-', '_', linkitem['url'])
 			elif linkitem['url'] == 'news-feed':
 				divname += '-block'
+			elif linkitem['url'] == 'news':
+				divname += '-view'
 			elif linkitem['url'] == 'chat':
 				divname = 'dialog_list'
 			elif linkitem['url'] in ('contractors', 'incoming', 'outgoing'):
