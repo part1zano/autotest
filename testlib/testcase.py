@@ -56,6 +56,7 @@ class TestObject():
 		self.aspwd = cnf.get('user2', 'passwd')
 
 		for name, value in options:
+			value = value.strip()
 			if name in ('-d', '--debug'):
 				self.log.level = 'debug'
 			elif name in ('-u', '--url'):
@@ -213,9 +214,10 @@ class TestObject():
 		return True
 
 	def __del__(self):
-#		if not self.driver.get_screenshot_as_file('/home/che/wrk/autoscreens/'+re.sub('/', '__', sys.argv[0])+'.png'):
-#			self.log.write('error', 'screenshot saving failed')
-		self.driver.quit()
+		if self.browser == 'firefox':
+			self.driver.quit()
+		else:
+			self.driver.close()
 
 	def sleep(self, time_):
 		self.log.write('debug', 'sleepin for '+str(time_)+'s')
