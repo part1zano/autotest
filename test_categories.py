@@ -7,15 +7,12 @@ class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self,config)
 
-		self.links = self.make_json_list('json_lists/categories/linklist_categories.json')
+		self.links = self.make_json_list('json_lists/default-links.json')
 		self.categories = [
 				{'id': 'ccat-startup', 'text': u'Стартап'},
 				{'id': 'ccat-social_project', 'text': 'Социальный проект'},
 				{'id': 'ccat-small', 'text': 'Малый бизнес'}
 				]
-
-	def find_category_text(self, category_item, shouldbe=True):
-		pass
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
@@ -23,6 +20,9 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.info['brandName'] = self.get_our_info('brandName')
+		if self.info['brandName'] is None:
+			self.log.write('error', 'brandName is null, exiting')
+			return False
 
 		for link in self.links:
 			if not self.visit_dlink(link):
