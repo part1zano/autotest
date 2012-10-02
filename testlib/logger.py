@@ -19,7 +19,7 @@ class Log:
 			return 1
 		if level == 'stfu':
 			return 2
-		if find_num(levels, level) >= levels.index(self.level):
+		if levels.index(level) >= levels.index(self.level):
 			if (levels.index(level) >= levels.index('warning')) and self.stderr:
 				out = sys.stderr
 			else:
