@@ -25,6 +25,7 @@ class TestCase(test_categories.TestCase):
 		for category in self.categories:
 			if not self.find_link(category['text'], by='text'):
 				inserts.append(category)
+				self.log.write('debug', 'found %s category to append' % category['id'])
 
 		if len(inserts) > 0:
 			if not self.click_btn(u'Редактировать', by='text'):
@@ -52,6 +53,8 @@ class TestCase(test_categories.TestCase):
 				if not self.click_btn('//label[@for="%s"]' % self.categories[id_]['id'], by='xpath'):
 					self.log.write('error', 'error clicking %s checkbox' % self.categories[id_]['id'])
 					return False
+
+				self.log.write('debug', 'clicked checkbox #%d' % id_)
 
 			self.sleep(2)
 
