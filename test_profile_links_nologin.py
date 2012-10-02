@@ -46,6 +46,7 @@ class TestCase(testcase.TestObject):
 					if not self.click_btn(u'Закрыть', by='text'):
 						self.log.write('error', 'close btn not found')
 						return False
+					self.sleep(2)
 			
 			urls.append(link['url'])
 
