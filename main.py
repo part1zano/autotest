@@ -4,7 +4,7 @@
 import os,sys,time,re,getopt
 
 scripts_to_run = []
-exclude_scripts = ['test_categories_search.py']
+exclude_scripts = []
 run_opts = ' '
 all_ = False
 
