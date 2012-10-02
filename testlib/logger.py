@@ -12,6 +12,7 @@ class Log:
 		config.read(conf)
 		self.level = config.get('log', 'level')
 		self.stderr = bool(int(config.get('log', 'stderr')))
+		self.syslog = bool(int(config.get('log', 'syslog')))
 
 	def write(self, level, string):
 		if level not in levels:
