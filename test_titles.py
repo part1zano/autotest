@@ -1,14 +1,14 @@
 #-*- coding: utf-8 -*-
 
 from testlib import testcase
-import sys
+import sys,re
 
 class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 		
-		self.links = self.make_json_list('json_lists/profile-links/profile-links.json') # FIXME :: a lil bit wrong json_list
-#		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
+		self.links = self.make_json_list('json_lists/titles/profile-links.json') # FIXME :: a lil bit wrong json_list
+		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
 
 	def check_dtitle(self, title):
 		if title['page_title'] not in self.driver.title:
@@ -24,6 +24,15 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
+
+		self.info['brandName'] = self.get_our_info('brandName')
+		if self.info['brandName'] is None:
+			self.log.write('error', 'brandName is None, exiting')
+			return False
+
+		for title in self.titles:
+			if '%%brandName%%' in title['page_title']:
+				title['page_title'] = re.sub('%%brandName%%', self.info['brandName'], title['page_title'])
 
 		for link in self.links:
 			if not self.visit_dlink(link):
