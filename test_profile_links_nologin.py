@@ -27,6 +27,23 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'no div id=%s at page, NOK' % divname)
 				return False
 
+			for btn in [u'Написать сообщение', u'Подписаться на новости', u'Добавить в контрагенты']:
+				if not self.click_btn(btn):
+					self.log.write('error', 'btn not found, see above')
+					return False
+
+				self.sleep(2)
+
+				if not self.find_link(u'зарегистрируйтесь', by='text'):
+					self.log.write('error', 'register link not found')
+					return False
+
+				self.sleep(2)
+
+				if not self.click_btn(u'Закрыть', by='text'):
+					self.log.write('error', 'close btn not found')
+					return False
+
 		return True
 
 if __name__ == '__main__':
