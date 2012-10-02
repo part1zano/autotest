@@ -14,6 +14,8 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error accessing search')
 			return False
 
+		urls = []
+
 		for link in self.links:
 			if not self.visit_dlink(link, True):
 				self.log.write('error', 'error visiting %s' % link['url'])
@@ -26,6 +28,26 @@ class TestCase(testcase.TestObject):
 			if not self.check_div(divname):
 				self.log.write('error', 'no div id=%s at page, NOK' % divname)
 				return False
+
+			if link['url'] not in urls:
+				for btn in [u'Написать сообщение', u'Подписаться на новости', u'Добавить в контрагенты']:
+					if not self.click_btn(btn):
+						self.log.write('error', 'btn not found, see above')
+						return False
+
+					self.sleep(2)
+
+					if not self.find_link(u'зарегистрируйтесь', by='text'):
+						self.log.write('error', 'register link not found')
+						return False
+
+					self.sleep(2)
+
+					if not self.click_btn(u'Закрыть', by='text'):
+						self.log.write('error', 'close btn not found')
+						return False
+			
+			urls.append(link['url'])
 
 		return True
 
