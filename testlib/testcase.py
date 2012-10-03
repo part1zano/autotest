@@ -4,7 +4,7 @@
 from logger import Log
 import time,ConfigParser,codecs,re,json,getopt,sys,os.path
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
+from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 #from selenium.webdriver.common.action_chains import ActionChains
 #from selenium.webdriver.remote.command import Command
@@ -474,7 +474,11 @@ class TestObject():
 			return False
 
 		for btn in btns:
-			btn.click()
+			try:
+				btn.click()
+			except StaleElementReferenceException:
+				self.sleep(2)
+				btn.click()
 			clicked = True
 			self.log.write('debug', 'clicked button')
 			self.log.write('debug', 'clicked '+btn_text)
