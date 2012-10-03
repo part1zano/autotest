@@ -4,7 +4,7 @@
 from logger import Log
 import time,ConfigParser,codecs,re,json,getopt,sys,os.path
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException
+from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 #from selenium.webdriver.common.action_chains import ActionChains
 #from selenium.webdriver.remote.command import Command
