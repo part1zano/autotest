@@ -49,7 +49,6 @@ class TestCase(test_categories.TestCase):
 
 		for id_tuple in ids:
 			for id_ in id_tuple:
-#				self.go(self.driver.current_url)
 				if not self.click_btn('//label[@for="%s"]' % self.categories[id_]['id'], by='xpath'):
 					self.log.write('error', 'error clicking %s checkbox' % self.categories[id_]['id'])
 					return False
