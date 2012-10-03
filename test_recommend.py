@@ -52,7 +52,7 @@ class TestCase(testcase.TestObject):
 				return False
 			
 		
-		if not self.click_btn(btn):
+		if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default"]', btn):
 			self.log.write('error', 'no accept-decline btn or something else strange and frightening')
 			return False
 
