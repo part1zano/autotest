@@ -11,7 +11,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error searching for stuff')
 			return False
 
-		if not self.visit_link(title_fragment, 'news', by='text'):
+		if not self.visit_link(title_fragment, 'news', by='text', sleep=True):
 			self.log.write('error', 'error visiting news from search: maybe no search result?')
 			return False
 
@@ -136,6 +136,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.log.write('info', 'requested recommendation successfully')
+		self.sleep(2)
 
 		if not self.logout():
 			self.log.write('error', 'error logging out')
