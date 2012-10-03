@@ -23,6 +23,7 @@ class TestCase(testcase.TestObject):
 		if self.info['brandName'] is None:
 			self.log.write('error', 'brandName is null, exiting')
 			return False
+		self.info['brandName'] = self.info['brandName'][:12]
 
 		for link in self.links:
 			if not self.visit_dlink(link):
