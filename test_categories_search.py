@@ -41,7 +41,7 @@ class TestCase(test_categories.TestCase):
 				self.log.write('error', 'error submitting info')
 				return False
 
-		if not self.visit_link(u'Компании', 'search', by='text'):
+		if not self.visit_link(u'Компании', 'search', by='text', sleep=True):
 			self.log.write('error', 'error visiting search')
 			return False
 		

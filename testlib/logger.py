@@ -4,13 +4,6 @@
 import os, sys
 import ConfigParser
 
-def find_num(array, argument):
-	for index in range(0, len(array)):
-		if argument == array[index]:
-			return index
-	
-	return None
-
 levels = ['debug', 'verbose', 'info', 'warning', 'error', 'stfu']
 
 class Log:
@@ -19,14 +12,15 @@ class Log:
 		config.read(conf)
 		self.level = config.get('log', 'level')
 		self.stderr = bool(int(config.get('log', 'stderr')))
+		self.syslog = bool(int(config.get('log', 'syslog')))
 
 	def write(self, level, string):
 		if level not in levels:
 			return 1
 		if level == 'stfu':
 			return 2
-		if find_num(levels, level) >= find_num(levels, self.level):
-			if (find_num(levels, level) >= find_num(levels, 'warning')) and self.stderr:
+		if levels.index(level) >= levels.index(self.level):
+			if (levels.index(level) >= levels.index('warning')) and self.stderr:
 				out = sys.stderr
 			else:
 				out = sys.stdout
