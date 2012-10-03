@@ -14,7 +14,7 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			return False
 		for linkitem in self.links:
-			if not self.visit_link(linkitem['link'], linkitem['url'], by=linkitem['by']):
+			if not self.visit_link(linkitem['link'], linkitem['url'], by=linkitem['by'], sleep=True):
 				self.log.write('error', 'couldnt visit '+linkitem['url'])
 				return False
 
@@ -27,7 +27,7 @@ class TestCase(testcase.TestObject):
 				divname += '-view'
 			elif linkitem['url'] == 'chat':
 				divname = 'dialog_list'
-			elif linkitem['url'] in ('contractors', 'incoming', 'outgoing'):
+			elif linkitem['url'] in ['contractors', 'incoming', 'outgoing']:
 				divname += 'list'
 
 			if not self.check_div(divname):
