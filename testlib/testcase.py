@@ -474,11 +474,7 @@ class TestObject():
 			return False
 
 		for btn in btns:
-			try:
-				btn.click()
-			except StaleElementReferenceException:
-				self.sleep(2)
-				btn.click()
+			btn.click()
 			clicked = True
 			self.log.write('debug', 'clicked button')
 			self.log.write('debug', 'clicked '+btn_text)
