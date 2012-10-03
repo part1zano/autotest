@@ -17,7 +17,21 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting %s, see above' % link['url'])
 				return False
 
-			
+			if not self.edit_control('chat_message_ta', msg, ctl_type='text', by='id'):
+				self.log.write('error', 'error editing message textarea')
+				return False
+			self.log.write('debug', 'entered msg successfully')
+			self.log.write('debug', 'msg is: %s' % msg)
+
+			if not self.click_btn('send_message_btn', by='id'):
+				self.log.write('error', 'error submitting msg')
+				return False
+
+			self.log.write('debug', 'submitted entered msg successfully')
+
+			self.sleep(2)
+
+
 
 			return True
 
