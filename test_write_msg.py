@@ -12,8 +12,10 @@ class TestCase(testcase.TestObject):
 		for link in self.links:
 			if link['link'] == '%%title_fragment%%':
 				link_ = re.sub('%%title_fragment%%', title_fragment, link['link'])
+			else:
+				link_ = link['link']
 
-			if not self.visit_link(link_, link['url'], link['by']):
+			if not self.visit_link(link_, link['url'], link['by'], sleep=True):
 				self.log.write('error', 'error visiting %s, see above' % link['url'])
 				return False
 
@@ -40,11 +42,15 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def check_appeared_msg(self, msg):
-		if not self.visit_link('main-header-chat-notification', 'chat', by='id'):
+		if not self.visit_link('main-header-chat-notification', 'chat', by='id', sleep=True):
 			self.log.write('error', 'not going to chat, see above')
 			return False
 
-		if not self.check_div_value('//ul[@class="messages"]', msg, by='xpath'):
+#		if not self.visit_link('//a[@class="open-dialog-action js-open-dialog-action"]', 'chat', by='xpath'):
+#			self.log.write('error', 'error opening received msg')
+
+#		if not self.check_div_value('//ul[@class="messages"]', msg, by='xpath'):
+		if not self.check_div_value('dialog_list', msg):
 			self.log.write('error', 'msg not received or wrong something')
 			return False
 
@@ -66,6 +72,10 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.login, self.password, self.aslogin, self.aspwd = self.aslogin, self.aspwd, self.login, self.password
+		if not self.logout():
+			self.log.write('error', 'error logging out')
+			return False
+
 		if not self.do_login():
 			self.log.write('error', 'error logging in as %s' % self.aslogin)
 			return False
