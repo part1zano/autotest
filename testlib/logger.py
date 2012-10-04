@@ -35,7 +35,10 @@ class Log:
 				print >> out, level.upper() + ' ' + 'some shit with unicode, bro'
 
 			if self.syslog:
-				syslog.syslog(priorities[levels.index(level)], level.upper()+' '+string)
+				try:
+					syslog.syslog(priorities[levels.index(level)], level.upper()+' '+string)
+				except UnicodeEncodeError:
+					syslog.syslog(priorities[levels.index(level)], level.upper()+' '+'some shit with unicode, bro')
 
 
 log = Log('tests.conf')
