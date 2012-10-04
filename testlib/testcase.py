@@ -427,9 +427,12 @@ class TestObject():
 
 		return True
 
-	def check_div_value(self, div, value, condition=True):
+	def check_div_value(self, div, value, condition=True, by='id'):
 		try:
-			div_ = self.driver.find_element_by_id(div)
+			if by == 'id':
+				div_ = self.driver.find_element_by_id(div)
+			elif by == 'xpath':
+				div_ = self.driver.find_element_by_xpath(div)
 		except NoSuchElementException:
 			self.log.write('error', 'no such div')
 			return False
