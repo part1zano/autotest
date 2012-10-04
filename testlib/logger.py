@@ -37,7 +37,7 @@ class Log:
 			if self.syslog:
 				try:
 					syslog.syslog(priorities[levels.index(level)], level.upper()+' '+string)
-				except UnicodeEncodeError:
+				except:
 					syslog.syslog(priorities[levels.index(level)], level.upper()+' '+'some shit with unicode, bro')
 
 
