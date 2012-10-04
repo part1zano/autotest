@@ -31,7 +31,7 @@ class TestCase(testcase.TestObject):
 
 		self.sleep(2)
 
-		if not self.check_div_value('//ul[@class="messages"]', msg):
+		if not self.check_div_value('//ul[@class="messages"]', msg, by='xpath'):
 			self.log.write('error', 'no msg appeared: NOK')
 			return False
 
@@ -44,7 +44,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'not going to chat, see above')
 			return False
 
-		if not self.check_div_value('//ul[@class="messages"]', msg):
+		if not self.check_div_value('//ul[@class="messages"]', msg, by='xpath'):
 			self.log.write('error', 'msg not received or wrong something')
 			return False
 
