@@ -48,6 +48,7 @@ class TestCase(testcase.TestObject):
 
 #		if not self.visit_link('//a[@class="open-dialog-action js-open-dialog-action"]', 'chat', by='xpath'):
 #			self.log.write('error', 'error opening received msg')
+#			return False
 
 #		if not self.check_div_value('//ul[@class="messages"]', msg, by='xpath'):
 		if not self.check_div_value('dialog_list', msg):
