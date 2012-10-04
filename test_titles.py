@@ -35,7 +35,7 @@ class TestCase(testcase.TestObject):
 				title['page_title'] = re.sub('%%brandName%%', self.info['brandName'], title['page_title'])
 
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
