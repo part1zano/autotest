@@ -13,7 +13,7 @@ class TestCase(testcase.TestObject):
 
 		commented = False
 
-		for elem_id in range(1, 100):
+		for elem_id in range(1, 30):
 			if not self.click_btn_in_xpath('//ul/li[%d]/table' % elem_id, u'Комментировать'):
 				self.log.write('warning', 'no comment link @ post # %d' % elem_id)
 			else:
