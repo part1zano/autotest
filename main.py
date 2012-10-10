@@ -16,7 +16,7 @@ for name, value in options:
 	elif name in ('-a', '--all'):
 		all_ = True
 	else:
-		run_opts += name+' '+value
+		run_opts += name+' '+value+' '
 
 search_string = 'find . -maxdepth 1 -type f -name "test_*.py" '
 if not all_:
