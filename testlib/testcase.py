@@ -326,7 +326,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ['chat']:
+			for substr in ['chat', 'news-feed', 'subscribed-people', 'news-subscriptions', 'person']:
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
@@ -358,22 +358,21 @@ class TestObject():
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
 	def edit_control(self, control, value, ctl_type='text', by='id', clear=False, click=False):
-		try:
-			if by == 'id':
-				ctl = self.driver.find_element_by_id(control)
-			elif by == 'name':
-				ctl = self.driver.find_element_by_name(control)
-			elif by == 'xpath':
-				ctl = self.driver.find_element_by_xpath(control)
-			else:
-				self.log.write('error', 'unknown search criteria: by %s' % by)
-				return False
-		except NoSuchElementException:
-			self.log.write('error', 'no such control %s="%s"' % (by, control))
-			return False
-
 		if ctl_type == 'text':
 			self.log.write('debug', control+' is a text input or so')
+			try:
+				if by == 'id':
+					ctl = self.driver.find_element_by_id(control)
+				elif by == 'name':
+					ctl = self.driver.find_element_by_name(control)
+				elif by == 'xpath':
+					ctl = self.driver.find_element_by_xpath(control)
+				else:
+					self.log.write('error', 'unknown search criteria: by %s' % by)
+					return False
+			except NoSuchElementException:
+				self.log.write('error', 'no such control %s="%s"' % (by, control))
+				return False
 			old_value = ctl.get_attribute('value')
 			self.log.write('debug', control+' value is: '+old_value)
 			if clear:
@@ -399,12 +398,12 @@ class TestObject():
 				return False
 
 			try:
-				ctl_container.find_element_by_xpath('//span[@class="selectBox-arrow"').click()
+				ctl_container.find_element_by_xpath('//span[@class="selectBox-arrow"]').click()
 			except NoSuchElementException:
 				self.log.write('error', 'error opening popup %s' % control)
 				return False
 
-			if not self.click_btn(value, by='text'):
+			if not self.click_btn('//a[@rel="%s"]' % value, by='xpath'):
 				self.log.write('error', 'error selecting/clicking option in popup %s' % control)
 				return False
 
