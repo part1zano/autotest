@@ -373,7 +373,7 @@ class TestObject():
 			return False
 
 		if ctl_type == 'text':
-			self.log.write('debug', control+' is a textarea or so')
+			self.log.write('debug', control+' is a text input or so')
 			old_value = ctl.get_attribute('value')
 			self.log.write('debug', control+' value is: '+old_value)
 			if clear:
@@ -391,20 +391,24 @@ class TestObject():
 			return (ctl.get_attribute('value').lower() == new_value.lower()) # FIXME dog-nail for fckn selenium
 		elif ctl_type == 'popup':
 			self.log.write('debug', control+' is a popup or so')
+			
+			try:
+				ctl_container = self.driver.find_element_by_id('%s-container' % control)
+			except NoSuchElementException:
+				self.log.write('error', 'no container for popup %s' % control)
+				return False
 
 			try:
-				all_options = ctl.find_elements_by_name('option')
+				ctl_container.find_element_by_xpath('//span[@class="selectBox-arrow"').click()
 			except NoSuchElementException:
-				self.log.write('warning', control+' has no options')
+				self.log.write('error', 'error opening popup %s' % control)
 				return False
-			clicked = False
-			for option in all_options:
-				self.log.write('debug', control+': found option '+option.get_attribute('value'))
-				if value in option.get_attribute('value'):
-					option.click()
-					self.log.write('debug', control+': clicked '+option.get_attribute('value'))
-					clicked = True
-			return clicked
+
+			if not self.click_btn(value, by='text'):
+				self.log.write('error', 'error selecting/clicking option in popup %s' % control)
+				return False
+
+			return True
 
 		else:
 			self.log.write('error', control+': unknown ctl type')
