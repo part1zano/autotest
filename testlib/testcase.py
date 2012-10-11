@@ -398,7 +398,8 @@ class TestObject():
 				return False
 
 			try:
-				ctl_container.find_element_by_xpath('//span[@class="selectBox-arrow"]').click()
+				#				ctl_container.find_element_by_xpath('//a[@class="selectBox selectBox-dropdown"]').click()
+				ctl_container.find_element_by_xpath('//a[@tabindex="0"]').click()
 			except NoSuchElementException:
 				self.log.write('error', 'error opening popup %s' % control)
 				return False
