@@ -44,9 +44,6 @@ class TestCase(testcase.TestObject):
 
 		return True
 
-	def __del__(self):
-		pass
-
 	def execute(self):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed, see above')
