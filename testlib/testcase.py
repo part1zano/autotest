@@ -7,8 +7,8 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 #from selenium.webdriver.common.action_chains import ActionChains
-#from selenium.webdriver.remote.command import Command
-#from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.command import Command
+from selenium.webdriver.common.keys import Keys
 
 def get_browser(browser, proxy_host='', proxy_port=''):
 	if proxy_port == '':
@@ -127,30 +127,30 @@ class TestObject():
 		return True
 
 
-#	def move_to(self, elem, by='id'):
-#		try:
-#			if by == 'id':
-#				obj = self.driver.find_element_by_id(elem)
-#			elif by == 'text':
-#				obj = self.driver.find_element_by_partial_link_text(elem)
-#			elif by == 'xpath':
-#				obj = self.driver.find_element_by_xpath(elem)
-#			else:
-#				self.log.write('error', 'unknown search criteria: by %s' % by)
-#				return False
-#		except NoSuchElementException:
-#			self.log.write('error', 'no such element %s' % elem)
-#			return False
-#	
-##		hover = ActionChains(self.driver).move_to_element(obj)
-##		hover.perform()
-#		
-#		result = self.driver.execute(Command.MOVE_TO, {'element': obj.id})
-#		if result['status'] == 0:
-#			return True
-#		else:
-#			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
-#			return False
+	def move_to(self, elem, by='id'):
+		try:
+			if by == 'id':
+				obj = self.driver.find_element_by_id(elem)
+			elif by == 'text':
+				obj = self.driver.find_element_by_partial_link_text(elem)
+			elif by == 'xpath':
+				obj = self.driver.find_element_by_xpath(elem)
+			else:
+				self.log.write('error', 'unknown search criteria: by %s' % by)
+				return False
+		except NoSuchElementException:
+			self.log.write('error', 'no such element %s' % elem)
+			return False
+	
+#		hover = ActionChains(self.driver).move_to_element(obj)
+#		hover.perform()
+		
+		result = self.driver.execute(Command.MOVE_TO, {'element': obj.id})
+		if result['status'] == 0:
+			return True
+		else:
+			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
+			return False
 
 	def cut_string(self, string, length = 20):
 		if (len(string) > length) and ('http' not in string):
@@ -326,7 +326,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ['chat']:
+			for substr in ['chat', 'news-feed',  'person']:
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
@@ -358,22 +358,21 @@ class TestObject():
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
 	def edit_control(self, control, value, ctl_type='text', by='id', clear=False, click=False):
-		try:
-			if by == 'id':
-				ctl = self.driver.find_element_by_id(control)
-			elif by == 'name':
-				ctl = self.driver.find_element_by_name(control)
-			elif by == 'xpath':
-				ctl = self.driver.find_element_by_xpath(control)
-			else:
-				self.log.write('error', 'unknown search criteria: by %s' % by)
-				return False
-		except NoSuchElementException:
-			self.log.write('error', 'no such control %s="%s"' % (by, control))
-			return False
-
 		if ctl_type == 'text':
-			self.log.write('debug', control+' is a textarea or so')
+			self.log.write('debug', control+' is a text input or so')
+			try:
+				if by == 'id':
+					ctl = self.driver.find_element_by_id(control)
+				elif by == 'name':
+					ctl = self.driver.find_element_by_name(control)
+				elif by == 'xpath':
+					ctl = self.driver.find_element_by_xpath(control)
+				else:
+					self.log.write('error', 'unknown search criteria: by %s' % by)
+					return False
+			except NoSuchElementException:
+				self.log.write('error', 'no such control %s="%s"' % (by, control))
+				return False
 			old_value = ctl.get_attribute('value')
 			self.log.write('debug', control+' value is: '+old_value)
 			if clear:
@@ -391,20 +390,25 @@ class TestObject():
 			return (ctl.get_attribute('value').lower() == new_value.lower()) # FIXME dog-nail for fckn selenium
 		elif ctl_type == 'popup':
 			self.log.write('debug', control+' is a popup or so')
+			
+			try:
+				ctl_container = self.driver.find_element_by_id('%s-container' % control)
+			except NoSuchElementException:
+				self.log.write('error', 'no container for popup %s' % control)
+				return False
 
 			try:
-				all_options = ctl.find_elements_by_name('option')
+				#				ctl_container.find_element_by_xpath('//a[@class="selectBox selectBox-dropdown"]').click()
+				ctl_container.find_element_by_xpath('//a[@tabindex="0"]').click()
 			except NoSuchElementException:
-				self.log.write('warning', control+' has no options')
+				self.log.write('error', 'error opening popup %s' % control)
 				return False
-			clicked = False
-			for option in all_options:
-				self.log.write('debug', control+': found option '+option.get_attribute('value'))
-				if value in option.get_attribute('value'):
-					option.click()
-					self.log.write('debug', control+': clicked '+option.get_attribute('value'))
-					clicked = True
-			return clicked
+
+			if not self.click_btn('//a[@rel="%s"]' % value, by='xpath'):
+				self.log.write('error', 'error selecting/clicking option in popup %s' % control)
+				return False
+
+			return True
 
 		else:
 			self.log.write('error', control+': unknown ctl type')
