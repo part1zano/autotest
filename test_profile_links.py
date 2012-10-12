@@ -30,6 +30,12 @@ class TestCase(testcase.TestObject):
 			elif linkitem['url'] in ['contractors', 'incoming', 'outgoing']:
 				divname += 'list'
 
+			if 'person/' in self.driver.current_url:
+				if 'profile' in linkitem['url']:
+					divname = 'userabout'
+				else:
+					divname = 'user'+divname
+
 			if not self.check_div(divname):
 				self.log.write('error', 'no div id='+divname)
 				return False
