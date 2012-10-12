@@ -15,14 +15,13 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error visiting profile from search')
 			return False
 
-		urls = [self.info['url'], self.driver.current_url]
-		divs = ['news-subscriptions', 'subscribed-people']
-		titles = [title_fragment, self.info['brandName']]
+		urls = [self.info['url']]
+		divs = ['news-subscriptions']
+		titles = [title_fragment]
 		linkchains = [[
 			{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'},
 			{'link': 'link_news_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
-			],
-				[{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'}]]
+			]]
 		
 		if not self.click_btn(subscribe_btns[su_cond]):
 			self.log.write('warning', 'possibly wrong subscribe direction: trying to fix')
@@ -44,6 +43,9 @@ class TestCase(testcase.TestObject):
 				return False
 
 		return True
+
+	def __del__(self):
+		pass
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
