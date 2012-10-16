@@ -326,7 +326,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ['chat', 'news-feed',  'person']:
+			for substr in ['chat', 'news-feed',  'person', 'change-password']:
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
