@@ -599,7 +599,7 @@ class TestObject():
 			if value not in errval: 
 				self.log.write('error', name+' has wrong error message')
 				self.log.write('error', 'it should contain: '+value)
-				self.log.write('error', 'but it is: '+err.get_attribute('value'))
+				self.log.write('error', 'but it is: '+errval)
 				return False
 		if bool(int(ok)):
 			return self.click_oks()
