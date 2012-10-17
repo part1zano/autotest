@@ -9,10 +9,14 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error finding shit for getting its id')
 			return None
 
+		if not self.visit_link(title_fragment, 'news', by='text'):
+			self.log.write('error', 'error visiting profile from search')
+			return None
+
 		links = self.make_json_list('json_lists/default-links.json')
 
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s for getting some fucker\'s id, see above' % link['url'])
 				return None
 
@@ -21,20 +25,23 @@ class TestCase(testcase.TestObject):
 
 		return self.driver.current_url.split('/')[3]
 
-	def remove_ctr_by_title(self, title_fragment, added=True):
+	def remove_ctr_by_title(self, title_fragment, added=True, out=False):
 		their_id = self.get_id_by_title(title_fragment)
 		if their_id is None:
 			self.log.write('error', 'null id: too bad, not un-contracting')
 			return False
 
 		self.go(self.url)
+		if out:
+			links = self.make_json_list('json_lists/contractors/links-out.json')
+		else:
+			links = self.make_json_list('json_lists/contractors/links-in.json')
 
-		links = self.make_json_list('json_list/contractors/links-in.json')
 		if added:
 			del links[1]
 
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s while removing from ctrs' % link['url'])
 				return False
 
@@ -49,7 +56,15 @@ class TestCase(testcase.TestObject):
 		self.sleep(2)
 
 		if not self.click_btn(u'Удалить из контрагентов', by='text'):
-			pass
+			self.log.write('error', 'error clicking delete link/btn')
+			return False
+
+		self.sleep(2)
+
+#		if not self.click_btn(u'Удалить', by='text'):
+		if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default"]', u'Удалить'):
+			self.log.write('error', 'error committing')
+			return False
 
 		return True
 
@@ -60,7 +75,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error finding shit, see above')
 			return False
 
-		if not self.visit_link(title_fragment, 'news', by='text'):
+		if not self.visit_link(title_fragment, 'news', by='text', sleep=True):
 			self.log.write('error', 'error visiting profile from search')
 			return False
 
@@ -69,7 +84,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('warning', 'trying to remove ctr')
 			addeds = [True, False]
 			for added in addeds:
-				if not self.remove_ctr_by_title(title_fragment, added):
+				if not self.remove_ctr_by_title(title_fragment, added, out=True):
 					self.log.write('warning', 'not removed pass %2d' % addeds.index(added))
 				else:
 					addeds.remove(added)
@@ -82,9 +97,11 @@ class TestCase(testcase.TestObject):
 		# btn clicked, going next
 		self.go(self.url)
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s while checking whether added' % link['url'])
 				return False
+
+		self.go(self.driver.current_url)
 
 		if not self.find_link(title_fragment, by='text'):
 			self.log.write('error', 'title fragment not found in outgoing')
@@ -96,7 +113,7 @@ class TestCase(testcase.TestObject):
 		links = self.make_json_list('json_lists/contractors/links-in.json')
 
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s while approving ctr request' % link['url'])
 				return False
 
@@ -108,7 +125,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error clicking approve btn, see above')
 			return False
 
-		if not self.visit_link('link_contractors_list', 'contractors', by='id'):
+		if not self.visit_link('link_contractors_list', 'contractors', by='id', sleep=True):
 			self.log.write('error', 'error going to ctr list, see above')
 			return False
 
@@ -151,7 +168,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error logging in as %s' % self.login)
 			return False
 
-		if not self.remove_ctr_by_title(title_fragment, added=True):
+		if not self.remove_ctr_by_title(title_fragment, added=True, out=True):
 			self.log.write('error', 'error cleaning up, see above')
 			return False
 
