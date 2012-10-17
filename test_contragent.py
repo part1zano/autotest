@@ -121,7 +121,7 @@ class TestCase(testcase.TestObject):
 
 		title_fragment = u'™'
 		self.info['id'] = self.get_our_info('id')
-		if self.indo['id'] is None:
+		if self.info['id'] is None:
 			self.log.write('error', 'null id, exiting')
 			return False
 
