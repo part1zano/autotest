@@ -29,9 +29,9 @@ class TestCase(testcase.TestObject):
 
 		self.go(self.url)
 
-		links = [{'link': 'mc_sidebar_contractors', 'url': 'contractors', 'by': 'id'}]
-		if not added:
-			links.append({'link': 'link_out_reqs', 'url': 'outgoing', 'by': 'id'})
+		links = self.make_json_list('json_list/contractors/links-in.json')
+		if added:
+			del links[1]
 
 		for link in links:
 			if not self.visit_dlink(link):
@@ -54,11 +54,7 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def add_ctr_by_title(self, title_fragment):
-		their_id = self.get_id_by_title(title_fragment)
-
-		if their_id is None:
-			self.log.write('error', 'null id, stopping')
-			return False
+		links = self.make_json_list('json_lists/contractors/links-out.json')	
 
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error finding shit, see above')
@@ -84,8 +80,37 @@ class TestCase(testcase.TestObject):
 				return False
 
 		# btn clicked, going next
+		self.go(self.url)
+		for link in links:
+			if not self.visit_dlink(link):
+				self.log.write('error', 'error visiting %s while checking whether added' % link['url'])
+				return False
 
+		if not self.find_link(title_fragment, by='text'):
+			self.log.write('error', 'title fragment not found in outgoing')
+			return False
 
+		return True
+
+	def approve_ctr_request(self, id_):
+		links = self.make_json_list('json_lists/contractors/links-in.json')
+
+		for link in links:
+			if not self.visit_dlink(link):
+				self.log.write('error', 'error visiting %s while approving ctr request' % link['url'])
+				return False
+
+		if not self.move_to('listelem_%s' % id_, by='id'):
+			self.log.write('error', 'error pointing to list elem, possibly no request')
+			return False
+
+		if not self.click_btn(u'Добавить в контрагенты', by='text'):
+			self.log.write('error', 'error clicking approve btn, see above')
+			return False
+
+		if not self.visit_link('link_contractors_list', 'contractors', by='id'):
+			self.log.write('error', 'error going to ctr list, see above')
+			return False
 
 		return True
 
@@ -93,6 +118,44 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
+
+		title_fragment = u'™'
+		self.info['id'] = self.get_our_info('id')
+		if self.indo['id'] is None:
+			self.log.write('error', 'null id, exiting')
+			return False
+
+		if not self.add_ctr_by_title(title_fragment):
+			self.log.write('error', 'error adding ctr, see above')
+			return False
+
+		self.login, self.password, self.aslogin, self.aspwd = self.aslogin, self.aspwd, self.login, self.password
+		if not self.logout():
+			self.log.write('error', 'error logging out')
+			return False
+
+		if not self.do_login():
+			self.log.write('error', 'error logging in as %s, see above')
+			return False
+
+		if not self.approve_ctr_request(self.info['id']):
+			self.log.write('error', 'error approving request from our id=%s' % self.info['id'])
+			return False
+
+		self.login, self.password, self.aslogin, self.aspwd = self.aslogin, self.aspwd, self.login, self.password
+		if not self.logout():
+			self.log.write('error', 'error logging out')
+			return False
+
+		if not self.do_login():
+			self.log.write('error', 'error logging in as %s' % self.login)
+			return False
+
+		if not self.remove_ctr_by_title(title_fragment, added=True):
+			self.log.write('error', 'error cleaning up, see above')
+			return False
+
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 
 		return True
 
