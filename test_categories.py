@@ -10,8 +10,8 @@ class TestCase(testcase.TestObject):
 		self.links = self.make_json_list('json_lists/default-links.json')
 		self.categories = [
 				{'id': 'ccat-startup', 'text': u'Стартап'},
-				{'id': 'ccat-social_project', 'text': 'Социальный проект'},
-				{'id': 'ccat-small', 'text': 'Малый бизнес'}
+				{'id': 'ccat-social_project', 'text': u'Социальный проект'},
+				{'id': 'ccat-small', 'text': u'Малый бизнес'}
 				]
 
 	def execute(self):
