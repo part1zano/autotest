@@ -110,6 +110,30 @@ class TestObject():
 				return {}
 		return {}
 
+	def get_my_info(self, field):
+		url = self.driver.current_url
+		if not self.visit_link('mc_sidebar_userprofile', 'profile', by='id'):
+			self.log.write('error', 'error visiting employee profile')
+			self.go(url)
+			return None
+
+		if field == 'id':
+			toReturn = self.driver.current_url.split('/')[4]
+		elif field == 'url':
+			toReturn = self.driver.current_url
+		else:
+			try:
+				ctl = self.driver.find_element_by_id(field)
+			except NoSuchElementException:
+				self.log.write('error', 'no such field: %s' % field)
+				self.go(self.driver.current_url)
+				return None
+
+			toReturn = ctl.text
+
+		self.go(url)
+		return toReturn
+
 	def click_btn_in_xpath(self, xpath, btn=u'Поделиться'):
 		try:
 			table = self.driver.find_element_by_xpath(xpath)
@@ -125,7 +149,6 @@ class TestObject():
 			return False
 
 		return True
-
 
 	def move_to(self, elem, by='id'):
 		try:
