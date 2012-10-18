@@ -26,6 +26,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.info['brandName'] = self.get_our_info('brandName')
+		self.info['fio'] = '%s %s %s' % (self.get_my_info('secondName'), self.get_my_info('firstName'), self.get_my_info('middleName'))
 		if self.info['brandName'] is None:
 			self.log.write('error', 'brandName is None, exiting')
 			return False
@@ -33,6 +34,8 @@ class TestCase(testcase.TestObject):
 		for title in self.titles:
 			if '%%brandName%%' in title['page_title']:
 				title['page_title'] = re.sub('%%brandName%%', self.info['brandName'], title['page_title'])
+			elif '%%fio%%' in title['page_title']:
+				title['page_title'] = re.sub('%%fio%%', self.info['fio'], title['page_title'])
 
 		for link in self.links:
 			if not self.visit_dlink(link, sleep=True):
