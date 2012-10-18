@@ -398,16 +398,22 @@ class TestObject():
 				return False
 
 			try:
-				#				ctl_container.find_element_by_xpath('//a[@class="selectBox selectBox-dropdown"]').click()
-				ctl_container.find_element_by_xpath('//a[@tabindex="0"]').click()
+				ctl_container.find_element_by_xpath('//a[@class="selectBox selectBox-dropdown"]').click()
+				#ctl_container.find_element_by_xpath('//a[@tabindex="0"]').click()
 			except NoSuchElementException:
 				self.log.write('error', 'error opening popup %s' % control)
 				return False
 
-			if not self.click_btn('//a[@rel="%s"]' % value, by='xpath'):
+			self.log.write('debug', 'clicked dropdown')
+			self.sleep(2)
+
+			if not self.click_btn(value, by='text'):#'//a[@rel="%s"]' % value, by='xpath'):
 				self.log.write('error', 'error selecting/clicking option in popup %s' % control)
 				return False
 
+			self.sleep(2)
+			self.log.write('debug', 'clicked value')
+			
 			return True
 
 		else:
