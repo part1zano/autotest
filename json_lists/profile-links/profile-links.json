@@ -19,7 +19,7 @@
  {"url": "news-subscriptions", "link": "link_news_subscriptions", "by": "id"},
  {"url": "chat", "link": "main-header-chat-notification", "by": "id"},
  {"url": "subscribed-people", "link": "mc_sidebar_company_subscribers", "by": "id"},
- {"url": "link_subscribed_people", "link": "subscribed-people", "by": "id"},
+ {"url": "subscribed-people", "link": "link_subscribed_people", "by": "id"},
  {"url": "chat", "link": "main-header-chat-notification", "by": "id"},
  {"url": "contractors", "link": "mc_sidebar_contractors", "by": "id"},
  {"url": "contractors", "link": "link_contractors_list", "by": "id"},
