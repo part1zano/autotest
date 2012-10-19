@@ -125,30 +125,6 @@ class TestObject():
 				return {}
 		return {}
 
-	def get_my_info(self, field):
-		url = self.driver.current_url
-		if not self.visit_link('mc_sidebar_userprofile', 'profile', by='id'):
-			self.log.write('error', 'error visiting employee profile')
-			self.go(url)
-			return None
-
-		if field == 'id':
-			toReturn = self.driver.current_url.split('/')[4]
-		elif field == 'url':
-			toReturn = self.driver.current_url
-		else:
-			try:
-				ctl = self.driver.find_element_by_id(field)
-			except NoSuchElementException:
-				self.log.write('error', 'no such field: %s' % field)
-				self.go(self.driver.current_url)
-				return None
-
-			toReturn = ctl.text
-
-		self.go(url)
-		return toReturn
-
 	def click_btn_in_xpath(self, xpath, btn=u'Поделиться'):
 		try:
 			table = self.driver.find_element_by_xpath(xpath)
@@ -216,29 +192,7 @@ class TestObject():
 			self.log.write('error', 'no link: '+link)
 			return False
 
-	def get_our_info(self, field):
-		links = {'mc_sidebar_profile': 'news', 'link_profile': 'profile'}
-		for link, url in links.items():
-			if not self.visit_link(link, url, by='id'):
-				return None
-		if field == 'id':
-			toReturn = self.driver.current_url.split('/')[3]
-			return toReturn
-		elif field == 'url':
-			toReturn = self.driver.current_url
-			return toReturn
-		try:
-			field_ = self.driver.find_element_by_id(field)
-		except NoSuchElementException:
-			self.log.write('error', 'no such field')
-			self.go(url)
-			return None
-
-		toReturn = field_.text
-		self.log.write('debug', 'got %s -> %s' % (field, toReturn))
-		return toReturn
-
-
+	
 	def make_json_list(self, json_file):
 		json_fh = codecs.open(json_file, encoding='utf-8')
 		to_return = json.load(json_fh)
