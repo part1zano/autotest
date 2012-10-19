@@ -79,6 +79,7 @@ class TestCase(testcase.TestObject):
 	def execute(self):
 		self.links = self.make_json_list('json_lists/permissions/links.json')
 		self.edits = self.make_json_list('json_lists/permissions/edits.json')
+		self.title_fragment = u'«'
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
@@ -106,12 +107,20 @@ class TestCase(testcase.TestObject):
 			if not self.edit_control(edit['name'], edit['value'], ctl_type='checkbox'):
 				self.log.write('error', 'error editing %s' % edit['name'])
 				return False
+			
+			if not self.click_btn(u'Сохранить', by='text'):
+				self.log.write('error', 'error clicking save btn')
+				return False
 
+			self.sleep(2)
+		
 			if not self.check_permission(edit['name'], to_bool(edit['value'])):
 				self.log.write('error', 'error checking permission %s' % edit['name'])
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
+	def __del__(self):
+		pass
 
 if __name__ == '__main__':
 	tc = TestCase()
