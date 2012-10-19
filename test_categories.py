@@ -18,15 +18,15 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
-
-		self.info['brandName'] = self.get_our_info('brandName')
-		if self.info['brandName'] is None:
-			self.log.write('error', 'brandName is null, exiting')
+		
+		try:
+			self.info['brandName'] = self.json_info()['common_data']['brandName'][:12]
+		except KeyError:
+			self.log.write('error', 'error getting brandName')
 			return False
-		self.info['brandName'] = self.info['brandName'][:12]
-
+		
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
