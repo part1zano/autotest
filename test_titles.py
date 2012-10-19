@@ -25,8 +25,12 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		self.info['brandName'] = self.get_our_info('brandName')
-		self.info['fio'] = '%s %s %s' % (self.get_my_info('secondName'), self.get_my_info('firstName'), self.get_my_info('middleName'))
+		self._info = self.json_info()
+
+		self.info['brandName'] = self._info['common_data']['brandName']
+		ftuple = tuple(self._info['common_data']['ownEmployee'][field] for field in ['s_name', 'f_name', 'm_name'])
+		self.info['fio'] = '%s %s %s' % ftuple
+
 		if self.info['brandName'] is None:
 			self.log.write('error', 'brandName is None, exiting')
 			return False
@@ -42,7 +46,11 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
-			title = self.find_dict_in(self.titles, 'url', link['url'])
+			if 'person' in self.driver.current_url:
+				title = self.find_dict_in(self.titles, 'url', 'person')
+			else:
+				title = self.find_dict_in(self.titles, 'url', link['url'])
+
 			if title is None:
 				self.log.write('error', 'wrong title file, check it!')
 				return False

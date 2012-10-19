@@ -51,8 +51,17 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed, see above')
 			return False
 
-		for field in ('brandName', 'id', 'url'):
-			self.info[field] = self.cut_string(self.get_our_info(field), 30)
+		self._info = self.json_info()
+
+		for field in ['brandName', 'ownCompanyRekId']:
+			try:
+				self.info[field] = self._info['common_data'][field][:25]
+			except KeyError:
+				self.log.write('error', 'error getting %s' % field)
+				return False
+
+		self.info['id'] = self.info['ownCompanyRekId']
+		self.info['url'] = self.url+'/'+self.info['id']+'/profile'
 
 		title_fragment = u'™'
 		index = 0
