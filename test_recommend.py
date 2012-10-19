@@ -74,11 +74,14 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		for field in ['brandName', 'url']:
-			self.info[field] = self.cut_string(self.get_our_info(field))
-			if self.info[field] is None:
-				self.log.write('error', 'error finding brand name, aborting')
-				return False
+		self._info = self.json_info()
+		try:
+			self.info['brandName'] = self._info['common_data']['brandName']
+			self.info['url'] = self.url+'/'+self._info['common_data']['ownCompanyRekId']+'/profile'
+		except KeyError:
+			self.log.write('error', 'error getting some info')
+			return False
+
 		index = 0	
 		for re_cond in [True, False]:
 			for accept in [False, True]:

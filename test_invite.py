@@ -28,13 +28,12 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed, see above')
 			return False
 		
-		bname = self.get_our_info('brandName')
-		if bname is None:
-			self.log.write('error', 'couldnt get bname, see above')
+		try:
+			bname = self.json_info()['common_data']['brandName'][:20]
+		except KeyError:
+			self.log.write('error', 'error getting brandName')
 			return False
-		else:
-			bname = self.cut_string(bname, 31)
-		
+				
 		for link in self.links:
 			if not self.visit_link(link['link'], link['url'], link['by']):
 				self.log.write('error', 'error visiting '+link['url']+', see above')
