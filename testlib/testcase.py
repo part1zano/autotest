@@ -166,13 +166,6 @@ class TestObject():
 			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
 			return False
 
-	def cut_string(self, string, length = 20):
-		if (len(string) > length) and ('http' not in string):
-			self.log.write('debug', 'cut %s to %2d chars, got %s' % (string, length, string[:(length-2)]))
-			return string[:(length-2)]
-		else:
-			return string
-
 	def find_link(self, link, by='id', count=1):
 		try:
 			if by == 'text':
@@ -191,7 +184,6 @@ class TestObject():
 		except NoSuchElementException:
 			self.log.write('error', 'no link: '+link)
 			return False
-
 	
 	def make_json_list(self, json_file):
 		json_fh = codecs.open(json_file, encoding='utf-8')
@@ -408,6 +400,8 @@ class TestObject():
 			
 			return True
 		elif ctl_type == 'checkbox': # checked -> true; not checked -> none
+			if value == False:
+				value = None
 			self.log.write('debug', '%s is a checkbox or so' % control)
 			try:
 				chbox = self.driver.find_element_by_id(control)
