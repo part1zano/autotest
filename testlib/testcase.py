@@ -465,20 +465,28 @@ class TestObject():
 
 		return True
 
-	def get_value(self, control, by='id'):
-		try:
-			if by == 'id':
-				ctl = self.driver.find_element_by_id(control)
-			elif by == 'xpath':
-				ctl = self.driver.find_element_by_xpath(control)
-		except NoSuchElementException:
-			self.log.write('error', 'no such element '+control)
-			return None
+	def get_value(self, control, by='id', ctl_type='text'):
+		if ctl_type == 'text':
+			try:
+				if by == 'id':
+					ctl = self.driver.find_element_by_id(control)
+				elif by == 'xpath':
+					ctl = self.driver.find_element_by_xpath(control)
+			except NoSuchElementException:
+				self.log.write('error', 'no such element '+control)
+				return None
 
-		if ctl.get_attribute('value') is not None:
-			return ctl.get_attribute('value')
-		else:
-			return ctl.text
+			if ctl.get_attribute('value') is not None:
+				return ctl.get_attribute('value')
+			else:
+				return ctl.text
+		elif ctl_type == 'checkbox':
+			try:
+				ctl = self.driver.find_element_by_id(control)
+			except NoSuchElementException:
+				self.log.write('error', 'no such element %s' % control)
+				return None
+			return (ctl.get_attribute('checked') is not None)
 
 	def click_btn(self, btn_text, by='text'):
 		clicked = False
