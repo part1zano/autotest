@@ -37,10 +37,10 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting profile from search')
 				return False
 
-			if self.click_btn(u'Дать рекомендацию', by='text') != value:
+			if self.find_link(u'Дать рекомендацию', by='text') != value:
 				self.log.write('error', 'recommend permission is NOK')
 				return False
-			elif self.click_btn(u'Отозвать рекомендацию', by='text') != value:
+			elif self.find_link(u'Отозвать рекомендацию', by='text') != value:
 				self.log.write('error', 'recommend permission NOK')
 				return False
 
@@ -57,7 +57,7 @@ class TestCase(testcase.TestObject):
 					return False
 
 				if self.click_btn(u'Редактировать', by='text') != value:
-					self.log.write('error', 'error clicking btn @ %s' % link['url'])
+					self.log.write('error', 'error clicking btn @ %s' % perm)
 					return False
 
 		else:
@@ -70,7 +70,7 @@ class TestCase(testcase.TestObject):
 				return False
 		try:
 			for link in links_novisit:
-				if self.visit_dlink(link, sleep=True):
+				if self.visit_dlink(link, sleep=True) != value:
 					self.log.write('error', 'managed to visit %s: NOK' % link['url'])
 					return False
 		except NameError:
@@ -114,12 +114,13 @@ class TestCase(testcase.TestObject):
 			if not self.click_btn(u'Сохранить', by='text'):
 				self.log.write('error', 'error clicking save btn')
 				return False
-
+			
 			self.sleep(2)
 		
 			if not self.check_permission(edit['name'], to_bool(edit['value'])):
 				self.log.write('error', 'error checking permission %s' % edit['name'])
 				self.log.write('error', 'val is %s' % edit['value'])
+				return False
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
