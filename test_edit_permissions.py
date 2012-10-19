@@ -8,6 +8,7 @@ def to_bool(stri):
 
 class TestCase(testcase.TestObject):
 	def check_permission(self, perm, value):
+		self.log.write('info', '%s -> %s' % (perm, value))	
 		if 'news' in perm:
 			links = self.make_json_list('json_lists/permissions/news.json')
 
@@ -27,11 +28,12 @@ class TestCase(testcase.TestObject):
 			links_novisit = self.make_json_list('json_lists/permissions/contractors-novisit.json')
 
 		elif 'recommend' in perm:
+			links = []
 			if not self.find_stuff(self.title_fragment):
 				self.log.write('error', 'error finding shit and so')
 				return False
 
-			if not self.visit_link(title_fragment, 'news', by='text', sleep=True):
+			if not self.visit_link(self.title_fragment, 'news', by='text', sleep=True):
 				self.log.write('error', 'error visiting profile from search')
 				return False
 
@@ -62,9 +64,9 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'unknown permission type')
 			return False
 
-		for link in self.links:
+		for link in links:
 			if not self.visit_dlink(link, sleep=True):
-				self.log.write('error', 'error visiting %s')
+				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 		try:
 			for link in links_novisit:
@@ -91,6 +93,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		for edit in self.edits:
+			self.go(self.url)
 			for link in self.links:
 				if not self.visit_dlink(link, sleep=True):
 					self.log.write('error', 'error visiting %s link' % link['url'])
@@ -116,11 +119,10 @@ class TestCase(testcase.TestObject):
 		
 			if not self.check_permission(edit['name'], to_bool(edit['value'])):
 				self.log.write('error', 'error checking permission %s' % edit['name'])
+				self.log.write('error', 'val is %s' % edit['value'])
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
-	def __del__(self):
-		pass
 
 if __name__ == '__main__':
 	tc = TestCase()
