@@ -137,9 +137,10 @@ class TestCase(testcase.TestObject):
 			return False
 
 		title_fragment = u'™'
-		self.info['id'] = self.get_our_info('id')
-		if self.info['id'] is None:
-			self.log.write('error', 'null id, exiting')
+		try:
+			self.info['id'] = self.json_info()['common_data']['ownCompanyRekId']
+		except KeyError:
+			self.log.write('error', 'error getting our id')
 			return False
 
 		if not self.add_ctr_by_title(title_fragment):

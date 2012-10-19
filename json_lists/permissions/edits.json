@@ -1,0 +1,11 @@
+[{"clear": "0", "submit": "1", "type": "checkbox", "name": "news-rights", "value": "none"}, 
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "contractors-rights", "value": "none"}, 
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "recommendations-rights", "value": "none"}, 
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "finance-rights", "value": "none"}, 
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "company-rights", "value": "none"}, 
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "news-rights", "value": "true"},
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "contractors-rights", "value": "true"},
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "recommendations-rights", "value": "true"},
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "finance-rights", "value": "true"},
+{"clear": "0", "submit": "1", "type": "checkbox", "name": "company-rights", "value": "true"}
+]

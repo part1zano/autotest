@@ -121,15 +121,12 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
-		
-		for field in ['brandName']:
-			self.info[field] = self.get_our_info(field)
-			if self.info[field] is None:
-				self.log.write('error', 'error getting %s' % field)
-				return False
-			else:
-				self.info[field] = self.cut_string(self.info[field], 18)
-				self.log.write('info', 'got %s info field' % field)
+
+		try:
+			self.info['brandName'] = self.json_info()['common_data']['brandName'][:20]
+		except KeyError:
+			self.log.write('error', 'error getting brandName')
+			return False
 
 		if not self.request_recommendation_by_title(u'™', msg=message):
 			self.log.write('error', 'error requesting recommendation')
