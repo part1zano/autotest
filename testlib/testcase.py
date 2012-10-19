@@ -100,6 +100,21 @@ class TestObject():
 
 		return True
 
+	def json_info(self, id_=None, entity='person'):
+		url = self.driver.current_url
+		if id_ is None:
+			self.go('%s/settings/s' % self.url)
+		elif entity == 'company':
+			self.go('%s/profile/i/%s' % (self.url, id_))
+		elif entity == 'person':
+			self.go('%s/person/%s/s' % (self.url, id_))
+		else:
+			return None
+		
+		text = self.get_value('//pre', by='xpath')
+		self.go(url)
+		return json.loads(text)
+
 	def find_dict_in(self, where, name, value):
 		for elem in where:
 			try:
@@ -496,9 +511,12 @@ class TestObject():
 
 		return True
 
-	def get_value(self, control):
+	def get_value(self, control, by='id'):
 		try:
-			ctl = self.driver.find_element_by_id(control)
+			if by == 'id':
+				ctl = self.driver.find_element_by_id(control)
+			elif by == 'xpath':
+				ctl = self.driver.find_element_by_xpath(control)
 		except NoSuchElementException:
 			self.log.write('error', 'no such element '+control)
 			return None
