@@ -438,7 +438,26 @@ class TestObject():
 			self.log.write('debug', 'clicked value')
 			
 			return True
+		elif ctl_type == 'checkbox': # checked -> true; not checked -> none
+			self.log.write('debug', '%s is a checkbox or so' % control)
+			try:
+				chbox = self.driver.find_element_by_id(control)
+			except NoSuchElementException:
+				self.log.write('error', 'no such element %s' % control)
+				return False
 
+			if str(chbox.get_attribute('checked')).lower() == str(value).lower():
+				self.log.write('warning', 'checkbox already has that value')
+			else:
+				self.log.write('debug', 'inverting %s checkbox' % control)
+
+				if not self.click_btn('//label[@for="%s"]' % control, by='xpath'):
+					self.log.write('error', 'error inverting checkbox %s' % control)
+					return False
+				self.log.write('debug', 'inverted checkbox %s' % control)
+
+			return True
+				
 		else:
 			self.log.write('error', control+': unknown ctl type')
 			return False
