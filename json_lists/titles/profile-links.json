@@ -11,13 +11,16 @@
  {"url": "payments", "link": "link_payments", "by": "id"},
  {"url": "deposit", "link": "link_deposit", "by": "id"},
  {"url": "topping-up", "link": "link_topping_up", "by": "id"},
- {"url": "subscribed-people", "link": "mc_sidebar_subscriptions", "by": "id"},
+ {"url": "news-subscriptions", "link": "mc_sidebar_subscriptions", "by": "id"},
  {"url": "news-subscriptions", "link": "link_news_subscriptions", "by": "id"},
+ {"url": "subscribed-people", "link": "mc_sidebar_company_subscribers", "by": "id"},
  {"url": "subscribed-people", "link": "link_subscribed_people", "by": "id"},
  {"url": "contractors", "link": "mc_sidebar_contractors", "by": "id"},
  {"url": "contractors", "link": "link_contractors_list", "by": "id"},
  {"url": "outgoing", "link": "link_out_reqs", "by": "id"},
  {"url": "incoming", "link": "link_in_reqs", "by": "id"},
- {"url": "chat", "link": "mc_sidebar_chat", "by": "id"},
- {"url": "chat", "link": "link_dialog_list", "by": "id"} 
- ]
+ {"url": "profile", "link": "mc_sidebar_userprofile", "by": "id"},
+ {"url": "contacts", "link": "link_usercontacts", "by": "id"},
+ {"url": "profile", "link": "link_userabout", "by": "id"},
+ {"url": "chat", "link": "mc_sidebar_chat", "by": "id"}
+]
