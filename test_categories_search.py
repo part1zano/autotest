@@ -21,27 +21,18 @@ class TestCase(test_categories.TestCase):
 				self.log.write('error', 'error visiting %s, see above' % link['url'])
 				return False
 
-		inserts = []
-
+		if not self.click_btn(u'Редактировать', by='text'):
+			self.log.write('error', 'some shit pressing edit btn, see above')
+			return False
+		
 		for category in self.categories:
-			if not self.find_link(category['text'], by='text'):
-				inserts.append(category)
-				self.log.write('debug', 'found %s category to append' % category['id'])
-
-		if len(inserts) > 0:
-			if not self.click_btn(u'Редактировать', by='text'):
-				self.log.write('error', 'some shit pressing edit btn, see above')
-				return False
-
-		for category in inserts:
-			if not self.click_btn('//label[@for="%s"]' % category['id'], by='xpath'):
+			if not self.edit_control(category['id'], True, ctl_type='checkbox'):
 				self.log.write('error', 'no such checkbox in profile-edit: %s' % category['id'])
 				return False
 
-		if len(inserts) > 0:
-			if not self.click_btn(u'Сохранить'):
-				self.log.write('error', 'error submitting info')
-				return False
+		if not self.click_btn(u'Сохранить'):
+			self.log.write('error', 'error submitting info')
+			return False
 
 		if not self.visit_link(u'Компании', 'search', by='text', sleep=True):
 			self.log.write('error', 'error visiting search')
@@ -52,7 +43,7 @@ class TestCase(test_categories.TestCase):
 		for id_tuple in ids:
 			for id_ in id_tuple:
 				self.go(self.driver.current_url)
-				if not self.click_btn('//label[@for="%s"]' % self.categories[id_]['id'], by='xpath'):
+				if not self.edit_control(self.categories[id_]['id'], not self.get_value(self.categories[id_]['id'], ctl_type='checkbox'), ctl_type='checkbox'):
 					self.log.write('error', 'error clicking %s checkbox' % self.categories[id_]['id'])
 					return False
 

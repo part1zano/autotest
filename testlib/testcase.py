@@ -415,7 +415,7 @@ class TestObject():
 				self.log.write('error', 'no such element %s' % control)
 				return False
 
-			if str(chbox.get_attribute('checked')).lower() == str(value).lower():
+			if str(bool(chbox.get_attribute('checked'))).lower() == str(bool(value)).lower():
 				self.log.write('warning', 'checkbox already has that value')
 			else:
 				self.log.write('debug', 'inverting %s checkbox' % control)
