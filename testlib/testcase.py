@@ -166,6 +166,13 @@ class TestObject():
 			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
 			return False
 
+	def cut_string(self, string, length = 20):
+		if (len(string) > length) and ('http' not in string):
+			self.log.write('debug', 'cut %s to %2d chars, got %s' % (string, length, string[:(length-2)]))
+			return string[:(length-2)]
+		else:
+			return string
+
 	def find_link(self, link, by='id', count=1):
 		try:
 			if by == 'text':
@@ -184,6 +191,7 @@ class TestObject():
 		except NoSuchElementException:
 			self.log.write('error', 'no link: '+link)
 			return False
+
 	
 	def make_json_list(self, json_file):
 		json_fh = codecs.open(json_file, encoding='utf-8')
@@ -400,8 +408,6 @@ class TestObject():
 			
 			return True
 		elif ctl_type == 'checkbox': # checked -> true; not checked -> none
-			if value == False:
-				value = None
 			self.log.write('debug', '%s is a checkbox or so' % control)
 			try:
 				chbox = self.driver.find_element_by_id(control)
@@ -409,7 +415,7 @@ class TestObject():
 				self.log.write('error', 'no such element %s' % control)
 				return False
 
-			if str(chbox.get_attribute('checked')).lower() == str(value).lower():
+			if str(bool(chbox.get_attribute('checked'))).lower() == str(bool(value)).lower():
 				self.log.write('warning', 'checkbox already has that value')
 			else:
 				self.log.write('debug', 'inverting %s checkbox' % control)
@@ -459,28 +465,20 @@ class TestObject():
 
 		return True
 
-	def get_value(self, control, by='id', ctl_type='text'):
-		if ctl_type == 'text':
-			try:
-				if by == 'id':
-					ctl = self.driver.find_element_by_id(control)
-				elif by == 'xpath':
-					ctl = self.driver.find_element_by_xpath(control)
-			except NoSuchElementException:
-				self.log.write('error', 'no such element '+control)
-				return None
-
-			if ctl.get_attribute('value') is not None:
-				return ctl.get_attribute('value')
-			else:
-				return ctl.text
-		elif ctl_type == 'checkbox':
-			try:
+	def get_value(self, control, by='id'):
+		try:
+			if by == 'id':
 				ctl = self.driver.find_element_by_id(control)
-			except NoSuchElementException:
-				self.log.write('error', 'no such element %s' % control)
-				return None
-			return (ctl.get_attribute('checked') is not None)
+			elif by == 'xpath':
+				ctl = self.driver.find_element_by_xpath(control)
+		except NoSuchElementException:
+			self.log.write('error', 'no such element '+control)
+			return None
+
+		if ctl.get_attribute('value') is not None:
+			return ctl.get_attribute('value')
+		else:
+			return ctl.text
 
 	def click_btn(self, btn_text, by='text'):
 		clicked = False
