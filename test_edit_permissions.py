@@ -22,6 +22,7 @@ class TestCase(testcase.TestObject):
 			if self.edit_control('add_event', post, 'text', click=True) != value:
 				self.log.write('error', 'wrong permission set for %s permission' % perm)
 				return False
+			links = []
 
 		elif 'contractors' in perm:
 			links = self.make_json_list('json_lists/permissions/contractors.json')
@@ -60,6 +61,7 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'error clicking btn @ %s' % perm)
 					return False
 
+			links = []
 		else:
 			self.log.write('error', 'unknown permission type')
 			return False
@@ -121,6 +123,30 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error checking permission %s' % edit['name'])
 				self.log.write('error', 'val is %s' % edit['value'])
 				return False
+# cleanup after all
+		self.go(self.url)
+		for link in self.links:
+			if not self.visit_dlink(link, sleep=True):
+				self.log.write('error', 'error visiting %s' % link['url'])
+				return False
+
+		if not self.move_to('empllist_%s' % self.info['uid'], by='id'):
+			self.log.write('error', 'error moving cursor to <li>')
+			return False
+
+		if not self.click_btn(u'Редактировать', by='text'):
+			self.log.write('error', 'error clicking edit btn')
+			return False
+
+		for edit in self.edits:
+			if not self.edit_control(edit['name'], True, ctl_type='checkox'):
+				self.log.write('error', 'error editing %s' % edit['name'])
+				return False
+
+		if not self.click_btn(u'Сохранить', by='text'):
+			self.log.write('error', 'error clicking save btn')
+			return False
+			
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
