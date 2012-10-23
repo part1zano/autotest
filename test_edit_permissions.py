@@ -8,7 +8,7 @@ def to_bool(stri):
 
 class TestCase(testcase.TestObject):
 	def check_permission(self, perm, value):
-		self.log.write('info', '%s -> %s' % (perm, value))	
+		self.log.write('info', 'checking %s -> must be %s' % (perm, value))	
 		if 'news' in perm:
 			links = self.make_json_list('json_lists/permissions/news.json')
 
