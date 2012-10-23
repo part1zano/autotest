@@ -465,7 +465,7 @@ class TestObject():
 
 		return True
 
-	def get_value(self, control, by='id'):
+	def get_value(self, control, by='id', ctl_type='text'):
 		try:
 			if by == 'id':
 				ctl = self.driver.find_element_by_id(control)
@@ -475,10 +475,13 @@ class TestObject():
 			self.log.write('error', 'no such element '+control)
 			return None
 
-		if ctl.get_attribute('value') is not None:
-			return ctl.get_attribute('value')
-		else:
-			return ctl.text
+		if ctl_type == 'text':
+			if ctl.get_attribute('value') is not None:
+				return ctl.get_attribute('value')
+			else:
+				return ctl.text
+		elif ctl_type == 'checkbox':
+			return bool(ctl.get_attribute('checked'))
 
 	def click_btn(self, btn_text, by='text'):
 		clicked = False
