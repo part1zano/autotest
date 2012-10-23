@@ -123,7 +123,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		try:
-			self.info['brandName'] = self.json_info()['common_data']['brandName'][:20]
+			self.info['brandName'] = self.json_info()['common_data']['brandName'][:18]
 		except KeyError:
 			self.log.write('error', 'error getting brandName')
 			return False

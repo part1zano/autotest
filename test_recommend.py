@@ -47,6 +47,8 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'no button: %s' % btns[not re_cond][True])
 				return False
 
+			self.sleep(2)
+
 			if not self.click_btn(give_link):
 				self.log.write('error', 'fixed button doesn\'t appear to be clickable')
 				return False
@@ -76,7 +78,7 @@ class TestCase(testcase.TestObject):
 
 		self._info = self.json_info()
 		try:
-			self.info['brandName'] = self._info['common_data']['brandName']
+			self.info['brandName'] = self._info['common_data']['brandName'][:18]
 			self.info['url'] = self.url+'/'+self._info['common_data']['ownCompanyRekId']+'/profile'
 		except KeyError:
 			self.log.write('error', 'error getting some info')
