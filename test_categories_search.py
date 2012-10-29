@@ -43,7 +43,7 @@ class TestCase(test_categories.TestCase):
 		for id_tuple in ids:
 			for id_ in id_tuple:
 				self.go(self.driver.current_url)
-				if not self.edit_control(self.categories[id_]['id'], not self.get_value(self.categories[id_]['id'], ctl_type='checkbox'), ctl_type='checkbox'):
+				if not self.edit_control(self.categories[id_]['id'], True, ctl_type='checkbox'):
 					self.log.write('error', 'error clicking %s checkbox' % self.categories[id_]['id'])
 					return False
 
@@ -55,6 +55,12 @@ class TestCase(test_categories.TestCase):
 				except TypeError:
 					self.log.write('error', 'brandName not found in set %d, %d, %d' % (id_tuple)) # FIXME :: HUGE UGLY PIECE OF DOG-NAIL
 				return False
+
+			for id_ in range(3):
+				if not self.edit_control(self.categories[id_]['id'], False, ctl_type='checkbox'):
+					self.log.write('error', 'error switching back')
+					return False
+			self.sleep(2)
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
