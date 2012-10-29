@@ -4,10 +4,11 @@ from testlib import testcase,myrandom
 import sys
 
 def to_bool(stri):
-	return (stri.lower() not in ['false', 'none', ''])
+	return (str(stri).lower() not in ['false', 'none', ''])
 
 class TestCase(testcase.TestObject):
 	def check_permission(self, perm, value):
+		value = bool(value)
 		self.log.write('info', 'checking %s -> must be %s' % (perm, value))	
 		if 'news' in perm:
 			links = self.make_json_list('json_lists/permissions/news.json')
@@ -20,6 +21,7 @@ class TestCase(testcase.TestObject):
 			post = myrandom.random_phrase()
 
 			if self.edit_control('add_event', post, 'text', click=True) != value:
+				self.log.write('error', 'add_event edits')
 				self.log.write('error', 'wrong permission set for %s permission' % perm)
 				return False
 			links = []
@@ -38,11 +40,8 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting profile from search')
 				return False
 
-			if self.find_link(u'Дать рекомендацию', by='text') != value:
+			if (self.find_link(u'Дать рекомендацию', by='text') or self.find_link(u'Отозвать рекомендацию', by='text')) != value:
 				self.log.write('error', 'recommend permission is NOK')
-				return False
-			elif self.find_link(u'Отозвать рекомендацию', by='text') != value:
-				self.log.write('error', 'recommend permission NOK')
 				return False
 
 		elif 'finance' in perm:
@@ -57,9 +56,9 @@ class TestCase(testcase.TestObject):
 					self.log.write('error', 'error visiting %s' % link['url'])
 					return False
 
-				if self.click_btn(u'Редактировать', by='text') != value:
-					self.log.write('error', 'error clicking btn @ %s' % perm)
-					return False
+			if self.click_btn(u'Редактировать', by='text') != value:
+				self.log.write('error', 'error clicking btn @ %s' % perm)
+				return False
 
 			links = []
 		else:
@@ -119,34 +118,10 @@ class TestCase(testcase.TestObject):
 			
 			self.sleep(2)
 		
-			if not self.check_permission(edit['name'], to_bool(edit['value'])):
+			if not self.check_permission(edit['name'], edit['value']):
 				self.log.write('error', 'error checking permission %s' % edit['name'])
 				self.log.write('error', 'val is %s' % edit['value'])
 				return False
-# cleanup after all
-		self.go(self.url)
-		for link in self.links:
-			if not self.visit_dlink(link, sleep=True):
-				self.log.write('error', 'error visiting %s' % link['url'])
-				return False
-
-		if not self.move_to('empllist_%s' % self.info['uid'], by='id'):
-			self.log.write('error', 'error moving cursor to <li>')
-			return False
-
-		if not self.click_btn(u'Редактировать', by='text'):
-			self.log.write('error', 'error clicking edit btn')
-			return False
-
-		for edit in self.edits:
-			if not self.edit_control(edit['name'], True, ctl_type='checkox'):
-				self.log.write('error', 'error editing %s' % edit['name'])
-				return False
-
-		if not self.click_btn(u'Сохранить', by='text'):
-			self.log.write('error', 'error clicking save btn')
-			return False
-			
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
