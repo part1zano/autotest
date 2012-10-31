@@ -42,7 +42,7 @@ class TestCase(test_categories.TestCase):
 
 		for id_tuple in ids:
 			for id_ in id_tuple:
-				self.go(self.driver.current_url)
+				self.sleep(2)
 				if not self.edit_control(self.categories[id_]['id'], True, ctl_type='checkbox'):
 					self.log.write('error', 'error clicking %s checkbox' % self.categories[id_]['id'])
 					return False
