@@ -27,6 +27,7 @@ class TestCase(testcase.TestObject):
 
 	def remove_ctr_by_title(self, title_fragment, added=True, out=False):
 		their_id = self.get_id_by_title(title_fragment)
+		btns = {True: u'Редактировать', False: u'Отменить'}
 		if their_id is None:
 			self.log.write('error', 'null id: too bad, not un-contracting')
 			return False
@@ -49,22 +50,22 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error moving to list elem while deleting ctr')
 			return False
 
-		if not self.click_btn(u'Редактировать', by='text'):
+		if not self.click_btn(btns[added], by='text'):
 			self.log.write('error', 'error clicking edit btn')
 			return False
 
-		self.sleep(2)
+		if added:
+			self.sleep(2)
 
-		if not self.click_btn(u'Удалить из контрагентов', by='text'):
-			self.log.write('error', 'error clicking delete link/btn')
-			return False
+			if not self.click_btn(u'Удалить из контрагентов', by='text'):
+				self.log.write('error', 'error clicking delete link/btn')
+				return False
 
-		self.sleep(2)
+			self.sleep(2)
 
-#		if not self.click_btn(u'Удалить', by='text'):
-		if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default"]', u'Удалить'):
-			self.log.write('error', 'error committing')
-			return False
+			if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default"]', u'Удалить'):
+				self.log.write('error', 'error committing')
+				return False
 
 		return True
 
@@ -79,6 +80,8 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error visiting profile from search')
 			return False
 
+		their_url = self.driver.current_url
+
 		if not self.click_btn(u'Добавить в контрагенты', by='text'): # fixing shit
 			self.log.write('warning', 'no such btn or some shit')
 			self.log.write('warning', 'trying to remove ctr')
@@ -92,6 +95,13 @@ class TestCase(testcase.TestObject):
 
 			if len(addeds) > 1:
 				self.log.write('error', 'didn\'t remove contractor, returning false')
+				return False
+
+			self.go(their_url)
+			self.sleep(2)
+
+			if not self.click_btn(u'Добавить в контрагенты', by='text'):
+				self.log.write('error', 'still shit adding contractor :(')
 				return False
 
 		# btn clicked, going next
@@ -125,7 +135,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error clicking approve btn, see above')
 			return False
 
-		if not self.visit_link('link_contractors_list', 'contractors', by='id', sleep=True):
+		if not self.visit_link('link_contractors', 'contractors', by='id', sleep=True):
 			self.log.write('error', 'error going to ctr list, see above')
 			return False
 
