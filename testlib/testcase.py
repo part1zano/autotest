@@ -415,8 +415,14 @@ class TestObject():
 				self.log.write('error', 'no such element %s' % control)
 				return False
 
-			if str(bool(chbox.get_attribute('checked'))).lower() == str(bool(value)).lower():
-				self.log.write('warning', 'checkbox already has that value')
+			try: # StaleElementException dog-nail
+				value_was = chbox.get_attribute('checked')
+			except StaleElementReferenceException:
+				self.log.write('error', 'error getting previous value for %s, just inverting that shit' % control)
+				value_was = not value
+
+			if str(bool(value_was)).lower() == str(bool(value)).lower():
+				self.log.write('warning', 'checkbox %s already has that value' % control)
 			else:
 				self.log.write('debug', 'inverting %s checkbox' % control)
 
