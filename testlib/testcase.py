@@ -343,7 +343,7 @@ class TestObject():
 			return False
 
 		self.log.write('debug', 'found div id='+divname)
-		self.log.write('debug', 'its content follows:'+div.text)
+#		self.log.write('debug', 'its content follows:'+div.text)
 		return True
 	
 	def dedit(self, control):
