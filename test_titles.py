@@ -46,7 +46,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
-			if 'person' in self.driver.current_url:
+			if 'person/' in self.driver.current_url:
 				title = self.find_dict_in(self.titles, 'url', 'person')
 			else:
 				title = self.find_dict_in(self.titles, 'url', link['url'])
