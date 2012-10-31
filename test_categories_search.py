@@ -58,8 +58,8 @@ class TestCase(test_categories.TestCase):
 					self.log.write('error', 'brandName not found in set %d, %d, %d' % (id_tuple)) # FIXME :: HUGE UGLY PIECE OF DOG-NAIL
 				return False
 
-			for id_ in range(3):
-				if not self.edit_control(self.categories[id_]['id'], False, ctl_type='checkbox'):
+			for category in self.categories:
+				if not self.edit_control(category['id'], False, ctl_type='checkbox'):
 					self.log.write('error', 'error switching back')
 					return False
 			self.sleep(2)
