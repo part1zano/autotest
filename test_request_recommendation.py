@@ -99,7 +99,7 @@ class TestCase(testcase.TestObject):
 				]
 		btns = [u'Отозвать рекомендацию', u'Да']
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'not visiting %s' % link['url'])
 				return False
 

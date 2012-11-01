@@ -23,5 +23,4 @@
  {"url": "profile", "link": "mc_sidebar_userprofile", "by": "id"},
  {"url": "contacts", "link": "link_usercontacts", "by": "id"},
  {"url": "profile", "link": "link_userprofile", "by": "id"},
- {"url": "chat", "link": "mc_sidebar_chat", "by": "id"}
 ]
