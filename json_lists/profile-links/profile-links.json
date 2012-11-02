@@ -43,7 +43,7 @@
  {"url": "news-subscriptions", "link": "Мои подписки", "by": "text"},
  {"url": "chat", "link": "//a[@title=\"Мои сообщения\"]", "by": "xpath"},
  {"url": "subscribed-people", "link": "Наши подписчики", "by": "text"},
- {"url": "subscribed-people", "link": "Нас читают", "by": "text"},
+ {"url": "subscribed-people", "link": "Подписчики компании", "by": "text"},
  {"url": "chat", "link": "//a[@title=\"Мои сообщения\"]", "by": "xpath"},
  {"url": "deposit", "link": "Депозит", "by": "text"},
  {"url": "topping-up", "link": "Пополнить", "by": "text"},
