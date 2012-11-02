@@ -6,7 +6,7 @@ from testlib import myrandom, testcase
 class TestCase(testcase.TestObject):
 	def request_recommendation_by_title(self, title_fragment, do=True, msg=''):
 		link = u'Запросить рекомендацию'
-		btns = {True: u'Отправить', False: u'Отмена'}
+		btns = {True: link, False: u'Отмена'}
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error searching for stuff')
 			return False
@@ -23,7 +23,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error editing msg textarea')
 			return False
 
-		if not self.click_btn(btns[do]):
+		if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default extended"]', btn=btns[do]):
 			self.log.write('error', 'error clicking button to submit')
 			return False
 
