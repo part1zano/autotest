@@ -6,7 +6,7 @@ import sys
 class TestCase(test_feedback.TestCase):
 	def execute(self):
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
