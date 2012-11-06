@@ -6,7 +6,7 @@ from testlib import myrandom, testcase
 class TestCase(testcase.TestObject):
 	def request_recommendation_by_title(self, title_fragment, do=True, msg=''):
 		link = u'Запросить рекомендацию'
-		btns = {True: u'Отправить', False: u'Отмена'}
+		btns = {True: link, False: u'Отмена'}
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error searching for stuff')
 			return False
@@ -23,7 +23,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error editing msg textarea')
 			return False
 
-		if not self.click_btn(btns[do]):
+		if not self.click_btn_in_xpath('//div[@class="modalbox modalbox-default extended"]', btn=btns[do]):
 			self.log.write('error', 'error clicking button to submit')
 			return False
 
@@ -99,7 +99,7 @@ class TestCase(testcase.TestObject):
 				]
 		btns = [u'Отозвать рекомендацию', u'Да']
 		for link in links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'not visiting %s' % link['url'])
 				return False
 
@@ -121,15 +121,12 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
-		
-		for field in ['brandName']:
-			self.info[field] = self.get_our_info(field)
-			if self.info[field] is None:
-				self.log.write('error', 'error getting %s' % field)
-				return False
-			else:
-				self.info[field] = self.cut_string(self.info[field], 18)
-				self.log.write('info', 'got %s info field' % field)
+
+		try:
+			self.info['brandName'] = self.json_info()['common_data']['brandName'][:18]
+		except KeyError:
+			self.log.write('error', 'error getting brandName')
+			return False
 
 		if not self.request_recommendation_by_title(u'™', msg=message):
 			self.log.write('error', 'error requesting recommendation')

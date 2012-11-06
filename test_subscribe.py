@@ -19,10 +19,11 @@ class TestCase(testcase.TestObject):
 		divs = ['news-subscriptions', 'subscribed-people']
 		titles = [title_fragment, self.info['brandName']]
 		linkchains = [[
-			{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'},
-			{'link': 'link_news_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
+			{'link': 'mc_sidebar_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
 			],
-				[{'link': 'mc_sidebar_subscriptions', 'url': 'subscribed-people', 'by': 'id'}]]
+			[
+				{'link': 'mc_sidebar_company_subscribers', 'url': 'subscribed-people', 'by': 'id'}
+			]]
 		
 		if not self.click_btn(subscribe_btns[su_cond]):
 			self.log.write('warning', 'possibly wrong subscribe direction: trying to fix')
@@ -50,8 +51,17 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed, see above')
 			return False
 
-		for field in ('brandName', 'id', 'url'):
-			self.info[field] = self.cut_string(self.get_our_info(field), 30)
+		self._info = self.json_info()
+
+		for field in ['brandName', 'ownCompanyRekId']:
+			try:
+				self.info[field] = self._info['common_data'][field][:25]
+			except KeyError:
+				self.log.write('error', 'error getting %s' % field)
+				return False
+
+		self.info['id'] = self.info['ownCompanyRekId']
+		self.info['url'] = self.url+'/'+self.info['id']+'/profile'
 
 		title_fragment = u'™'
 		index = 0

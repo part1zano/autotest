@@ -25,7 +25,12 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'login failed')
 			return False
 
-		self.info['brandName'] = self.get_our_info('brandName')
+		self._info = self.json_info()
+
+		self.info['brandName'] = self._info['common_data']['brandName']
+		ftuple = tuple(self._info['common_data']['ownEmployee'][field] for field in ['s_name', 'f_name', 'm_name'])
+		self.info['fio'] = '%s %s %s' % ftuple
+
 		if self.info['brandName'] is None:
 			self.log.write('error', 'brandName is None, exiting')
 			return False
@@ -33,13 +38,19 @@ class TestCase(testcase.TestObject):
 		for title in self.titles:
 			if '%%brandName%%' in title['page_title']:
 				title['page_title'] = re.sub('%%brandName%%', self.info['brandName'], title['page_title'])
+			elif '%%fio%%' in title['page_title']:
+				title['page_title'] = re.sub('%%fio%%', self.info['fio'], title['page_title'])
 
 		for link in self.links:
 			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
 
-			title = self.find_dict_in(self.titles, 'url', link['url'])
+			if 'person/' in self.driver.current_url:
+				title = self.find_dict_in(self.titles, 'url', 'person')
+			else:
+				title = self.find_dict_in(self.titles, 'url', link['url'])
+
 			if title is None:
 				self.log.write('error', 'wrong title file, check it!')
 				return False

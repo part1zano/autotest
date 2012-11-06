@@ -4,7 +4,7 @@
 import os,sys,time,re,getopt
 
 scripts_to_run = []
-exclude_scripts = []
+exclude_scripts = ['test_contragent.py', 'test_edit_permissions.py']
 run_opts = ' '
 all_ = False
 
@@ -16,9 +16,10 @@ for name, value in options:
 	elif name in ('-a', '--all'):
 		all_ = True
 	else:
-		run_opts += name+' '+value
+		run_opts += name+' '+value+' '
 
 search_string = 'find . -maxdepth 1 -type f -name "test_*.py" '
+
 if not all_:
 	for script in exclude_scripts:
 		search_string += ' -and -not -name "'+script+'"'
@@ -27,7 +28,6 @@ search_string += ' 2>/dev/null'
 
 if len(operands) == 0:
 	scripts_to_run = [script.rstrip() for script in os.popen(search_string).readlines()]
-	#	scripts_to_run = [script.rstrip() for script in os.popen('find . -maxdepth 1 -type f -name "test-*.py" -and -not -name "test-feedback.py" -and -not -name "test-settings.py" -and -not -name "test-contacts.py"').readlines()]
 else:
 	scripts_to_run = [script.rstrip() for script in operands]
 

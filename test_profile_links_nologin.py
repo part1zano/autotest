@@ -22,15 +22,13 @@ class TestCase(testcase.TestObject):
 				return False
 
 			divname = link['url']
-			if 'contractors' in divname:
-				divname += 'list'
 
 			if not self.check_div(divname):
 				self.log.write('error', 'no div id=%s at page, NOK' % divname)
 				return False
 
 			if link['url'] not in urls:
-				for btn in [u'Написать сообщение', u'Подписаться на новости', u'Добавить в контрагенты']:
+				for btn in [u'Написать сообщение', u'Подписаться на новости']: #, u'Добавить в контрагенты']:
 					if not self.click_btn(btn):
 						self.log.write('error', 'btn not found, see above')
 						return False

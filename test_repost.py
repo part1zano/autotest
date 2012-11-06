@@ -11,7 +11,7 @@ class TestCase(testcase.TestObject):
 
 		shared = False
 
-		for elem_id in range(1, 20):
+		for elem_id in range(1, 30):
 			if not self.click_btn_in_xpath('//ul/li[%d]/table' % elem_id, u'Поделиться'):
 				self.log.write('warning', 'possibly, no share button at post %2d' % elem_id)
 			else:
