@@ -9,7 +9,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'error finding shit for getting its id')
 			return None
 
-		if not self.visit_link(title_fragment, 'news', by='text'):
+		if not self.visit_link(title_fragment, 'news', by='text', sleep=True):
 			self.log.write('error', 'error visiting profile from search')
 			return None
 
