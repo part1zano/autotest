@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys,re,random
+import sys,re,random,datetime
 
 phrases = [
 ['The', 'Le', 'Our', 'Their', 'This', 'My', 'Your', 'That', 'Obvious', 'Hilarious', 'Slutty'],
@@ -28,6 +28,9 @@ def random_location():
 		location += row[random.randint(0, len(row)-1)]+' '
 	
 	return location.rstrip()
+
+def random_year(start='1900', end=datetime.date.today().strftime('%Y')):
+	return str(random.randint(int(start), int(end)))
 
 def random_office(city=None):
 	if city is None:

@@ -27,8 +27,9 @@ class TestCase(testcase.TestObject):
 				divname += '-view'
 			elif linkitem['url'] == 'chat':
 				divname = 'dialog_list'
-			elif linkitem['url'] in ['contractors', 'incoming', 'outgoing']:
-				divname += 'list'
+
+			if 'person/' in self.driver.current_url:
+				divname = 'user'+divname
 
 			if not self.check_div(divname):
 				self.log.write('error', 'no div id='+divname)

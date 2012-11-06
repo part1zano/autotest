@@ -10,61 +10,32 @@ class TestCase(testcase.TestObject):
 		self.links = self.make_json_list('json_lists/default-links.json')
 		self.categories = [
 				{'id': 'ccat-startup', 'text': u'Стартап'},
-				{'id': 'ccat-social_project', 'text': 'Социальный проект'},
-				{'id': 'ccat-small', 'text': 'Малый бизнес'}
+				{'id': 'ccat-social_project', 'text': u'Социальный проект'},
+				{'id': 'ccat-small', 'text': u'Малый бизнес'}
 				]
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
-
-		self.info['brandName'] = self.get_our_info('brandName')
-		if self.info['brandName'] is None:
-			self.log.write('error', 'brandName is null, exiting')
+		
+		try:
+			self.info['brandName'] = self.json_info()['common_data']['brandName'][:12]
+		except KeyError:
+			self.log.write('error', 'error getting brandName')
 			return False
-		self.info['brandName'] = self.info['brandName'][:12]
-
+		
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'error visiting %s' % link['url'])
 				return False
-
-		deletes = []
-
-		self.log.write('debug', 'got to profile, checking categories present')
-
-		for cat_item in self.categories:
-			if self.find_link(cat_item['text'], by='text'):
-				self.log.write('debug', 'found link for %s, it must be deleted' % cat_item['id'])
-				deletes.append(cat_item)
-
-		self.log.write('debug', 'found %2d categories to delete' % len(deletes))
-		
-		if len(deletes) > 0:
-			self.log.write('info', 'found categories to delete, deleting')
-			if not self.click_btn(u'Редактировать'):
-				self.log.write('error', 'error clicking edit')
-				return False
-
-			for delete in deletes:
-				if not self.click_btn('//label[@for="%s"]' % delete['id'], by='xpath'):
-					self.log.write('error', 'error clicking %s checkbox' % delete['id'])
-					return False
-				self.log.write('debug', 'submitted %s checkbox' % delete['id'])
-
-			if not self.click_btn(u'Сохранить'):
-				self.log.write('error', 'error submitting')
-				return False
-			self.log.write('info', 'deleted \'em all')
-			self.sleep(2)
 
 		for category in self.categories:
 			if not self.click_btn(u'Редактировать'):
 				self.log.write('error', 'error clicking edit for normal edit of category %s' % category['id'])
 				return False
 
-			if not self.click_btn('//label[@for="%s"]' % category['id'], by='xpath'):
+			if not self.edit_control(category['id'], True, ctl_type='checkbox'):
 				self.log.write('error', 'error clicking checkbox for %s' % category['id'])
 				return False
 
@@ -95,6 +66,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'error returning to profile')
 				return False
 
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
 
 if __name__ == '__main__':
