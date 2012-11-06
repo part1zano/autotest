@@ -27,7 +27,7 @@ class TestCase(testcase.TestObject):
 		if not testcase.TestObject.execute(self):
 			return False
 		for link in self.links:
-			if not self.visit_link(link['link'], link['url'], by=link['by']):
+			if not self.visit_link(link['link'], link['url'], by=link['by'], sleep=True):
 				self.log.write('error', 'error visiting '+link['url'])
 				return False
 

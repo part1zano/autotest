@@ -47,7 +47,7 @@ class TestCase(testcase.TestObject):
 
 			self.sleep(2)
 
-			if not self.visit_link(category['text'], 'search', by='text'):
+			if not self.visit_link(category['text'], 'search', by='text', sleep=True):
 				self.log.write('error', 'error visiting search')
 				return False
 

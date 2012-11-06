@@ -31,7 +31,7 @@ class TestCase(testcase.TestObject):
 
 		self.log.write('info', 'appeared in news...')
 
-		if not self.visit_link('mc_sidebar_profile', 'news'):
+		if not self.visit_link('mc_sidebar_profile', 'news', sleep=True):
 			self.log.write('error', 'error visiting profile')
 			return False
 
@@ -40,6 +40,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		self.log.write('info', 'appeared in self-news!')
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 
 		return True
 
