@@ -22,7 +22,7 @@ class TestCase(testcase.TestObject):
 			return False
 
 		for link in self.links:
-			if not self.visit_dlink(link):
+			if not self.visit_dlink(link, sleep=True):
 				self.log.write('error', 'failed visiting '+link['url']+', see above')
 				return False
 
