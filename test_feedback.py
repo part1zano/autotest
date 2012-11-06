@@ -25,7 +25,7 @@ class TestCase(testcase.TestObject):
 
 		for link in self.links:
 			if not self.visit_link(link['link'], link['url'], by=link['by']):
-				self.log.write('error visiting '+link['link']+', see above')
+				self.log.write('error', 'error visiting '+link['link']+', see above')
 				return False
 
 		if self.login != self.get_value('feedback-email'):
