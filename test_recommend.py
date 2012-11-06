@@ -61,7 +61,7 @@ class TestCase(testcase.TestObject):
 		for i in range(2):
 			self.go(info_cluster['urls'][i])
 			for link, url in info_cluster['links'][i].items():
-				if not self.visit_link(link, url, by='id'):
+				if not self.visit_link(link, url, by='id', sleep=True):
 					self.log.write('error', 'link error: '+url)
 					return False
 
