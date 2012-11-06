@@ -82,8 +82,7 @@ class TestCase(testcase.TestObject):
 	def execute(self):
 		self.links = self.make_json_list('json_lists/permissions/links.json')
 		self.edits = self.make_json_list('json_lists/permissions/edits.json')
-#		self.title_fragment = u'«'
-		self.title_fragment = u'™'
+		self.title_fragment = u'«'
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed')
 			return False
