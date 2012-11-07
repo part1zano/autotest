@@ -17,6 +17,7 @@ class TestCase(testcase.TestObject):
 			self.log.write('error', 'logout failed')
 			return False
 
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
 
 if __name__ == '__main__':
