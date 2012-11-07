@@ -59,7 +59,7 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'wrong title for url %s, see above' % link['url'])
 				return False
 
-		self.log.write('info', '%s passed' % sys.argv[0])
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
 
 if __name__ == '__main__':
