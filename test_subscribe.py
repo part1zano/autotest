@@ -73,6 +73,7 @@ class TestCase(testcase.TestObject):
 			index += 1
 			self.log.write('info', '%s pass %2d ok' % (sys.argv[0], index))
 
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
 
 
