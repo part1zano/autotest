@@ -33,6 +33,7 @@ class TestCase(test_feedback.TestCase):
 
 				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], int(self.edits.index(edit)/2)))
 
+		self.log.write('info', '%s PASSED' % sys.argv[0])
 		return True
 
 if __name__ == '__main__':
