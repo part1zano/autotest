@@ -33,7 +33,9 @@ class TestCase(testcase.TestObject):
 			self.log.write('warning', 'button found, continuing as is')
 
 		for index in range(len(urls)):
-			self.go(urls[index])
+			if not self.go(urls[index]):
+				self.log.write('error', 'error getting to %s, see above' % urls[index])
+				return False
 
 			for link in linkchains[index]:
 				if not self.visit_dlink(link, sleep=True):
