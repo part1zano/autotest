@@ -9,9 +9,16 @@ class TestCase(testcase.TestObject):
 
 		self.links = self.make_json_list('json_lists/profile-links-nologin/links.json')
 
+	def __del__(self):
+		pass
 	def execute(self):
-		if not self.find_stuff(u'™'):
+		title_fragment = u'™'
+		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error accessing search')
+			return False
+
+		if not self.visit_link(title_fragment, 'news', sleep=True, by='text'):
+			self.log.write('error', 'error visiting profile from search')
 			return False
 
 		urls = []
