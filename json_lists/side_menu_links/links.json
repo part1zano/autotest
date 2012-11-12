@@ -1,1 +1,12 @@
-[{"url": "profile", "link": "mh_own_userprofile", "by": "id"}, {"url": "news-subscriptions", "link": "mh_own_subscriptions", "by": "id"}, {"url": "news-feed", "link": "mh_own_newsfeed", "by": "id"}, {"url": "chat", "link": "mh_own_chat", "by": "id"}, {"url": "invites", "link": "mh_own_invites", "by": "id"}, {"url": "news", "link": "mh_own_profile", "by": "id"}, {"url": "deposit", "link": "mh_own_deposit", "by": "id"}, {"url": "contractors", "link": "mh_own_contractors", "by": "id"}, {"url": "subscribed-people", "link": "mh_own_company_subscribers", "by": "id"}, {"url": "our_proposers", "link": "mh_own_our_proposers", "by": "id"}]
+[{"url": "profile", "link": "mh_own_userprofile", "by": "id"}, 
+{"url": "news-subscriptions", "link": "mh_own_subscriptions", "by": "id"}, 
+{"url": "news-feed", "link": "mh_own_newsfeed", "by": "id"}, 
+{"url": "chat", "link": "mh_own_chat", "by": "id"}, 
+{"url": "invites", "link": "mh_own_invites", "by": "id"}, 
+{"url": "profile", "link": "mh_own_profile", "by": "id"}, 
+{"url": "news", "link": "mh_own_news", "by": "id"}, 
+{"url": "persons", "link": "mh_own_persons", "by": "id"}, 
+{"url": "deposit", "link": "mh_own_deposit", "by": "id"}, 
+{"url": "contractors", "link": "mh_own_contractors", "by": "id"}, 
+{"url": "subscribed-people", "link": "mh_own_company_subscribers", "by": "id"}, 
+{"url": "our_proposers", "link": "mh_own_our_proposers", "by": "id"}]
