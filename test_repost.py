@@ -38,7 +38,7 @@ class TestCase(testcase.TestObject):
 
 		self.log.write('info', 'found repost in news...')
 		
-		if not self.visit_link('mc_sidebar_profile', 'news', sleep=True):
+		if not self.visit_link('mc_sidebar_news', 'news', sleep=True):
 			self.log.write('error', 'error visiting self-news')
 			return False
 
