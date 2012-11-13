@@ -236,7 +236,7 @@ class TestObject():
 
 	def execute(self):
 		'''
-		Executes test, takes no params. In this particular case, just logs on and returns True if ok
+		Executes test, In this particular case, just logs on and returns True if ok
 		'''
 		if not self.do_login():
 			self.log.write('error', 'login failed, see above')
@@ -422,14 +422,7 @@ class TestObject():
 
 	def edit_control(self, control, value, ctl_type='text', by='id', clear=False, click=False):
 		'''
-		Edits a specified control. Takes
-		control
-		value
-		ctl_type
-		by
-		clear
-		click
-		'''
+		Edits a specified control. 		'''
 		if ctl_type == 'text':
 			self.log.write('debug', control+' is a text input or so')
 			try:
@@ -559,10 +552,9 @@ class TestObject():
 
 	def get_value(self, control, by='id', ctl_type='text'):
 		'''
-		Gets value of control. Takes:
-		control
-		by (='id')
-		ctl_type (='text')
+		Gets value of control. 
+		by = ('id' | 'xpath')
+		ctl_type = ('text' | 'checkbox')
 		'''
 		try:
 			if by == 'id':
@@ -615,9 +607,7 @@ class TestObject():
 	def check_result(self, result, mustbe=True):
 		'''
 		Finds an element by id and checks whether some shit is in it
-		takes:
 		result ({'name': name, 'value': value})
-		mustbe (bool, by default True)
 		'''
 		self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 		try:
@@ -696,10 +686,7 @@ class TestObject():
 	def visit_link(self, link, url, by='id', sleep=False):
 		'''
 		visits a link, then checks divs. if ok, returns True
-		Takes:
-		link
-		url
-		by (='id')
+		by = ('id' | 'text' | 'xpath'), if not, return False
 		sleep (=False) [!!] for Chrome, sleep should always be True
 		'''
 		try:
@@ -730,10 +717,9 @@ class TestObject():
 	def check_error(self, name, value, ok):
 		'''
 		Checks an error element, returns True if ok
-		Takes:
-		name
-		value
-		ok (is converted to int, then to bool)
+		
+		ok is converted to int, then to bool
+		
 		'''
 		if name != '':
 			try:
