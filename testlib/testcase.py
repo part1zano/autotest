@@ -36,6 +36,14 @@ def get_browser(browser, proxy_host='', proxy_port=''):
 
 class TestObject():
 	def __init__(self, config='tests.conf'):
+		'''
+			Class constructor, takes config filename. Also checks command-line parameters:
+			-b, --browser
+			-c, --config
+			-l, --level
+			-u, --url
+			-d, --debug -- takes no parameter, sets log level to debug
+		'''
 		options,operands = getopt.getopt(sys.argv[1:], 'b:c:l:u:d', ['browser=', 'config=', 'level=', 'url=', 'debug'])
 		for name, value in options:
 			if name in ('-c', '--config'):
@@ -84,6 +92,9 @@ class TestObject():
 		self.info = {}
 
 	def find_stuff(self, stuff):
+		'''
+		Finds something using the site's search engine. Takes a text fragment to search for
+		'''
 		try:
 			search = self.driver.find_element_by_name('q')
 		except NoSuchElementException:
@@ -101,6 +112,9 @@ class TestObject():
 		return True
 
 	def json_info(self, id_=None, entity='person'):
+		'''
+		Takes the site's json info (aka common_data), takes id_ of entity and entity type ('person' or 'company')
+		'''
 		url = self.driver.current_url
 		if id_ is None:
 			self.go('%s/settings/s' % self.url)
@@ -116,6 +130,9 @@ class TestObject():
 		return json.loads(text)
 
 	def find_dict_in(self, where, name, value):
+		'''
+		Finds a name:value in where, which is a list of dicts
+		'''
 		for elem in where:
 			try:
 				if elem[name] == value:
@@ -126,6 +143,9 @@ class TestObject():
 		return {}
 
 	def click_btn_in_xpath(self, xpath, btn=u'Поделиться'):
+		'''
+		Clicks a btn in an xpath; returns True if everything is ok
+		'''
 		try:
 			table = self.driver.find_element_by_xpath(xpath)
 		except NoSuchElementException:
@@ -142,6 +162,10 @@ class TestObject():
 		return True
 
 	def move_to(self, elem, by='id'):
+		'''
+		Moves cursor to an element, returns True if ok. Takes elem description and search criteria: 'id', 'text', 'xpath'.
+		By default, by='id'
+		'''
 		try:
 			if by == 'id':
 				obj = self.driver.find_element_by_id(elem)
@@ -174,16 +198,24 @@ class TestObject():
 			return string
 
 	def find_link(self, link, by='id', count=1):
+		'''
+		Finds a link without clicking it, can find multiple links. Takes link description, 'by' parameter and count of links to find
+		'''
 		try:
 			if by == 'text':
 				link_ = self.driver.find_elements_by_partial_link_text(link)
 				if len(link_) < count:
-					self.log.write('debug', 'found only %2d elements, NOK' % len(link_))
+					self.log.write('debug', 'found only %2d elements, NOK: must be %2d' % (len(link_), count))
 					return False
 			elif by == 'id':
 				if count > 1:
 					self.log.write('warning', 'searching by id returns only one element. always.')
 				link = self.driver.find_element_by_id(link)
+			elif by == 'xpath':
+				link_ = self.driver.find_elements_by_xpath(link)
+				if len(link_) < count:
+					self.log.write('error', 'found only %2d elements (must be %2d)' % (len(link_), count))
+					return False
 			else:
 				self.log.write('error', 'unknown search criteria: '+by)
 				return False
@@ -194,29 +226,44 @@ class TestObject():
 
 	
 	def make_json_list(self, json_file):
+		'''
+		Reads a specified json_file, returns a data structure from it.
+		'''
 		json_fh = codecs.open(json_file, encoding='utf-8')
 		to_return = json.load(json_fh)
 		json_fh.close()
 		return to_return
 
 	def execute(self):
+		'''
+		Executes test, takes no params. In this particular case, just logs on and returns True if ok
+		'''
 		if not self.do_login():
 			self.log.write('error', 'login failed, see above')
 			return False
 		return True
 
 	def __del__(self):
+		'''
+		Destructor. Quits browser.
+		'''
 		if self.browser == 'firefox':
 			self.driver.quit()
 		else:
 			self.driver.close()
 
 	def sleep(self, time_):
+		'''
+		A wrapper for time.sleep. Sleeps for a period of time_
+		'''
 		self.log.write('debug', 'sleepin for '+str(time_)+'s')
 		time.sleep(time_)
 		self.log.write('debug', 'woke up after sleep, next...')
 
 	def go(self, url):
+		'''
+		Visits a specified url, waits until url is in self.driver.current_url
+		'''
 		if 'http' in url:
 			self.driver.get(url)
 		else:
@@ -231,6 +278,9 @@ class TestObject():
 		return True
 
 	def do_login(self, foreign=False):
+		'''
+		Logs in using self.login and self.password
+		'''
 		self.go(self.url)
 		try:
 			logins = self.driver.find_elements_by_name('username')
@@ -293,6 +343,9 @@ class TestObject():
 		return False
 
 	def logout(self):
+		'''
+		Logs the fuck out
+		'''
 		if not self.click_btn(u'Выйти'):
 			self.log.write('error', 'logout button not found')
 			return False
@@ -310,6 +363,9 @@ class TestObject():
 		return True
 
 	def check_page(self):
+		'''
+		Checks the loaded web page for some basic divs. Uses check_div to find 'em
+		'''
 		logon = self.find_link(u'Выйти', by='text')
 		divs = ['content']
 		notabs = False
@@ -344,6 +400,9 @@ class TestObject():
 		return True
 
 	def check_div(self, divname):
+		'''
+		Checks the web page for a single divname. Finds it by id only
+		'''
 		try:
 			div = self.driver.find_element_by_id(divname)
 		except NoSuchElementException:
@@ -355,9 +414,22 @@ class TestObject():
 		return True
 	
 	def dedit(self, control):
+		'''
+		Edits a control specified by a dictionary:
+		control = {'name': name, 'value': value, 'clear': clear}
+		'''
 		return self.edit_control(control['name'], control['value'], ctl_type=control['type'], clear=bool(int(control['clear'])))
 
 	def edit_control(self, control, value, ctl_type='text', by='id', clear=False, click=False):
+		'''
+		Edits a specified control. Takes
+		control
+		value
+		ctl_type
+		by
+		clear
+		click
+		'''
 		if ctl_type == 'text':
 			self.log.write('debug', control+' is a text input or so')
 			try:
@@ -446,6 +518,9 @@ class TestObject():
 			return False
 
 	def edit_all_controls(self, submit=u'Сохранить'):
+		'''
+		Edits all controls from self.edits, clicks submit. Submit text is a parameter
+		'''
 		for edit in self.edits:
 			if not self.edit_control(edit['name'], edit['value'], clear=bool(int(edit['clear'])), ctl_type=edit['type']):
 				self.log.write('error', 'control '+edit['name']+' edit failed, see above')
@@ -463,6 +538,9 @@ class TestObject():
 		return True
 
 	def check_div_value(self, div, value, condition=True, by='id'):
+		'''
+		checks div for whether or not (defined by condition) value is in div, div is found by id or xpath
+		'''
 		try:
 			if by == 'id':
 				div_ = self.driver.find_element_by_id(div)
@@ -480,6 +558,12 @@ class TestObject():
 		return True
 
 	def get_value(self, control, by='id', ctl_type='text'):
+		'''
+		Gets value of control. Takes:
+		control
+		by (='id')
+		ctl_type (='text')
+		'''
 		try:
 			if by == 'id':
 				ctl = self.driver.find_element_by_id(control)
@@ -498,6 +582,9 @@ class TestObject():
 			return bool(ctl.get_attribute('checked'))
 
 	def click_btn(self, btn_text, by='text'):
+		'''
+		clicks a btn, finds it by id, text (default) or xpath
+		'''
 		clicked = False
 		try:
 			if by == 'text':
@@ -526,6 +613,12 @@ class TestObject():
 		return clicked
 
 	def check_result(self, result, mustbe=True):
+		'''
+		Finds an element by id and checks whether some shit is in it
+		takes:
+		result ({'name': name, 'value': value})
+		mustbe (bool, by default True)
+		'''
 		self.log.write('debug', 'trying to find field '+result['name']+' for check...')
 		try:
 			res = self.driver.find_element_by_id(result['name'])
@@ -549,6 +642,9 @@ class TestObject():
 		return (found == mustbe)
 
 	def check_results(self, mustbe=True):
+		'''
+		checks all results in self.results
+		'''
 		for result in self.results:
 			if not self.check_result(result, mustbe):
 				self.log.write('error', 'error checking '+result['name'])
@@ -557,9 +653,15 @@ class TestObject():
 		return True
 		
 	def visit_dlink(self, link, sleep=False):
+		'''
+		visits a link (see visit_link) specified by a dictionary: {'link': link, 'url': url, 'by': by}
+		'''
 		return self.visit_link(link['link'], link['url'], link['by'], sleep)
 	
 	def visit_plink(self, link, url, by='text'):
+		'''
+		visits a link without checking divs
+		'''
 		try:
 			if by == 'id':
 				self.driver.find_element_by_id(link).click()
@@ -581,6 +683,9 @@ class TestObject():
 		return True
 
 	def get_xpath_text(self, xpath):
+		'''
+		Gets text from a specified xpath element
+		'''
 		try:
 			xpath = self.driver.find_element_by_xpath(xpath)
 			return xpath.text
@@ -589,6 +694,14 @@ class TestObject():
 			return None
 
 	def visit_link(self, link, url, by='id', sleep=False):
+		'''
+		visits a link, then checks divs. if ok, returns True
+		Takes:
+		link
+		url
+		by (='id')
+		sleep (=False) [!!] for Chrome, sleep should always be True
+		'''
 		try:
 			if by == 'id':
 				self.driver.find_element_by_id(link).click()
@@ -615,6 +728,13 @@ class TestObject():
 		return self.check_page()
 
 	def check_error(self, name, value, ok):
+		'''
+		Checks an error element, returns True if ok
+		Takes:
+		name
+		value
+		ok (is converted to int, then to bool)
+		'''
 		if name != '':
 			try:
 				if 'informer-text' in name:
@@ -644,6 +764,9 @@ class TestObject():
 		return True
 
 	def click_oks(self):
+		'''
+		Clicks all 'OK' btns, be they latin or cyrillic
+		'''
 		clicked = False
 		for ok in ['OK', u'ОК']:
 			try:
