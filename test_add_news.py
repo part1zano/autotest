@@ -31,8 +31,8 @@ class TestCase(testcase.TestObject):
 
 		self.log.write('info', 'appeared in news...')
 
-		if not self.visit_link('mc_sidebar_profile', 'news', sleep=True):
-			self.log.write('error', 'error visiting profile')
+		if not self.visit_link('mc_sidebar_news', 'news', sleep=True):
+			self.log.write('error', 'error visiting news')
 			return False
 
 		if not self.check_div_value('news-view', news_text):

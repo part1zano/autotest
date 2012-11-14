@@ -222,6 +222,14 @@ class TestObject():
 		else:
 			self.driver.get(self.url+'/'+url)
 
+		try:
+			WebDriverWait(self.driver, 10).until(lambda driver: url in self.driver.current_url)
+		except TimeoutException:
+			self.log.write('error', 'timeout waiting for shit to load while getting to %s' % url)
+			return False
+
+		return True
+
 	def do_login(self, foreign=False):
 		self.go(self.url)
 		try:

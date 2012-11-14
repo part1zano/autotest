@@ -28,8 +28,8 @@ class TestCase(testcase.TestObject):
 		self._info = self.json_info()
 
 		self.info['brandName'] = self._info['common_data']['brandName']
-		ftuple = tuple(self._info['common_data']['ownEmployee'][field] for field in ['s_name', 'f_name', 'm_name'])
-		self.info['fio'] = '%s %s %s' % ftuple
+		ftuple = tuple(self._info['common_data']['ownEmployee'][field] for field in ['f_name', 's_name'])
+		self.info['fio'] = '%s %s' % ftuple
 
 		if self.info['brandName'] is None:
 			self.log.write('error', 'brandName is None, exiting')
