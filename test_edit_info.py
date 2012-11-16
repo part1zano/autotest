@@ -34,7 +34,7 @@ class TestCase(testcase.TestObject):
 				else:
 					value = edit['value']
 
-				self.results.append({'name': edit['name'], 'value': value, 'method': 'equal'})
+				self.results.append({'name': edit['name'], 'value': value, 'method': 'grep'})
 
 			if not self.click_btn(u'Редактировать'):
 				self.log.write('error', 'btn click failure, see above')
