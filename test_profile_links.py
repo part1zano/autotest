@@ -28,7 +28,7 @@ class TestCase(testcase.TestObject):
 			elif linkitem['url'] == 'chat':
 				divname = 'dialog_list'
 
-			if 'person/' in self.driver.current_url:
+			if ('person/' in self.driver.current_url) and ('subscriptions' not in self.driver.current_url):
 				divname = 'user'+divname
 
 			if not self.check_div(divname):
