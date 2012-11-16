@@ -54,9 +54,10 @@ class TestCase(testcase.TestObject):
 		i = 0
 
 		for case in ['pos', 'neg-nomatch', 'neg-1wrong', 'pos-symbols', 'afterall']:
-			self.errors = errors[i:i+3]
-			result = result and self.work_case(case)
-			self.log.write('info', 'case %s result: %s' % (case, results[result]))
+			self.errors = errors[3*i:3*i+3]
+			result_ = self.work_case(case)
+			self.log.write('info', 'case %s result: %s' % (case, results[result_]))
+			result = result and result_
 
 			i += 1
 
