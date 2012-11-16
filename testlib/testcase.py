@@ -382,7 +382,7 @@ class TestObject():
 			divs.append('tabs')
 			divs.append('left-sidebar')
 			emp_header = False
-			for substr in ['chat', 'news-feed',  'person/', 'change-password', 'news-subscriptions', 'invite']:
+			for substr in ['chat', 'news-feed',  'person/', 'change-password', 'news-subscriptions', 'invite', 'settings']:
 				if substr in self.driver.current_url:
 					emp_header = True and logon
 
@@ -618,8 +618,10 @@ class TestObject():
 
 		if result['method'] == 'equal':
 			found = res.text.lower() == result['value'].lower()
+			self.log.write('debug', 'method equal, found=%s' % str(found))
 		elif result['method'] == 'grep':
 			found = result['value'].lower() in res.text.lower()
+			self.log.write('debug', 'method grep, found=%s' % str(found))
 		else:
 			self.log.write('error', 'unknown comparison method for '+result['name'])
 			return False
