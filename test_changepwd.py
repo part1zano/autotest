@@ -8,7 +8,7 @@ class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
 
-		for objstr in ['pos', 'neg-nomatch', 'neg-1wrong', 'afterall']:
+		for objstr in ['pos', 'neg-nomatch', 'neg-1wrong', 'pos-symbols' 'afterall']:
 			self.edits.extend(self.make_json_list('json_lists/change-passwd/change-passwd-'+objstr+'.json'))
 		
 		self.links = self.make_json_list('json_lists/change-passwd/changepwd-links.json')
