@@ -41,7 +41,7 @@ class TestCase(testcase.TestObject):
 				self.sleep(2)
 
 				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
-					self.log.write('error', 'error text NOK, case '+str(index))
+					self.log.write('error', 'error text NOK, case %2d' % int(index/3))
 					return False
 				
 				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], int(index/3)))
