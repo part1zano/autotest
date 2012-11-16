@@ -7,14 +7,35 @@ import sys
 class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
 		testcase.TestObject.__init__(self, config)
-
-		for objstr in ['pos', 'neg-nomatch', 'neg-1wrong', 'pos-symbols', 'afterall']:
-			self.edits.extend(self.make_json_list('json_lists/change-passwd/change-passwd-'+objstr+'.json'))
 		
 		self.links = self.make_json_list('json_lists/change-passwd/changepwd-links.json')
+	
+	def work_case(self, case):
+		self.edits = self.make_json_list('json_lists/change-passwd/change-passwd-%s.json' % case)
 
-		self.errors = self.make_json_list('json_lists/change-passwd/changepwd-errors.json')
+		index = 0
 
+		for edit in self.edits:
+			if not self.dedit(edit):
+				self.log.write('error', 'failed editing %s case %s' % (edit['name'], case))
+				return False
+
+			if bool(int(edit['submit'])):
+				if not self.click_btn(u'Сохранить'):
+					self.log.write('error', 'failed clicking submit')
+					return False
+
+				self.sleep(2)
+
+				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
+					self.log.write('error', 'error text NOK, case %s' % case)
+					return False
+				
+				self.go(self.driver.current_url)
+
+			index += 1
+
+		return True
 
 	def execute(self):
 		if not testcase.TestObject.execute(self):
@@ -26,31 +47,20 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'failed visiting '+link['url']+', see above')
 				return False
 
-		# got to change-passwd
-		index = 0
-		for edit in self.edits:
-			if not self.dedit(edit):
-				self.log.write('error', 'failed editing '+edit['name']+' case '+str(index))
-				return False
+		errors = self.make_json_list('json_lists/change-passwd/changepwd-errors.json')
 
-			if bool(int(edit['submit'])):
-				if not self.click_btn(u'Сохранить'):
-					self.log.write('error', 'failed clicking submit')
-					return False
+		result = True
+		results = {True: 'PASSED', False: 'FAILED'}
+		i = 0
 
-				self.sleep(2)
+		for case in ['pos', 'neg-nomatch', 'neg-1wrong', 'pos-symbols', 'afterall']:
+			self.errors = errors[i:i+3]
+			result = result and self.work_case(case)
+			self.log.write('info', 'case %s result: %s' % (case, results[result]))
 
-				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
-					self.log.write('error', 'error text NOK, case %2d' % int(index/3))
-					return False
-				
-				self.log.write('info', '%s pass %2d ok' % (sys.argv[0], int(index/3)))
+			i += 1
 
-				self.go(self.driver.current_url)
-
-			index += 1
-
-		return True
+		return result
 
 if __name__ == '__main__':
 	tc = TestCase()
