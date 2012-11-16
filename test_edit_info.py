@@ -28,17 +28,18 @@ class TestCase(testcase.TestObject):
 
 			self.results = []
 
+			if not self.click_btn(u'Редактировать'):
+				self.log.write('error', 'btn click failure, see above')
+				return False
+
 			for edit in self.edits:
 				if not bool(int(edit['clear'])):
 					value = self.get_value(edit['name'])+edit['value']
 				else:
 					value = edit['value']
 
-				self.results.append({'name': edit['name'], 'value': value, 'method': 'equal'})
+				self.results.append({'name': edit['name'], 'value': value, 'method': 'grep'})
 
-			if not self.click_btn(u'Редактировать'):
-				self.log.write('error', 'btn click failure, see above')
-				return False
 
 			if not self.edit_all_controls():
 				self.log.write('error', 'controls edit failure, see above')
