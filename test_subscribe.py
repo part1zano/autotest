@@ -5,6 +5,9 @@ import sys
 
 class TestCase(testcase.TestObject):
 	def subscribe_by_title(self, title_fragment, su_cond=True):
+		'''
+		Subscribes to company's news by title fragment
+		'''
 		subscribe_btns = {True: u'Подписаться', False: u'Отписаться'}
 
 		if not self.find_stuff(title_fragment):

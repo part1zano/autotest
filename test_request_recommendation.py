@@ -5,6 +5,9 @@ from testlib import myrandom, testcase
 
 class TestCase(testcase.TestObject):
 	def request_recommendation_by_title(self, title_fragment, do=True, msg=''):
+		''' Requests recommendation by company title
+		link to click in profile is hardcoded
+		'''
 		link = u'Запросить рекомендацию'
 		btns = {True: link, False: u'Отмена'}
 		if not self.find_stuff(title_fragment):
@@ -71,7 +74,10 @@ class TestCase(testcase.TestObject):
 
 		return True
 
-	def check_recommended_by_title(self, recommendator, recommended, mine=True): # FIXME :: me and not me
+	def check_recommended_by_title(self, recommendator, recommended, mine=True): 
+		'''	Checks whether recommended is recommended by recommendator
+		mine is some kind of magic
+		'''
 		links = [
 				{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
 				{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'}
@@ -92,6 +98,8 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def undo_recommend(self, recommended):
+		'''	Undoes recommendation
+		'''
 		links = [
 				{'link': 'mc_sidebar_our_proposers', 'url': 'our_proposers', 'by': 'id'},
 				{'link': 'link_we_recommend', 'url': 'we_recommend', 'by': 'id'},
