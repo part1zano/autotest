@@ -22,10 +22,12 @@ class TestCase(testcase.TestObject):
 		divs = ['news-subscriptions', 'subscribed-people']
 		titles = [title_fragment, self.info['brandName']]
 		linkchains = [[
-			{'link': 'mc_sidebar_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
+			{'link': 'mc_sidebar_newsfeed', 'url': 'news-feed', 'by': 'id'},
+			{'link': 'link_news_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
 			],
 			[
-				{'link': 'mc_sidebar_company_subscribers', 'url': 'subscribed-people', 'by': 'id'}
+				{'link': 'mc_sidebar_news', 'url': 'news', 'by': 'id'},
+				{'link': 'link_subscribed-people', 'url': 'subscribed-people', 'by': 'id'}
 			]]
 		
 		if not self.click_btn(subscribe_btns[su_cond]):
