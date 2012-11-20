@@ -9,6 +9,8 @@ class TestCase(testcase.TestObject):
 		testcase.TestObject.__init__(self, config)
 	
 	def recommend_by_title(self, title_fragment, re_cond = True, accept = True):
+		''' Recommends company by title fragment. Works in both sides: recommend and cancel recommendation
+		'''
 		our_links = {'mc_sidebar_our_proposers': 'our_proposers', 'link_we_recommend': 'we_recommend'}
 		their_links = {'mc_sidebar_our_proposers': 'our_proposers'}
 
