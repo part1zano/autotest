@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+'''@file invite_test.py
+Invite test. Just checks invite url and some textarea in it
+'''
+
 from testlib import testcase,myrandom
 import sys,datetime,re
 
 class TestCase(testcase.TestObject):
 	def __init__(self, config='tests.conf'):
+		'''The constructor. Eats the edits, links and errors, also makes up results'''
 		testcase.TestObject.__init__(self, config)
 
 		for objfile in ['invite-pos', 'invite-neg-reg-email', 'invite-neg-empty-email', 'invite-neg-empty-msg', 'invite-neg-already-sent']:
@@ -24,6 +29,7 @@ class TestCase(testcase.TestObject):
 		self.results.append({'name': 'invites', 'value': '', 'method': 'grep'})
 
 	def execute(self):
+		'''Executor method'''
 		if not testcase.TestObject.execute(self):
 			self.log.write('error', 'login failed, see above')
 			return False
