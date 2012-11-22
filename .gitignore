@@ -1,0 +1,7 @@
+docs/
+.git/
+# logs
+*.log
+# pyc trash
+*.pyc
+
