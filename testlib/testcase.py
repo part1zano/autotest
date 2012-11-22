@@ -86,10 +86,15 @@ class TestObject():
 		self.driver = get_browser(self.browser) # FIXME :: proxy
 		self.driver.get(self.url)
 		self.links = []
+		self.log.write('debug', 'initialized self.links')
 		self.edits = []
+		self.log.write('debug', 'initialized self.edits')
 		self.results = []
+		self.log.write('debug', 'initialized self.results')
 		self.errors = []
+		self.log.write('debug', 'initialized self.errors')
 		self.info = {}
+		self.log.write('debug', 'initialized self.info')
 
 	def find_stuff(self, stuff):
 		'''
@@ -190,12 +195,12 @@ class TestObject():
 			self.log.write('error', 'move_to failed: %s' % result['value']['message'])
 			return False
 
-	def cut_string(self, string, length = 20):
-		if (len(string) > length) and ('http' not in string):
-			self.log.write('debug', 'cut %s to %2d chars, got %s' % (string, length, string[:(length-2)]))
-			return string[:(length-2)]
-		else:
-			return string
+#	def cut_string(self, string, length = 20):
+#		if (len(string) > length) and ('http' not in string):
+#			self.log.write('debug', 'cut %s to %2d chars, got %s' % (string, length, string[:(length-2)]))
+#			return string[:(length-2)]
+#		else:
+#			return string
 
 	def find_link(self, link, by='id', count=1):
 		'''
