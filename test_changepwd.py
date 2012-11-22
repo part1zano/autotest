@@ -11,11 +11,14 @@ class TestCase(testcase.TestObject):
 		self.links = self.make_json_list('json_lists/change-passwd/changepwd-links.json')
 	
 	def work_case(self, case):
-		self.edits = self.make_json_list('json_lists/change-passwd/change-passwd-%s.json' % case)
+		'''
+		Works on test case. Eats <case> (testcase name), reads edits from a json file, submits the form, checks errors.
+		Errors are now stored in separate json files for each case. 
+		'''
+		edits = self.make_json_list('json_lists/change-passwd/change-passwd-%s.json' % case)
+		errors = self.make_json_list('json_lists/change-passwd/err-change-passwd-%s.json' % case)
 
-		index = 0
-
-		for edit in self.edits:
+		for edit in edits:
 			if not self.dedit(edit):
 				self.log.write('error', 'failed editing %s case %s' % (edit['name'], case))
 				return False
@@ -27,13 +30,11 @@ class TestCase(testcase.TestObject):
 
 				self.sleep(2)
 
-				if not self.check_error(self.errors[index]['name'], self.errors[index]['value'], self.errors[index]['ok']):
+				if not self.check_error(errors[0]['name'], errors[0]['value'], errors[0]['ok']):
 					self.log.write('error', 'error text NOK, case %s' % case)
 					return False
 				
 				self.go(self.driver.current_url)
-
-			index += 1
 
 		return True
 
@@ -47,19 +48,13 @@ class TestCase(testcase.TestObject):
 				self.log.write('error', 'failed visiting '+link['url']+', see above')
 				return False
 
-		errors = self.make_json_list('json_lists/change-passwd/changepwd-errors.json')
-
 		result = True
 		results = {True: 'PASSED', False: 'FAILED'}
-		i = 0
 
 		for case in ['pos', 'neg-nomatch', 'neg-1wrong', 'pos-symbols', 'afterall']:
-			self.errors = errors[3*i:3*i+3]
 			result_ = self.work_case(case)
 			self.log.write('info', 'case %s result: %s' % (case, results[result_]))
 			result = result and result_
-
-			i += 1
 
 		return result
 

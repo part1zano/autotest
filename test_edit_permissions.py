@@ -8,6 +8,9 @@ def to_bool(stri):
 
 class TestCase(testcase.TestObject):
 	def check_permission(self, perm, value):
+		'''
+		Checks whether permission is set for user to do something. True if result == value, otherwise False
+		'''
 		value = bool(value)
 		self.log.write('info', 'checking %s -> must be %s' % (perm, value))	
 		if 'news' in perm:
