@@ -5,6 +5,9 @@ import sys,re
 
 class TestCase(testcase.TestObject):
 	def send_msg_by_title(self, title_fragment, msg=myrandom.random_phrase()):
+		'''
+		Sends msg to company found by title_fragment
+		'''
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'search error')
 			return False
@@ -42,6 +45,9 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def check_appeared_msg(self, msg):
+		'''
+		Checks whether <msg> is appeared. Should be run as other company mail receiver
+		'''
 		if not self.visit_link('main-header-chat-notification', 'chat', by='id', sleep=True):
 			self.log.write('error', 'not going to chat, see above')
 			return False
