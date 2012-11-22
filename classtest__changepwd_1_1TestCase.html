@@ -117,8 +117,6 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtest__changepwd_1_1TestCase.html#a028c36c19144c9e44cf79a5f55a62e9c">links</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtest__changepwd_1_1TestCase.html#aba8aa56d41922644b2e43d0086e4a345">edits</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtest__changepwd_1_1TestCase.html#acdecb394bf92c849f5a3bf57c3063002">errors</a></td></tr>
 </table>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae2aa5600039045525e7f03057cd51a02"></a><!-- doxytag: member="test_changepwd::TestCase::__init__" ref="ae2aa5600039045525e7f03057cd51a02" args="" -->
@@ -191,38 +189,12 @@ Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <div class="fragment"><pre class="fragment">
-Works on test case. Eats &lt;case&gt; (testcase name), reads edits from a json file, submits the form, checks error msg (taken from self.errors in an order)
-Maybe I should rewrite the script's errors in json?
+Works on test case. Eats &lt;case&gt; (testcase name), reads edits from a json file, submits the form, checks errors.
+Errors are now stored in separate json files for each case. 
 </pre></div> 
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="aba8aa56d41922644b2e43d0086e4a345"></a><!-- doxytag: member="test_changepwd::TestCase::edits" ref="aba8aa56d41922644b2e43d0086e4a345" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classtest__changepwd_1_1TestCase.html#aba8aa56d41922644b2e43d0086e4a345">test_changepwd.TestCase::edits</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="acdecb394bf92c849f5a3bf57c3063002"></a><!-- doxytag: member="test_changepwd::TestCase::errors" ref="acdecb394bf92c849f5a3bf57c3063002" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classtest__changepwd_1_1TestCase.html#acdecb394bf92c849f5a3bf57c3063002">test_changepwd.TestCase::errors</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a028c36c19144c9e44cf79a5f55a62e9c"></a><!-- doxytag: member="test_changepwd::TestCase::links" ref="a028c36c19144c9e44cf79a5f55a62e9c" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +229,7 @@ Maybe I should rewrite the script's errors in json?
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 22 2012 18:10:22 for TestCase by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 22 2012 18:24:35 for TestCase by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
