@@ -14,6 +14,5 @@ var searchData=
   ['click_5fbtn_5fin_5fxpath',['click_btn_in_xpath',['../classtestlib_1_1testcase_1_1TestObject.html#acd62894b6df43fcb26b9bd0c2f8ce907',1,'testlib::testcase::TestObject']]],
   ['click_5foks',['click_oks',['../classtestlib_1_1testcase_1_1TestObject.html#a7cea09152f53a7c41c77f34612405560',1,'testlib::testcase::TestObject']]],
   ['coin',['coin',['../namespacetestlib_1_1myrandom.html#a3e8c9743462753ff171736a2dbc5497a',1,'testlib::myrandom']]],
-  ['confirm_5frecommendation',['confirm_recommendation',['../classtest__request__recommendation_1_1TestCase.html#abe6b5107f06ee737441a4762d3656691',1,'test_request_recommendation::TestCase']]],
-  ['cut_5fstring',['cut_string',['../classtestlib_1_1testcase_1_1TestObject.html#a3af29f77bd129a12c6dc10a125e8f890',1,'testlib::testcase::TestObject']]]
+  ['confirm_5frecommendation',['confirm_recommendation',['../classtest__request__recommendation_1_1TestCase.html#abe6b5107f06ee737441a4762d3656691',1,'test_request_recommendation::TestCase']]]
 ];
