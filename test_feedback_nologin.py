@@ -4,8 +4,6 @@ import test_feedback
 import sys
 
 class TestCase(test_feedback.TestCase):
-	def __del__(self):
-		pass
 	def execute(self):
 		for link in self.links:
 			if not self.visit_dlink(link, sleep=True):
