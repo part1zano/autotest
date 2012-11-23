@@ -4,6 +4,8 @@ import test_feedback
 import sys
 
 class TestCase(test_feedback.TestCase):
+	def __del__(self):
+		pass
 	def execute(self):
 		for link in self.links:
 			if not self.visit_dlink(link, sleep=True):
@@ -23,6 +25,7 @@ class TestCase(test_feedback.TestCase):
 				self.sleep(2)
 
 				error = self.errors[self.edits.index(edit)]
+				
 				try:
 					if not self.check_error(error['name'], error['value'], error['ok']):
 						self.log.write('error', 'wrong err value for case %2d' % int(self.edits.index(edit)/2))
