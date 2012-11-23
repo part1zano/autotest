@@ -726,9 +726,9 @@ class TestObject():
 		Checks an error element, returns True if ok
 		
 		ok is converted to int, then to bool
-		
 		'''
 		if name != '':
+			self.log.write('debug', 'name is not empty')
 			try:
 				if 'informer-text' in name:
 					err = self.driver.find_element_by_id(name)
@@ -751,6 +751,7 @@ class TestObject():
 				self.log.write('error', 'it should contain: '+value)
 				self.log.write('error', 'but it is: '+errval)
 				return False
+		self.log.write('debug', 'clicking oks')
 		if bool(int(ok)):
 			return self.click_oks()
 
@@ -762,11 +763,8 @@ class TestObject():
 		'''
 		clicked = False
 		for ok in ['OK', u'ОК']:
-			try:
-				self.driver.find_element_by_partial_link_text(ok).click()
-				clicked = True
-			except NoSuchElementException:
-				self.log.write('warning', 'no '+ok+' button')
+			self.log.write('debug', 'clicking oks pass some')
+			clicked = self.click_btn(ok)
 
 		return clicked
 
