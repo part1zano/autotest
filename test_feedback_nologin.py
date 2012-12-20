@@ -23,6 +23,7 @@ class TestCase(test_feedback.TestCase):
 				self.sleep(2)
 
 				error = self.errors[self.edits.index(edit)]
+				
 				try:
 					if not self.check_error(error['name'], error['value'], error['ok']):
 						self.log.write('error', 'wrong err value for case %2d' % int(self.edits.index(edit)/2))

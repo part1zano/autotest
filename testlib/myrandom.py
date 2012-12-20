@@ -23,6 +23,9 @@ streets = [u'проспект Проституток', u'улица Чёрны-�
 alphabet = 'qwertyuiopasdfghjklzxcvbnm'
 
 def random_location():
+	'''
+	Gets a random location from two words like 'Западный Восток'
+	'''
 	location = ''
 	for row in locations:
 		location += row[random.randint(0, len(row)-1)]+' '
@@ -30,21 +33,33 @@ def random_location():
 	return location.rstrip()
 
 def random_year(start='1900', end=datetime.date.today().strftime('%Y')):
+	'''
+	Gets random year starting with 1900 ending with present year
+	'''
 	return str(random.randint(int(start), int(end)))
 
 def random_office(city=None):
+	'''
+	Gets random office title that consists of department and location like 'R&D Западный Восток'
+	'''
 	if city is None:
 		city = random_location()
 
 	return departments[random.randint(0, len(departments)-1)]+' '+city
 
 def random_address(city=None, max_house=99):
+	'''
+	Gets random address that consists of location (city), street and building number
+	'''
 	if city is None:
 		city = random_location()
 
 	return city+', '+streets[random.randint(0, len(streets)-1)]+', '+str(random.randint(1, max_house))
 
 def random_login(words=3, separator='_'):
+	'''
+	Generates a random login that consists of <words> words separated by <separator>
+	'''
 	login = ''
 	for i in range(words):
 		index = random.randint(1, len(phrases)-1)
@@ -55,6 +70,9 @@ def random_login(words=3, separator='_'):
 	return login
 
 def random_phone():
+	'''
+	Gets random phone number in St. Petersburg, Russia
+	'''
 	country_code = '+7' # FIXME :: hardcode
 	city_code = '812' # FIXME :: hardcode
 	number = country_code+' '+city_code+' ' # FIXME :: separator hardcode
@@ -68,6 +86,9 @@ def random_phone():
 
 
 def random_1lvl_domain(length=2):
+	'''
+	Gets a random level 1 domain that consists of <length> letters
+	'''
 	domain = ''
 	for i in range(length):
 		domain += alphabet[random.randint(0, len(alphabet)-1)]
@@ -75,6 +96,9 @@ def random_1lvl_domain(length=2):
 	return domain
 
 def random_domain(lvl=2, lvl1_length=2):
+	'''
+	Gets a random level <lvl> domain with <lvl1_length> letters in 1lvl domain
+	'''
 	domain = ''
 	for i in range(lvl-1):
 		index = random.randint(1, len(phrases)-1)
@@ -84,9 +108,15 @@ def random_domain(lvl=2, lvl1_length=2):
 	return domain
 
 def random_email(login_len=3, login_separator='_', domain_lvl=2, lvl1_length=2):
+	'''
+	Generates random email from random_logiN()+'@'+random_domain
+	'''
 	return random_login(login_len, login_separator)+'@'+random_domain(domain_lvl, lvl1_length)
 
 def random_phrase(length = len(phrases)):
+	'''
+	Gets random phrase that consists of <length> words
+	'''
 	phrase = ''
 	for index in range(length):
 		rnd_2 = random.randint(0, len(phrases[index])-1)
@@ -95,6 +125,9 @@ def random_phrase(length = len(phrases)):
 	return phrase.strip()
 
 def random_num(length):
+	'''
+	Generates a random number with <length> digits
+	'''
 	number = ''
 	for index in range(length):
 		number += str(random.randint(0, 9))
@@ -102,4 +135,7 @@ def random_num(length):
 	return int(number)
 
 def coin():
+	'''
+	Drop coin, return True or False
+	'''
 	return bool(random.randint(0,9) % 2)

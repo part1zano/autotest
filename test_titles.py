@@ -11,6 +11,9 @@ class TestCase(testcase.TestObject):
 		self.titles = self.make_json_list('json_lists/titles/titles.json') # FIXME :: unexistent file yet
 
 	def check_dtitle(self, title):
+		'''
+		Checks title described as a dictionary: {'page_title': <page title>, 'url': <url>}
+		'''
 		if title['page_title'] not in self.driver.title:
 			self.log.write('error', 'wrong title for url %s' % title['url'])
 			self.log.write('error', 'should contain: %s' % title['page_title'])
