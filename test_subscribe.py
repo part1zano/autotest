@@ -5,6 +5,9 @@ import sys
 
 class TestCase(testcase.TestObject):
 	def subscribe_by_title(self, title_fragment, su_cond=True):
+		'''
+		Subscribes to company's news by title fragment
+		'''
 		subscribe_btns = {True: u'Подписаться', False: u'Отписаться'}
 
 		if not self.find_stuff(title_fragment):
@@ -19,10 +22,12 @@ class TestCase(testcase.TestObject):
 		divs = ['news-subscriptions', 'subscribed-people']
 		titles = [title_fragment, self.info['brandName']]
 		linkchains = [[
-			{'link': 'mc_sidebar_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
+			{'link': 'mc_sidebar_newsfeed', 'url': 'news-feed', 'by': 'id'},
+			{'link': 'link_news_subscriptions', 'url': 'news-subscriptions', 'by': 'id'}
 			],
 			[
-				{'link': 'mc_sidebar_company_subscribers', 'url': 'subscribed-people', 'by': 'id'}
+				{'link': 'mc_sidebar_news', 'url': 'news', 'by': 'id'},
+				{'link': 'link_subscribed-people', 'url': 'subscribed-people', 'by': 'id'}
 			]]
 		
 		if not self.click_btn(subscribe_btns[su_cond]):

@@ -5,6 +5,9 @@ import sys
 
 class TestCase(testcase.TestObject):
 	def get_id_by_title(self, title_fragment):
+		'''
+		Goes to company profile (found by search engine using title_fragment), returns its id
+		'''
 		if not self.find_stuff(title_fragment):
 			self.log.write('error', 'error finding shit for getting its id')
 			return None
@@ -26,6 +29,9 @@ class TestCase(testcase.TestObject):
 		return self.driver.current_url.split('/')[3]
 
 	def remove_ctr_by_title(self, title_fragment, added=True, out=False):
+		'''
+		Removes contractor by title_fragment
+		'''
 		their_id = self.get_id_by_title(title_fragment)
 		btns = {True: u'Редактировать', False: u'Отменить'}
 		if their_id is None:
@@ -70,6 +76,9 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def add_ctr_by_title(self, title_fragment):
+		'''
+		Adds contractor by title_fragment
+		'''
 		links = self.make_json_list('json_lists/contractors/links-out.json')	
 
 		if not self.find_stuff(title_fragment):
@@ -120,6 +129,9 @@ class TestCase(testcase.TestObject):
 		return True
 
 	def approve_ctr_request(self, id_):
+		'''
+		Approves contractor request by id_
+		'''
 		links = self.make_json_list('json_lists/contractors/links-in.json')
 
 		for link in links:

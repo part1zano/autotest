@@ -9,8 +9,6 @@ class TestCase(testcase.TestObject):
 
 		self.links = self.make_json_list('json_lists/profile-links-nologin/links.json')
 
-	def __del__(self):
-		pass
 	def execute(self):
 		title_fragment = u'™'
 		if not self.find_stuff(title_fragment):
@@ -52,8 +50,9 @@ class TestCase(testcase.TestObject):
 						self.log.write('error', 'close btn not found')
 						return False
 					self.sleep(2)
-					self.log.write('info', 'buttons clicked for url %s' % link['url'])
-			
+
+				self.log.write('info', 'buttons clicked for url %s' % link['url'])
+		
 			urls.append(link['url'])
 
 		self.log.write('info', '%s PASSED' % sys.argv[0])
