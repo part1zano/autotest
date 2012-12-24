@@ -4,7 +4,7 @@
 import os,sys,time,re,getopt
 
 scripts_to_run = []
-exclude_scripts = ['test_contragent.py', 'test_edit_permissions.py', 'test_repost.py']
+exclude_scripts = ['test_contragent.py', 'test_edit_permissions.py', 'test_repost.py', 'test_categories_search.py']
 run_opts = ' '
 all_ = False
 
