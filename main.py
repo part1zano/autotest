@@ -3,6 +3,9 @@
 
 import os,sys,time,re,getopt
 
+if __name__ != '__main__':
+	sys.exit(0)
+
 scripts_to_run = []
 exclude_scripts = []
 run_opts = ' '
