@@ -42,9 +42,9 @@ conn = urllib2.urlopen('http://pypi.python.org/pypi/selenium')
 content = conn.read().strip()
 parser = VersionFinder()
 parser.feed(content)
-#if version == parser.version:
-#	print 'No updates found, exiting'
-#	exit(0)
+if version == parser.version:
+	print 'No updates found, exiting'
+	exit(0)
 
 conn = urllib2.urlopen(parser.url)
 content = conn.read().strip()
