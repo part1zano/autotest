@@ -36,7 +36,10 @@ class VersionFinder(HTMLParser):
 
 status, output = commands.getstatusoutput('dpkg -l | grep python-selenium | awk "{print \$3}" | sed -e "s/\-[0-9].*//"')
 version = output.strip()
-print 'python-selenium_%s found in system' % version
+if version:
+	print 'python-selenium_%s found in system' % version
+else:
+	print 'python-selenium not found, trying to build and hoping for the best'
 
 conn = urllib2.urlopen('http://pypi.python.org/pypi/selenium')
 content = conn.read().strip()
