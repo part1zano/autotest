@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os,sys,time,re,getopt
+import os,sys,time,getopt
 
 if __name__ != '__main__':
 	sys.exit(0)
