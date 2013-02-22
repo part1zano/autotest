@@ -1,0 +1,3 @@
+[submodule "docs"]
+	path = dox
+	url = https://github.com/part1zano/autotest/tree/gh-pages
