@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from logger import Log
-import time,ConfigParser,codecs,re,json,getopt,sys,os.path
+import time,ConfigParser,codecs,json,getopt,sys,os.path
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 #from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.command import Command
-from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.common.keys import Keys
 
 def get_browser(browser, proxy_host='', proxy_port=''):
 	if proxy_port == '':
@@ -46,7 +46,7 @@ class TestObject():
 		'''
 		options,operands = getopt.getopt(sys.argv[1:], 'b:c:l:u:d', ['browser=', 'config=', 'level=', 'url=', 'debug'])
 		for name, value in options:
-			if name in ('-c', '--config'):
+			if name in  ('-c', '--config'):
 				if os.path.exists(value):
 					config = value
 		
